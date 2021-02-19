@@ -1,0 +1,13 @@
+﻿{
+  "$schema": "https://raw.githubusercontent.com/bsmg/BSIPA-MetadataFileSchema/master/Schema.json",
+  "id": "LovenseBSControl",
+  "name": "LovenseBSControl",
+  "author": "Sesch69",
+  "version": "0.0.1",
+  "description": "Control the Lovense Toys with the saber",
+  "gameVersion": "1.11.1",
+  "dependsOn": {
+    "BSIPA": "^4.0.5"
+  },
+  "features": []
+}
