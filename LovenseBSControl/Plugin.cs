@@ -28,6 +28,9 @@ namespace LovenseBSControl
             Instance = this;
             Log = logger;
             Log.Info("LovenseBSControl initialized.");
+
+            var control = new Classes.Controll();
+            control.loadToys();
         }
 
         #region BSIPA Config
