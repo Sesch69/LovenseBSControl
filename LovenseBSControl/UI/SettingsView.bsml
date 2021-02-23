@@ -1,0 +1,24 @@
+﻿<bg xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
+	<settings-container>
+		<bool-setting text='Enabled' apply-on-change='true' value='enabled' hover-hint='Activates the vibration of the toys in general.'></bool-setting>
+		<bool-setting text='Vibrate on miss' apply-on-change='true' value='vibrateMiss' hover-hint='Toys vibrating on missig box.'></bool-setting>
+		<bool-setting text='Vibrate on hit' apply-on-change='true' value='vibrateHit' hover-hint='Toys vibrating on hitting box.'></bool-setting>
+		<slider-setting text='Intense' value='intense' apply-on-change='true' min='1' max='20' integer-only='true'/>
+		<slider-setting text='Duration' value='duration' apply-on-change='true' min='200' max='1000' integer-only='true'/>
+		<slider-setting text='Rotate Intense (Nora)' value='rotate' apply-on-change='true' min='0' max='20' integer-only='true'/>
+		<slider-setting text='Air Intense (Max)' value='air' apply-on-change='true' min='0' max='3' integer-only='true'/>
+	
+
+	<horizontal spacing='5' child-expand-width='false' child-control-width='false' child-align='MiddleCenter' pref-height='50'>
+		<vertical spacing='0.5'>
+			<list id='toy-list' expand-cell='true' select-cell='toySelect' width='50' title='Lovense Toys' pref-height='35'/>
+		</vertical>
+		<vertical preferred-width='15' child-control-height='false'>
+			<button text='Refresh Toys' pref-width='25' on-click='clicked-refresh' hover-hint='Reload toys from Lovense Connect'/>
+			<button text='Deactivate' pref-width='25' on-click='clicked-deactivate' />
+			<button text='Left Hand' pref-width='25' on-click='clicked-lHand' />
+			<button text='Right Hand' pref-width='25' on-click='clicked-rHand' />
+		</vertical>
+	</horizontal>
+	</settings-container>
+</bg>

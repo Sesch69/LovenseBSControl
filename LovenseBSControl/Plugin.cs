@@ -1,61 +1,54 @@
-﻿using IPA;
+﻿using HarmonyLib;
+using IPA;
 using IPA.Config;
 using IPA.Config.Stores;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
-using UnityEngine.SceneManagement;
+using LovenseBSControl.Configuration;
+using LovenseBSControl.UI;
 using IPALogger = IPA.Logging.Logger;
+using System.Reflection;
+using UnityEngine;
+using BeatSaberMarkupLanguage.Settings;
 
 namespace LovenseBSControl
 {
-    [Plugin(RuntimeOptions.SingleStartInit)]
+    [Plugin(RuntimeOptions.DynamicInit)]
     public class Plugin
     {
-        internal static Plugin Instance { get; private set; }
+        internal static Harmony harmony;
         internal static IPALogger Log { get; private set; }
 
+        internal static Classes.Control Control { get; private set; }
+
         [Init]
-        /// <summary>
-        /// Called when the plugin is first loaded by IPA (either when the game starts or when the plugin is enabled if it starts disabled).
-        /// [Init] methods that use a Constructor or called before regular methods like InitWithConfig.
-        /// Only use [Init] with one Constructor.
-        /// </summary>
-        public void Init(IPALogger logger)
+        public Plugin(IPALogger logger, Config conf)
         {
-            Instance = this;
             Log = logger;
             Log.Info("LovenseBSControl initialized.");
 
-            Classes.Controll control = new Classes.Controll();
-            control.loadToysAsync(Log);
-        }
+            PluginConfig.Instance = conf.Generated<PluginConfig>();
 
-        #region BSIPA Config
-        //Uncomment to use BSIPA's config
-        /*
-        [Init]
-        public void InitWithConfig(Config conf)
-        {
-            Configuration.PluginConfig.Instance = conf.Generated<Configuration.PluginConfig>();
-            Log.Debug("Config loaded");
+            Control = new Classes.Control();
+            Control.LoadToysAsync().ConfigureAwait(true);
+
         }
-        */
-        #endregion
 
         [OnStart]
         public void OnApplicationStart()
         {
             Log.Debug("OnApplicationStart");
             new GameObject("LovenseBSControlController").AddComponent<LovenseBSControlController>();
+            harmony = new Harmony("com.Sesch69.BeatSaber.LovenseBSControl");
+            harmony.PatchAll(Assembly.GetExecutingAssembly());
+            BSMLSettings.instance.AddSettingsMenu("Lovense BS Control", "LovenseBSControl.UI.SettingsView.bsml", SettingsViewController.instance);
 
         }
 
         [OnExit]
         public void OnApplicationQuit()
         {
+            Control.stopActive();
+            harmony.UnpatchAll("com.CyanSnow.BeatSaber.LovenseBSControl");
+            BSMLSettings.instance.RemoveSettingsMenu("Lovense BS Control");
             Log.Debug("OnApplicationQuit");
 
         }
