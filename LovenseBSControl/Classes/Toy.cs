@@ -78,33 +78,24 @@ namespace LovenseBSControl.Classes
         }
 
         public void vibrate(int time, int level) {
-            if (!this.on)
-            {
                 this.on = true;
                 Request request = new Classes.Request();
                 request.UseToy(this, time, level).ConfigureAwait(true);
-            }
         }
 
         public void vibratePreset(int preset = 2)
         {
-            if (!this.on)
-            {
                 this.on = true;
                 Request request = new Classes.Request();
                 request.PresetToy(this, preset).ConfigureAwait(true);
-            }
         }
 
 
 
         public void stop() {
-            if (this.on)
-            {
                 this.on = false;
                 Request request = new Classes.Request();
                 request.StopToy(this).ConfigureAwait(true);
-            }
         }
 
     }

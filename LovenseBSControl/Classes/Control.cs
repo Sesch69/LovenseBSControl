@@ -10,6 +10,9 @@ namespace LovenseBSControl.Classes
     {
         private List<Toy> Toys = new List<Toy>();
 
+        public int HitCounter = 0;
+        public int MissCounter = 0;
+
         private Classes.Request Request;
         public Control() {
             this.Request = new Classes.Request();

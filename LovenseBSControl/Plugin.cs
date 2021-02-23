@@ -43,6 +43,7 @@ namespace LovenseBSControl
 
         }
 
+        
         [OnExit]
         public void OnApplicationQuit()
         {

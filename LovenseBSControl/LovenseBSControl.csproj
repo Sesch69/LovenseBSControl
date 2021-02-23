@@ -145,6 +145,7 @@
     <Compile Include="Classes\Toy.cs" />
     <Compile Include="Configuration\PluginConfig.cs" />
     <Compile Include="HarmonyPatches\ComboUIControllerHandlerComboBreakingEventHappened.cs" />
+    <Compile Include="HarmonyPatches\ResetOnStart.cs" />
     <Compile Include="PluginManager.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="LovenseBSControlController.cs" />
