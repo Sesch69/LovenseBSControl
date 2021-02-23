@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using LovenseBSControl.Configuration;
-
-using IPALogger = IPA.Logging.Logger;
-
 
 namespace LovenseBSControl.Classes
 {
