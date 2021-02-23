@@ -27,5 +27,7 @@ namespace LovenseBSControl.Configuration
         public int Rotate { get; set; } = 1;
 
         public int Air { get; set; } = 1;
+
+        public bool VibeBombs { get; set; } = true;
     }
 }

@@ -38,6 +38,18 @@ namespace LovenseBSControl.Classes
 
         }
 
+        public void vibrateActivePreset()
+        {
+            foreach (Toy toy in this.Toys)
+            {
+                if (toy.IsConnected())
+                {
+                    toy.vibratePreset();
+                }
+            }
+
+        }
+
         public void stopActive()
         {
             foreach (Toy toy in this.Toys)

@@ -42,6 +42,19 @@ namespace LovenseBSControl.UI
 			}
 		}
 
+        [UIValue("vibrateBombHit")]
+        public bool VibrateBomb
+        {
+            get
+            {
+                return PluginConfig.Instance.VibeBombs;
+            }
+            set
+            {
+                PluginConfig.Instance.VibeBombs = value;
+            }
+        }
+
         [UIValue("intense")]
         public int Intense
         {

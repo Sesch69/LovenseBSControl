@@ -58,9 +58,9 @@ namespace LovenseBSControl
     {
         static bool Prefix(BombNoteController __instance)
         {
-            if (PluginConfig.Instance.Enabled)
+            if (PluginConfig.Instance.Enabled && PluginConfig.Instance.VibeBombs)
             {
-                Plugin.Control.vibrateActive();
+                Plugin.Control.vibrateActivePreset();
                 return false;
             }
             return true;

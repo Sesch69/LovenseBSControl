@@ -62,6 +62,20 @@ namespace LovenseBSControl.Classes
             await StopToy(toy);
         }
 
+        public async Task PresetToy(Toy toy, int time, int preset = 2)
+        {
+            await this.VibratePresetToy(toy, preset);
+        }
+
+        public async Task VibratePresetToy(Toy toy, int preset = 2)
+        {
+            toy.setOn();
+            await StartPresetToy(toy, preset);
+            await Task.Delay(2000);
+            toy.setOff();
+            await StopToy(toy);
+        }
+
         public async Task StartToy(Toy toy, int level)
         {
             await client.GetStringAsync(baseUrl + "/Vibrate" + toy.GetMotor() + "?v=" + level + "&t=" + toy.GetId());
@@ -71,7 +85,10 @@ namespace LovenseBSControl.Classes
             }
 
         }
-
+        public async Task StartPresetToy(Toy toy, int preset = 0)
+        {
+            await client.GetStringAsync(baseUrl + "/Preset?v=" + preset + "&t=" + toy.GetId());
+        }
         
         public async Task StopToy(Toy toy)
         {   
@@ -80,5 +97,7 @@ namespace LovenseBSControl.Classes
                 await client.GetStringAsync(baseUrl + "/Rotate?v=0&t=" + toy.GetId());
             }
         }
+
+        
     }
 }
