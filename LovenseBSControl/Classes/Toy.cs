@@ -1,4 +1,5 @@
 ﻿using System;
+using LovenseBSControl.Configuration;
 
 namespace LovenseBSControl.Classes
 {
@@ -8,20 +9,19 @@ namespace LovenseBSControl.Classes
         private String Type;
         private bool Connected;
         private String Motor;
-        private bool LeftHand;
-        private bool RightHand;
         private String NickName;
         private String Version;
 
+        private ToysConfig Config;
+
         private bool on;
 
-        public Toy(String ID, String Type, bool Connected = false, String Version = "", String NickName = "", String Motor = "", bool LeftHand = false, bool RightHand = false) {
+        public Toy(String ID, String Type, bool Connected = false, String Version = "", String NickName = "", String Motor = "") {
             this.ID = ID;
             this.Type = Type;
             this.Motor = Motor;
 
-            this.LeftHand = LeftHand;
-            this.RightHand = RightHand;
+            Config = new ToysConfig(this.GetId());
 
             this.Connected = Connected;
             this.NickName = NickName;
@@ -47,9 +47,14 @@ namespace LovenseBSControl.Classes
             return this.Motor;
         }
 
-        public void SetHands(bool LeftHand, bool RightHand) {
-            this.LeftHand = LeftHand;
-            this.RightHand = RightHand;
+        public bool switchLHand() {
+            this.Config.LHand = !this.Config.LHand;
+            return this.Config.LHand;
+        }
+
+        public bool switchRHand() {
+            this.Config.RHand = !this.Config.RHand;
+            return this.Config.RHand;
         }
 
         public String getNickName() {
@@ -77,6 +82,10 @@ namespace LovenseBSControl.Classes
             this.on = true;
         }
 
+        public bool CheckHand(bool LHand) {
+            return (LHand == this.Config.LHand) || (!LHand == this.Config.RHand);
+        }
+
         public void vibrate(int time, int level) {
                 this.on = true;
                 Request request = new Classes.Request();
@@ -96,6 +105,12 @@ namespace LovenseBSControl.Classes
                 this.on = false;
                 Request request = new Classes.Request();
                 request.StopToy(this).ConfigureAwait(true);
+        }
+
+
+        public ToysConfig getToyConfig()
+        {
+            return Config;
         }
 
     }

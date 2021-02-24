@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LovenseBSControl.Configuration
 {
@@ -29,5 +25,8 @@ namespace LovenseBSControl.Configuration
         public int Air { get; set; } = 1;
 
         public bool VibeBombs { get; set; } = true;
+
     }
+
+    
 }

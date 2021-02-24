@@ -144,6 +144,7 @@
     <Compile Include="Classes\Request.cs" />
     <Compile Include="Classes\Toy.cs" />
     <Compile Include="Configuration\PluginConfig.cs" />
+    <Compile Include="Configuration\ToysConfig.cs" />
     <Compile Include="HarmonyPatches\ComboUIControllerHandlerComboBreakingEventHappened.cs" />
     <Compile Include="HarmonyPatches\ResetOnStart.cs" />
     <Compile Include="PluginManager.cs" />

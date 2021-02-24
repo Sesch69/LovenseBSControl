@@ -12,6 +12,7 @@ namespace LovenseBSControl.Classes
 
         public int HitCounter = 0;
         public int MissCounter = 0;
+        
 
         private Classes.Request Request;
         public Control() {
@@ -29,16 +30,15 @@ namespace LovenseBSControl.Classes
             return Toys;
         }
 
-        public void vibrateActive() {
+        public void vibrateActive(bool LHand) {
             
             foreach (Toy toy in this.Toys)
             {
-                if (toy.IsConnected())
+                if (toy.IsConnected() && toy.CheckHand(LHand))
                 {
                     toy.vibrate(PluginConfig.Instance.Duration, PluginConfig.Instance.Intense);
                 }
             }
-
         }
 
         public void vibrateActivePreset()

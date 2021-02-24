@@ -1,10 +1,6 @@
-﻿using BeatSaberMarkupLanguage;
-using BeatSaberMarkupLanguage.Attributes;
+﻿using BeatSaberMarkupLanguage.Attributes;
 using BeatSaberMarkupLanguage.Components;
-using BeatSaberMarkupLanguage.ViewControllers;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using LovenseBSControl.Configuration;
 using LovenseBSControl.Classes;
 using HMUI;
@@ -15,6 +11,9 @@ namespace LovenseBSControl.UI
 {
     internal class SettingsViewController : PersistentSingleton<SettingsViewController>
 	{
+
+        private Toy selectedToy = null;
+        private bool rightHand;
 
 		[UIValue("enabled")]
 		public bool Enabled
@@ -139,19 +138,28 @@ namespace LovenseBSControl.UI
         [UIAction("clicked-lHand")]
         private void ClickedLHand()
         {
-            Plugin.Log.Notice("LHand clicked");
+            this.selectedToy.switchLHand();
         }
 
         [UIAction("clicked-rHand")]
         private void ClickedRHand()
         {
-            Plugin.Log.Notice("RHand clicked");
+            this.selectedToy.switchRHand();
         }
 
         [UIAction("clicked-deactivate")]
         private void ClickedDeactivate()
         {
             Plugin.Log.Notice("Deactivate clicked");
+        }
+
+        [UIAction("clicked-test")]
+        private void ClickedTest()
+        {
+            if (this.selectedToy.IsConnected())
+            {
+                this.selectedToy.test();
+            }
         }
 
         [UIAction("#post-parse")]
@@ -169,10 +177,11 @@ namespace LovenseBSControl.UI
             }
 
             customListTableData.tableView.ReloadData();
-            int selectedMaterial = 1;
+            int selectedToy = 0;
+            this.selectedToy = Toys[selectedToy];
 
-            customListTableData.tableView.ScrollToCellWithIdx(selectedMaterial, TableViewScroller.ScrollPositionType.Beginning, false);
-            customListTableData.tableView.SelectCellWithIdx(selectedMaterial);
+            customListTableData.tableView.ScrollToCellWithIdx(selectedToy, TableViewScroller.ScrollPositionType.Beginning, false);
+            customListTableData.tableView.SelectCellWithIdx(selectedToy);
         }
 
 
@@ -180,11 +189,7 @@ namespace LovenseBSControl.UI
         public void Select(TableView _, int row)
         {
             List<Toy> Toys = Plugin.Control.getToyList();
-            Toy selectedToy = Toys[row];
-            if (selectedToy.IsConnected())
-            {
-                selectedToy.test();
-            }
+            this.selectedToy = Toys[row];
         }
     }
 }

@@ -8,12 +8,13 @@ namespace LovenseBSControl
     [HarmonyPatch(typeof(ScoreController), "HandleNoteWasCut")]
     class HandleNoteWasCut
     {
-        static bool Prefix(ScoreController __instance)
+        
+        static bool Prefix(NoteController noteController, NoteCutInfo noteCutInfo)
         {
             if (PluginConfig.Instance.Enabled && PluginConfig.Instance.VibrateHit)
             {
                 Plugin.Control.HitCounter++;
-                Plugin.Control.vibrateActive();
+                Plugin.Control.vibrateActive(noteController.noteData.colorType.ToString().Equals("ColorA"));
                 return false;
             }
             return true;
@@ -23,12 +24,12 @@ namespace LovenseBSControl
     [HarmonyPatch(typeof(ScoreController), "HandleNoteWasMissed")]
     class HandleNoteWasMissed
     {
-        static bool Prefix(ScoreController __instance)
+        static bool Prefix(NoteController noteController)
         {
             if (PluginConfig.Instance.Enabled && PluginConfig.Instance.VibrateMiss)
             {
                 Plugin.Control.MissCounter++;
-                Plugin.Control.vibrateActive();
+                Plugin.Control.vibrateActive(noteController.noteData.colorType.ToString().Equals("ColorA"));
                 return false;
             }
             return true;

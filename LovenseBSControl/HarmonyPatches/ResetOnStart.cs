@@ -14,7 +14,6 @@ namespace LovenseBSControl.HarmonyPatches
             {
                 Plugin.Control.HitCounter = 0;
                 Plugin.Control.MissCounter = 0;
-                Plugin.Log.Notice("START");
             }
         }
     }
