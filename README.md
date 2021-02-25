@@ -8,7 +8,7 @@ You can configure the intense and duration of the toys. Also it is possible to s
 
 ## Prerequisites
 
-- Lovense Connect from www.lovense.com must be installed on PC 
+- Lovense Connect from www.lovense.com must be installed on PC (Default Connection setting in the mod settings)
 - OR Lovense Connect for Android/IPhone and using the IP adress + port in the extended connection configuration (Click on the green shield in the app)
 - Toys has to be connected with Lovense Connect App
 - Mod BSIPA is required
