@@ -4,16 +4,15 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using LovenseBSControl.Configuration;
+using System.Net;
 
 namespace LovenseBSControl.Classes
 {
     class Request
     {
         private static readonly HttpClient client = new HttpClient();
-        private String baseUrl = "";
 
-        public Request(String baseUrl = "https://127-0-0-1.lovense.club", String port = "30010" ) {
-            this.baseUrl = baseUrl + ":" + port;
+        public Request( ) {
         }
 
         public async Task<List<Toy>> requestToysListAsync()
@@ -21,7 +20,11 @@ namespace LovenseBSControl.Classes
             List<Toy> Toys = new List<Toy>();
             try
             {
-                var responseString = await client.GetStringAsync(baseUrl + "/GetToys");
+                if (!PluginConfig.Instance.DefaultConnection)
+                {
+                    ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+                }
+                var responseString = await client.GetStringAsync(getBaseUrl() + "/GetToys");
                 JObject toysString = JObject.Parse(responseString);
 
                 if (!toysString["type"].ToString().Equals("ok"))
@@ -39,7 +42,9 @@ namespace LovenseBSControl.Classes
             }
             catch (HttpRequestException e)
             {
+                
                 Plugin.Log.Info("Lovense Connect not reachable.");
+                Plugin.Log.Info(e.ToString());
             }
             return Toys;
         }
@@ -78,28 +83,42 @@ namespace LovenseBSControl.Classes
 
         public async Task StartToy(Toy toy, int level)
         {
-            await client.GetStringAsync(baseUrl + "/Vibrate" + toy.GetMotor() + "?v=" + level + "&t=" + toy.GetId());
+            await client.GetStringAsync(getBaseUrl() + "/Vibrate" + toy.GetMotor() + "?v=" + level + "&t=" + toy.GetId());
             if (toy.canRotate() && PluginConfig.Instance.Rotate > 0)
             {
-                await client.GetStringAsync(baseUrl + "/Rotate" + toy.GetMotor() + "?v=" + level + "&t=" + toy.GetId());
+                await client.GetStringAsync(getBaseUrl() + "/Rotate" + toy.GetMotor() + "?v=" + level + "&t=" + toy.GetId());
             }
 
         }
         public async Task StartPresetToy(Toy toy, int preset = 0)
         {
-            await client.GetStringAsync(baseUrl + "/Preset?v=" + preset + "&t=" + toy.GetId());
+            await client.GetStringAsync(getBaseUrl() + "/Preset?v=" + preset + "&t=" + toy.GetId());
         }
         
         public async Task StopToy(Toy toy)
         {   
-            await client.GetStringAsync(baseUrl + "/Vibrate" + toy.GetMotor() + "?v=0&t=" + toy.GetId());
+            await client.GetStringAsync(getBaseUrl() + "/Vibrate" + toy.GetMotor() + "?v=0&t=" + toy.GetId());
             if (toy.canRotate()) {
-                await client.GetStringAsync(baseUrl + "/Rotate?v=0&t=" + toy.GetId());
+                await client.GetStringAsync(getBaseUrl() + "/Rotate?v=0&t=" + toy.GetId());
+            }
+        }
+
+
+        private String getBaseUrl() {
+
+            if (PluginConfig.Instance.DefaultConnection)
+            {
+                return PluginConfig.Instance.baseUrl + ":30010";
+            }
+            else
+            {
+                return "https://" + PluginConfig.Instance.ipAdress + ":" + PluginConfig.Instance.port;
             }
         }
 
         
 
-        
+
+
     }
 }

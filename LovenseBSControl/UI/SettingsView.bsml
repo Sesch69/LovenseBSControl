@@ -12,6 +12,7 @@
 			<slider-setting text='Air Intense (Max)' value='air' apply-on-change='true' min='0' max='3' integer-only='true'/>
 			</vertical>
 		</horizontal>
+		
 		<settings-submenu text='&#62;Toys...'>
 			<settings-container>
 				<horizontal spacing='1' child-expand-width='false' child-control-width='false' child-align='MiddleCenter' pref-height='20'>
@@ -26,6 +27,17 @@
 				</horizontal>
 				<clickable-text text='&#60; Back' align='Left' click-event='back' />
 			</settings-container>
+		</settings-submenu>
+		
+		<settings-submenu text='&#62;Extended Connection...'>
+			<horizontal spacing='1' child-expand-width='false' child-control-width='false' child-align='MiddleCenter' pref-height='30'>
+				<vertical spacing='0.5'>
+					<bool-setting text='Default Connection' apply-on-change='true' value='defaultConnection' hover-hint='Using default connection with PC.'></bool-setting>
+					<string-setting id='ipAdressInput' text='IP' value='ipAdress' active='false'></string-setting>
+					<string-setting id='portInput' text='Port' value='port' active='false' ></string-setting>
+					<clickable-text text='&#60; Back' align='Left' click-event='back' />
+				</vertical>
+			</horizontal>
 		</settings-submenu>
 	</settings-container>
 </bg>

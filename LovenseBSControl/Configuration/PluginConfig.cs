@@ -20,7 +20,12 @@ namespace LovenseBSControl.Configuration
 
         public int Duration { get; set; } = 500;
 
+        public bool DefaultConnection { get; set; } = true;
+
         public String baseUrl { get; set; } = "https://127-0-0-1.lovense.club";
+        // exampl for url differernt from default https://192.168.178.25:34568/
+
+        public String ipAdress = "";
 
         public String port { get; set; } = "30010";
 

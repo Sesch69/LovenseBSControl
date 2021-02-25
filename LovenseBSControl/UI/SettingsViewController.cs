@@ -107,6 +107,53 @@ namespace LovenseBSControl.UI
             }
         }
 
+        [UIValue("defaultConnection")]
+        public bool DefaultConnection
+        {
+            get
+            {
+                return PluginConfig.Instance.DefaultConnection;
+            }
+            set
+            {
+                statusPort.gameObject.SetActive(!value);
+                statusIpAdress.gameObject.SetActive(!value);
+                PluginConfig.Instance.DefaultConnection = value;
+            }
+        }
+
+        [UIObject("portInput")]
+        private GameObject statusPort;
+
+        [UIValue("port")]
+        public string Port
+        {
+            get
+            {
+                return PluginConfig.Instance.port;
+            }
+            set
+            {
+                PluginConfig.Instance.port = value;
+            }
+        }
+
+        [UIObject("ipAdressInput")]
+        private GameObject statusIpAdress;
+
+        [UIValue("ipAdress")]
+        public string IpAdress
+        {
+            get
+            {
+                return PluginConfig.Instance.ipAdress;
+            }
+            set
+            {
+                PluginConfig.Instance.ipAdress = value;
+            }
+        }
+
         [UIValue("vibrateHit")]
 		public bool VibrateHit
 		{
@@ -155,9 +202,11 @@ namespace LovenseBSControl.UI
             }
             set
             {
-                ToysConfig config = this.selectedToy.getToyConfig();
-                config.setHType(value);
-                SetupList();
+                if (this.selectedToy != null) { 
+                    ToysConfig config = this.selectedToy.getToyConfig();
+                    config.setHType(value);
+                    SetupList();
+                }
             }
         }
 
@@ -167,6 +216,10 @@ namespace LovenseBSControl.UI
         [UIAction("#post-parse")]
         public void SetupList()
         {
+
+            statusPort.gameObject.SetActive(!PluginConfig.Instance.DefaultConnection);
+            statusIpAdress.gameObject.SetActive(!PluginConfig.Instance.DefaultConnection);
+
             if (!Plugin.Control.isToyAvailable()) {
                 return;
             }
