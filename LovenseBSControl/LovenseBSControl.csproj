@@ -190,7 +190,6 @@
     <Content Include="UI\img\logo_osic.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Counter\" />
     <Folder Include="Installers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

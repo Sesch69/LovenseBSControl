@@ -12,18 +12,20 @@
 			<slider-setting text='Air Intense (Max)' value='air' apply-on-change='true' min='0' max='3' integer-only='true'/>
 			</vertical>
 		</horizontal>
-
-		<horizontal spacing='3' child-expand-width='false' child-control-width='false' child-align='MiddleCenter' pref-height='50'>
-			<vertical preferred-width='65' child-control-height='false'>
-				<list id='toy-list' expand-cell='true' select-cell='toySelect' width='15' title='Lovense Toys' pref-height='35'/>
-			</vertical>
-			<vertical preferred-width='25' child-control-height='false'>
-				<button text='Refresh Toys' pref-width='25' on-click='clicked-refresh' hover-hint='Reload toys from Lovense Connect'/>
-				<button text='Test' pref-width='25' on-click='clicked-test' />
-				<button text='DeActivate' pref-width='25' on-click='clicked-deactivate' />
-				<button text='Left Hand' pref-width='25' on-click='clicked-lHand' />
-				<button text='Right Hand' pref-width='25' on-click='clicked-rHand' />
-			</vertical>
-		</horizontal>
+		<settings-submenu text='&#62;Toys...'>
+			<settings-container>
+				<horizontal spacing='1' child-expand-width='false' child-control-width='false' child-align='MiddleCenter' pref-height='20'>
+					<vertical preferred-width='55' child-control-height='false' pref-height='20'>
+						<list id='toy-list' expand-cell='true' select-cell='toySelect' width='15' title='Lovense Toys' pref-height='25'/>
+					</vertical>
+					<vertical preferred-width='35' child-control-height='false' spacing='0.5'>
+						<button text='Refresh Toys' pref-width='35' on-click='clicked-refresh' hover-hint='Reload toys from Lovense Connect'/>
+						<button text='Test' pref-width='35' on-click='clicked-test' />
+						<dropdown-list-setting pref-width='35' text='Hand control' value='list-choice' choices='list-options'  apply-on-change='true'/>
+					</vertical>
+				</horizontal>
+				<clickable-text text='&#60; Back' align='Left' click-event='back' />
+			</settings-container>
+		</settings-submenu>
 	</settings-container>
 </bg>

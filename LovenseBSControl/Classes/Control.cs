@@ -62,7 +62,10 @@ namespace LovenseBSControl.Classes
                     toy.stop();
                 }
             }
+        }
 
+        public bool isToyAvailable() {
+            return this.Toys.Count > 0;
         }
     }
 }

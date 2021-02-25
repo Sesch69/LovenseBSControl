@@ -1,4 +1,8 @@
 ﻿using System;
+using IPA.Config.Stores;
+using IPA.Config.Stores.Attributes;
+using IPA.Config.Stores.Converters;
+using System.Collections.Generic;
 
 namespace LovenseBSControl.Configuration
 {
@@ -25,7 +29,23 @@ namespace LovenseBSControl.Configuration
         public int Air { get; set; } = 1;
 
         public bool VibeBombs { get; set; } = true;
+        
+        [UseConverter(typeof(ListConverter<ToysConfig>))]
+        public List<ToysConfig> ToyConfigurations { get; set; } = new List<ToysConfig>();
 
+        public void AddToyConfiguration(ToysConfig ToyConfiguration)
+        {
+            if (!IsAdded(ToyConfiguration))
+            {
+                ToyConfigurations.Add(ToyConfiguration);
+            }
+        }
+
+        public bool IsAdded(ToysConfig ToyConfiguration)
+        {
+            return ToyConfigurations.Contains(ToyConfiguration);
+        }
+        
     }
 
     

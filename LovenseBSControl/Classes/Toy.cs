@@ -21,8 +21,19 @@ namespace LovenseBSControl.Classes
             this.Type = Type;
             this.Motor = Motor;
 
-            Config = new ToysConfig(this.GetId());
-
+            ToysConfig newConfig = new ToysConfig(this.GetId());
+            /*
+            if (PluginConfig.Instance.IsAdded(newConfig))
+            {
+                //Config = PluginConfig.Instance.ToyConfigurations.Find(Id = this.ID);
+                Config = newConfig;
+            }
+            else {
+                PluginConfig.Instance.ToyConfigurations.Add(newConfig);
+               
+            }
+            */
+            Config = newConfig;
             this.Connected = Connected;
             this.NickName = NickName;
 
@@ -111,6 +122,11 @@ namespace LovenseBSControl.Classes
         public ToysConfig getToyConfig()
         {
             return Config;
+        }
+
+        public void setToyConfig(ToysConfig toyConfig)
+        {
+            Config = toyConfig;
         }
 
     }

@@ -6,6 +6,7 @@ using LovenseBSControl.Classes;
 using HMUI;
 using UnityEngine;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace LovenseBSControl.UI
 {
@@ -13,7 +14,7 @@ namespace LovenseBSControl.UI
 	{
 
         private Toy selectedToy = null;
-        private bool rightHand;
+        private int selectedToyNumber = 0;
 
 		[UIValue("enabled")]
 		public bool Enabled
@@ -135,24 +136,7 @@ namespace LovenseBSControl.UI
 
             await ShowToys();
         }
-        [UIAction("clicked-lHand")]
-        private void ClickedLHand()
-        {
-            this.selectedToy.switchLHand();
-        }
-
-        [UIAction("clicked-rHand")]
-        private void ClickedRHand()
-        {
-            this.selectedToy.switchRHand();
-        }
-
-        [UIAction("clicked-deactivate")]
-        private void ClickedDeactivate()
-        {
-            Plugin.Log.Notice("Deactivate clicked");
-        }
-
+        
         [UIAction("clicked-test")]
         private void ClickedTest()
         {
@@ -162,9 +146,30 @@ namespace LovenseBSControl.UI
             }
         }
 
+        [UIValue("list-choice")]
+        public string ListChoice
+        {
+            get
+            {
+                return "";
+            }
+            set
+            {
+                ToysConfig config = this.selectedToy.getToyConfig();
+                config.setHType(value);
+                SetupList();
+            }
+        }
+
+        [UIValue("list-options")]
+        private List<object> options = new object[] { HTypes.bHands, HTypes.lHand, HTypes.rHand, HTypes.random, HTypes.inactive}.ToList();
+
         [UIAction("#post-parse")]
         public void SetupList()
         {
+            if (!Plugin.Control.isToyAvailable()) {
+                return;
+            }
             List<Toy> Toys = Plugin.Control.getToyList();
             customListTableData.data.Clear();
             foreach (Toy toy in Toys)
@@ -172,16 +177,17 @@ namespace LovenseBSControl.UI
                 string path = "img/ambi";
 
                 Sprite sprite = Resources.Load<Sprite>(path);
-                CustomListTableData.CustomCellInfo customCellInfo = new CustomListTableData.CustomCellInfo(toy.getNickName(), toy.getText() + " - " + (toy.IsConnected() ? "Connected" : "Disconnected"), sprite);
+
+                ToysConfig toyConfig = toy.getToyConfig();
+                CustomListTableData.CustomCellInfo customCellInfo = new CustomListTableData.CustomCellInfo(toy.getNickName(), toy.getText() + " - " + ((toy.IsConnected() ? "Connected" : "Disconnected") + " - " + toyConfig.HType), sprite);
                 customListTableData.data.Add(customCellInfo);
             }
 
             customListTableData.tableView.ReloadData();
-            int selectedToy = 0;
-            this.selectedToy = Toys[selectedToy];
+            this.selectedToy = Toys[this.selectedToyNumber];
 
-            customListTableData.tableView.ScrollToCellWithIdx(selectedToy, TableViewScroller.ScrollPositionType.Beginning, false);
-            customListTableData.tableView.SelectCellWithIdx(selectedToy);
+            customListTableData.tableView.ScrollToCellWithIdx(this.selectedToyNumber, TableViewScroller.ScrollPositionType.Beginning, false);
+            customListTableData.tableView.SelectCellWithIdx(this.selectedToyNumber);
         }
 
 
@@ -189,7 +195,9 @@ namespace LovenseBSControl.UI
         public void Select(TableView _, int row)
         {
             List<Toy> Toys = Plugin.Control.getToyList();
+            this.selectedToyNumber = row;
             this.selectedToy = Toys[row];
+            ListChoice = this.selectedToy.getToyConfig().HType;
         }
     }
 }
