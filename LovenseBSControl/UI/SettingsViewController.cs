@@ -55,6 +55,19 @@ namespace LovenseBSControl.UI
             }
         }
 
+        [UIValue("randeomIntense")]
+        public bool RandeomIntense
+        {
+            get
+            {
+                return PluginConfig.Instance.RandomIntense;
+            }
+            set
+            {
+                PluginConfig.Instance.RandomIntense = value;
+            }
+        }
+
         [UIValue("intense")]
         public int Intense
         {
@@ -118,7 +131,24 @@ namespace LovenseBSControl.UI
             {
                 statusPort.gameObject.SetActive(!value);
                 statusIpAdress.gameObject.SetActive(!value);
+                statusLocalHost.gameObject.SetActive(!value);
                 PluginConfig.Instance.DefaultConnection = value;
+            }
+        }
+
+        [UIObject("defaultLocalHost")]
+        private GameObject statusLocalHost;
+
+        [UIValue("defaultLHConnection")]
+        public bool DefaultLHConnection
+        {
+            get
+            {
+                return PluginConfig.Instance.LocalHostConnection;
+            }
+            set
+            {
+                PluginConfig.Instance.LocalHostConnection = value;
             }
         }
 
@@ -219,6 +249,7 @@ namespace LovenseBSControl.UI
 
             statusPort.gameObject.SetActive(!PluginConfig.Instance.DefaultConnection);
             statusIpAdress.gameObject.SetActive(!PluginConfig.Instance.DefaultConnection);
+            statusLocalHost.gameObject.SetActive(!PluginConfig.Instance.DefaultConnection);
 
             if (!Plugin.Control.isToyAvailable()) {
                 return;
@@ -232,7 +263,7 @@ namespace LovenseBSControl.UI
                 Sprite sprite = Resources.Load<Sprite>(path);
 
                 ToysConfig toyConfig = toy.getToyConfig();
-                CustomListTableData.CustomCellInfo customCellInfo = new CustomListTableData.CustomCellInfo(toy.getNickName(), toy.getText() + " - " + ((toy.IsConnected() ? "Connected" : "Disconnected") + " - " + toyConfig.HType), sprite);
+                CustomListTableData.CustomCellInfo customCellInfo = new CustomListTableData.CustomCellInfo(toy.getNickName(), toy.getText() + " - " + ((toy.IsConnected() ? "Connected" : "Disconnected") + (toy.IsConnected()? " - " + toy.getBattery() + "%" : "") + " - " + toyConfig.HType), sprite);
                 customListTableData.data.Add(customCellInfo);
             }
 

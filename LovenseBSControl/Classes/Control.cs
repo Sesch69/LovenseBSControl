@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using LovenseBSControl.Configuration;
@@ -34,10 +35,21 @@ namespace LovenseBSControl.Classes
             
             foreach (Toy toy in this.Toys)
             {
-                if (toy.IsConnected() && toy.CheckHand(LHand))
+                if (toy.IsConnected())
+                    
+                        
+                if (toy.CheckHand(LHand) && !toy.getToyConfig().Random)
                 {
-                    toy.vibrate(PluginConfig.Instance.Duration, PluginConfig.Instance.Intense);
+                    toy.vibrate(PluginConfig.Instance.Duration);
                 }
+                if (toy.getToyConfig().Random) {
+                    Random rng = new Random();
+                    bool random = rng.Next(0, 2) > 0;
+                    if (random) {
+                        toy.vibrate(PluginConfig.Instance.Duration);
+                    }
+                }
+                
             }
         }
 

@@ -37,16 +37,37 @@ namespace LovenseBSControl.Classes
                 {
                     JToken toyDetails = dataToy.Value;
                     Toy newToy = new Toy(toyDetails["id"].ToString(), toyDetails["name"].ToString(), toyDetails["status"].ToString().Equals("1"), toyDetails["version"].ToString(), toyDetails["nickName"].ToString());
+                    newToy.setBattery(Int32.Parse(toyDetails["battery"].ToString()));
                     Toys.Add(newToy);
                 }
             }
             catch (HttpRequestException e)
             {
-                
                 Plugin.Log.Info("Lovense Connect not reachable.");
-                Plugin.Log.Info(e.ToString());
             }
             return Toys;
+        }
+
+        public async Task updateBattery(Toy toy) {
+            try
+            {
+                if (!PluginConfig.Instance.DefaultConnection)
+                {
+                    ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+                }
+                var responseString = await client.GetStringAsync(getBaseUrl() + "/Battery?t=" + toy.GetId());
+                JObject toysString = JObject.Parse(responseString);
+
+                if (!toysString["type"].ToString().Equals("ok"))
+                {
+                    Plugin.Log.Info("Lovense Connect not active/running.");
+                }
+                toy.setBattery(Int32.Parse(toysString["data"].ToString()));
+            }
+            catch (HttpRequestException e)
+            {
+                Plugin.Log.Info("Lovense Connect not reachable.");
+            }
         }
         
         public async Task TestToy(Toy toy) {
@@ -108,17 +129,17 @@ namespace LovenseBSControl.Classes
 
             if (PluginConfig.Instance.DefaultConnection)
             {
-                return PluginConfig.Instance.baseUrl + ":30010";
+                return PluginConfig.baseUrl + ":30010";
+            }
+            else if (PluginConfig.Instance.LocalHostConnection)
+            {
+                return "https://" + PluginConfig.localHost + ":" + PluginConfig.basePort;
             }
             else
             {
                 return "https://" + PluginConfig.Instance.ipAdress + ":" + PluginConfig.Instance.port;
             }
         }
-
-        
-
-
 
     }
 }

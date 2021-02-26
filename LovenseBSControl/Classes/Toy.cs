@@ -12,6 +12,8 @@ namespace LovenseBSControl.Classes
         private String NickName;
         private String Version;
 
+        private int battery;
+
         private ToysConfig Config;
 
         private bool on;
@@ -69,11 +71,11 @@ namespace LovenseBSControl.Classes
         }
 
         public String getNickName() {
-            return this.NickName.Equals("")?this.getText():this.NickName;
+            return this.NickName.Equals("") ? this.getText() : this.NickName;
         }
 
         public String getText() {
-            return this.Version.Equals("")?this.Type:this.Type + " " + this.Version;
+            return this.Version.Equals("") ? this.Type : this.Type + " " + this.Version;
         }
 
         public bool canRotate() {
@@ -98,26 +100,44 @@ namespace LovenseBSControl.Classes
         }
 
         public void vibrate(int time, int level) {
-                this.on = true;
-                Request request = new Classes.Request();
-                request.UseToy(this, time, level).ConfigureAwait(true);
+            this.on = true;
+            Request request = new Classes.Request();
+            request.UseToy(this, time, level).ConfigureAwait(true);
+        }
+
+        public void vibrate(int time)
+        {
+            this.on = true;
+            Request request = new Classes.Request();
+            request.UseToy(this, time, this.getIntense()).ConfigureAwait(true);
+        }
+
+        private int getIntense() {
+            var intense = PluginConfig.Instance.Intense;
+            if (PluginConfig.Instance.RandomIntense) {
+                Random rng = new Random();
+                intense = rng.Next(1, 20);
+            }
+            return intense;
         }
 
         public void vibratePreset(int preset = 2)
         {
-                this.on = true;
-                Request request = new Classes.Request();
-                request.PresetToy(this, preset).ConfigureAwait(true);
+            this.on = true;
+            Request request = new Classes.Request();
+            request.PresetToy(this, preset).ConfigureAwait(true);
         }
 
-
+        public String getBattery()
+        {
+            return this.battery.ToString();
+        }
 
         public void stop() {
                 this.on = false;
                 Request request = new Classes.Request();
                 request.StopToy(this).ConfigureAwait(true);
         }
-
 
         public ToysConfig getToyConfig()
         {
@@ -127,6 +147,10 @@ namespace LovenseBSControl.Classes
         public void setToyConfig(ToysConfig toyConfig)
         {
             Config = toyConfig;
+        }
+
+        public void setBattery(int battery) {
+            this.battery = battery;
         }
 
     }

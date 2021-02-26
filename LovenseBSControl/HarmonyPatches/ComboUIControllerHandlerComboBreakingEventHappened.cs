@@ -13,9 +13,24 @@ namespace LovenseBSControl
         {
             if (PluginConfig.Instance.Enabled && PluginConfig.Instance.VibrateHit)
             {
-                Plugin.Control.HitCounter++;
-                Plugin.Control.vibrateActive(noteController.noteData.colorType.ToString().Equals("ColorA"));
-                return false;
+                if (noteCutInfo.allIsOK)
+                {
+                    Plugin.Control.HitCounter++;
+                    Plugin.Control.vibrateActive(noteController.noteData.colorType.ToString().Equals("ColorA"));
+                }
+                else {
+                    return false;
+                }
+            }
+
+            if (PluginConfig.Instance.Enabled && PluginConfig.Instance.VibrateMiss)
+            {
+                if (!noteCutInfo.allIsOK)
+                {
+                    Plugin.Control.HitCounter++;
+                    Plugin.Control.vibrateActive(noteController.noteData.colorType.ToString().Equals("ColorA"));
+                    return false;
+                }
             }
             return true;
         }
@@ -44,7 +59,6 @@ namespace LovenseBSControl
             if (PluginConfig.Instance.Enabled && PluginConfig.Instance.VibeBombs)
             {
                 Plugin.Control.vibrateActivePreset();
-                return false;
             }
             return true;
         }
