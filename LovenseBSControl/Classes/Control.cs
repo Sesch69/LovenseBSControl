@@ -13,7 +13,6 @@ namespace LovenseBSControl.Classes
 
         public int HitCounter = 0;
         public int MissCounter = 0;
-        
 
         private Classes.Request Request;
         public Control() {
@@ -35,21 +34,20 @@ namespace LovenseBSControl.Classes
             
             foreach (Toy toy in this.Toys)
             {
-                if (toy.IsConnected())
-                    
-                        
-                if (toy.CheckHand(LHand) && !toy.getToyConfig().Random)
+                if (toy.IsConnected()) 
                 {
-                    toy.vibrate(PluginConfig.Instance.Duration);
-                }
-                if (toy.getToyConfig().Random) {
-                    Random rng = new Random();
-                    bool random = rng.Next(0, 2) > 0;
-                    if (random) {
+                    if (toy.CheckHand(LHand) && !toy.getToyConfig().Random)
+                    {
                         toy.vibrate(PluginConfig.Instance.Duration);
                     }
+                    if (toy.getToyConfig().Random) {
+                        Random rng = new Random();
+                        bool random = rng.Next(0, 2) > 0;
+                        if ((random && LHand) || (!random && !LHand)) {
+                            toy.vibrate(PluginConfig.Instance.Duration);
+                        }
+                    }
                 }
-                
             }
         }
 

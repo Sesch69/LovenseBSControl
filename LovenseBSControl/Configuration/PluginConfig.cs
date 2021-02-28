@@ -3,6 +3,7 @@ using IPA.Config.Stores;
 using IPA.Config.Stores.Attributes;
 using IPA.Config.Stores.Converters;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace LovenseBSControl.Configuration
 {
@@ -26,37 +27,40 @@ namespace LovenseBSControl.Configuration
 
         public bool LocalHostConnection { get; set; } = false;
 
-        public const String baseUrl = "https://127-0-0-1.lovense.club";
-        public const String localHost = "127.0.0.1";
-        public const String basePort = "30010";
+        public const string baseUrl = "https://127-0-0-1.lovense.club";
+        public const string localHost = "127.0.0.1";
+        public const string basePort = "30010";
 
-        public String ipAdress = "";
+        public string ipAdress = "";
 
-        public String port { get; set; } = "30010";
+        public string port { get; set; } = "30010";
 
         public int Rotate { get; set; } = 1;
 
         public int Air { get; set; } = 1;
 
         public bool VibeBombs { get; set; } = true;
-        
-        [UseConverter(typeof(ListConverter<ToysConfig>))]
-        public List<ToysConfig> ToyConfigurations { get; set; } = new List<ToysConfig>();
 
-        public void AddToyConfiguration(ToysConfig ToyConfiguration)
+        [UseConverter]
+        public virtual Dictionary<string, ToysConfig> ToyConfigurations { get; set; } = new Dictionary<string, ToysConfig>();
+
+        public void AddToyConfiguration(string Id,  ToysConfig ToyConfiguration)
         {
-            if (!IsAdded(ToyConfiguration))
+            if (!IsAdded(Id))
             {
-                ToyConfigurations.Add(ToyConfiguration);
+                ToyConfigurations.Add(Id,ToyConfiguration);
             }
         }
 
-        public bool IsAdded(ToysConfig ToyConfiguration)
+        public ToysConfig getToyConfig(string Id) 
         {
-            return ToyConfigurations.Contains(ToyConfiguration);
+            return ToyConfigurations[Id];
+        }
+
+        public bool IsAdded(string Id)
+        {
+            return ToyConfigurations.ContainsKey(Id);
         }
         
     }
-
-    
 }

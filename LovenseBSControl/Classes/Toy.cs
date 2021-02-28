@@ -23,24 +23,22 @@ namespace LovenseBSControl.Classes
             this.Type = Type;
             this.Motor = Motor;
 
-            ToysConfig newConfig = new ToysConfig(this.GetId());
-            /*
-            if (PluginConfig.Instance.IsAdded(newConfig))
+            ToysConfig newConfig = ToysConfig.createToyConfig(this.GetId());
+            if (PluginConfig.Instance.ToyConfigurations != null)
             {
-                //Config = PluginConfig.Instance.ToyConfigurations.Find(Id = this.ID);
-                Config = newConfig;
+                if (PluginConfig.Instance.ToyConfigurations != null && PluginConfig.Instance.IsAdded(this.ID))
+                {
+                    newConfig = PluginConfig.Instance.getToyConfig(this.ID);
+                }
+                else
+                {
+                    PluginConfig.Instance.AddToyConfiguration(this.ID,newConfig);
+                }
             }
-            else {
-                PluginConfig.Instance.ToyConfigurations.Add(newConfig);
-               
-            }
-            */
             Config = newConfig;
             this.Connected = Connected;
             this.NickName = NickName;
-
             this.Version = Version;
-
             this.on = false;
         }
 

@@ -270,6 +270,8 @@ namespace LovenseBSControl.UI
             customListTableData.tableView.ReloadData();
             this.selectedToy = Toys[this.selectedToyNumber];
 
+            //ListChoice = this.selectedToy.getToyConfig().HType;
+
             customListTableData.tableView.ScrollToCellWithIdx(this.selectedToyNumber, TableViewScroller.ScrollPositionType.Beginning, false);
             customListTableData.tableView.SelectCellWithIdx(this.selectedToyNumber);
         }

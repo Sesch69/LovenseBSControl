@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BeatSaberMarkupLanguage.Attributes;
+using IPA.Config.Stores.Attributes;
+using IPA.Config.Stores.Converters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,28 +9,39 @@ using System.Threading.Tasks;
 
 namespace LovenseBSControl.Configuration
 {
+
     public class ToysConfig
     {
+        [UIValue(nameof(Id))]
+        public String Id { get; set; } = "";
+
+        [UIValue(nameof(LHand))]
+        public bool LHand { get; set; } = false;
+
+        [UIValue(nameof(RHand))]
+        public bool RHand { get; set; } = false;
+
+        [UIValue(nameof(Inactive))]
+        public bool Inactive { get; set; } = false;
+
+        [UIValue(nameof(Random))]
+        public bool Random { get; set; } = false;
+
+        [UIValue(nameof(HType))]
+        public string HType = "Both Hands";
+
         
-        public String Id;
+        public static ToysConfig createToyConfig(string Id) {
+            ToysConfig toysConfig = new ToysConfig();
 
-        public bool LHand;
+            toysConfig.Id = Id;
+            toysConfig.LHand = true;
+            toysConfig.RHand = true;
+            toysConfig.Inactive = false;
+            toysConfig.Random = false;
+            toysConfig.HType = HTypes.bHands;
 
-        public bool RHand;
-
-        public bool Inactive;
-
-        public bool Random;
-
-        public string HType;
-        
-        public ToysConfig(String Id) {
-            this.Id = Id;
-            this.LHand = true;
-            this.RHand = true;
-            this.Inactive = false;
-            this.Random = false;
-            this.HType = HTypes.bHands;
+            return toysConfig;
         }
 
         public void setHType(String value) {
