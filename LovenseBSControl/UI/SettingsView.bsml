@@ -15,24 +15,27 @@
 		</horizontal>
 		
 		<settings-submenu text='&#62;Toys...'>
-			<settings-container>
-				<horizontal spacing='1' child-expand-width='false' child-control-width='false' child-align='MiddleCenter' pref-height='20'>
-					<vertical preferred-width='55' child-control-height='false'>
-						<list id='toy-list' expand-cell='true' select-cell='toySelect' width='15' title='Lovense Toys'/>
-					</vertical>
-					<vertical preferred-width='35' child-control-height='false' spacing='0.1'>
+			<horizontal spacing='4' child-expand-width='false' child-control-width='false' child-align='MiddleCenter' pref-height='40' horizontal-fit='PreferredSize'>
+				<vertical bg='round-rect-panel' preferred-width='55' child-control-height='false'>
+					<list id='toy-list' expand-cell='true' select-cell='toySelect' width='15' title='Lovense Toys'/>
+				</vertical>
+				<horizontal spacing='0.1' child-expand-width='false' child-control-width='false'  height='30'>
+				<vertical width='35' child-control-height='false' spacing='0.1'>
+					
 						<button text='Refresh Toys' pref-width='35' on-click='clicked-refresh' hover-hint='Reload toys from Lovense Connect'/>
 						<button text='Test' pref-width='35' on-click='clicked-test' />
 						<dropdown-list-setting id='toyConfigSetting' pref-width='35' text='Hand control' value='listChoice' choices='list-options'  apply-on-change='true' on-change='onChangeHands' bind-value='true'/>
-					</vertical>
 					
-				</horizontal>
+				</vertical>	
+				</horizontal>	
+			</horizontal>
+			<horizontal spacing='0.1' child-expand-width='false' child-control-width='false'  pref-height='10' horizontal-fit='PreferredSize'>
 				<clickable-text text='&#60; Back' align='Left' click-event='back' />
-			</settings-container>
+			</horizontal>
 		</settings-submenu>
 		
 		<settings-submenu text='&#62;Extended Connection...'>
-			<horizontal spacing='0.1' child-expand-width='false' child-control-width='false'  pref-height='37'><!--child-align='MiddleCenter'-->
+			<horizontal spacing='0.1' child-expand-width='false' child-control-width='false'  pref-height='37'>
 				<vertical spacing='0.1'>
 					<bool-setting text='Default Connection' apply-on-change='true' value='defaultConnection' hover-hint='Using default connection with Lovense Connect PC.'></bool-setting>
 					<bool-setting text='Local Host Connection (127.0.0.1:30010)' id='defaultLocalHost' apply-on-change='true' active='false'  value='defaultLHConnection' hover-hint='Using local host connection with PC.'></bool-setting>
