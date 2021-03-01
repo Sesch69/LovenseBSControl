@@ -7,6 +7,8 @@ using HMUI;
 using UnityEngine;
 using System.Threading.Tasks;
 using System.Linq;
+using BeatSaberMarkupLanguage.Components.Settings;
+using TMPro;
 
 namespace LovenseBSControl.UI
 {
@@ -223,20 +225,42 @@ namespace LovenseBSControl.UI
             }
         }
 
-        [UIValue("list-choice")]
+        private string settedSelection = HTypes.bHands;
+
+        [UIValue("listChoice")]
         public string ListChoice
-        {
+        { 
             get
             {
-                return "";
+                if (this.selectedToy != null)
+                {
+                    settedSelection = this.selectedToy.getToyConfig().HType; 
+                    return settedSelection;
+                }
+                return HTypes.bHands;
             }
             set
             {
-                if (this.selectedToy != null) { 
-                    ToysConfig config = this.selectedToy.getToyConfig();
-                    config.setHType(value);
-                    SetupList();
-                }
+                settedSelection = value;
+            }
+        }
+
+        [UIComponent("toyConfigSetting")]
+        public GenericSetting choice;
+
+        [UIComponent("toyConfigSetting")]
+        public DropDownListSetting text;
+
+        //= "Both Hands";
+
+        [UIAction("onChangeHands")]
+        public void onChangeHands(string data) {
+            Plugin.Log.Notice("CHANGE EVENT");
+            if (this.selectedToy != null)
+            {
+                ToysConfig config = this.selectedToy.getToyConfig();
+                config.setHType(data);
+                SetupList();
             }
         }
 
@@ -270,8 +294,6 @@ namespace LovenseBSControl.UI
             customListTableData.tableView.ReloadData();
             this.selectedToy = Toys[this.selectedToyNumber];
 
-            //ListChoice = this.selectedToy.getToyConfig().HType;
-
             customListTableData.tableView.ScrollToCellWithIdx(this.selectedToyNumber, TableViewScroller.ScrollPositionType.Beginning, false);
             customListTableData.tableView.SelectCellWithIdx(this.selectedToyNumber);
         }
@@ -283,7 +305,9 @@ namespace LovenseBSControl.UI
             List<Toy> Toys = Plugin.Control.getToyList();
             this.selectedToyNumber = row;
             this.selectedToy = Toys[row];
-            ListChoice = this.selectedToy.getToyConfig().HType;
+            choice.updateOnChange = true;
+            choice.associatedValue.SetValue(this.selectedToy.getToyConfig().HType);
+            text.Value = this.selectedToy.getToyConfig().HType;
         }
     }
 }

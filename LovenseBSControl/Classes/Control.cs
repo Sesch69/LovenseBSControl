@@ -34,7 +34,7 @@ namespace LovenseBSControl.Classes
             
             foreach (Toy toy in this.Toys)
             {
-                if (toy.IsConnected()) 
+                if (toy.IsConnected() && toy.IsActive()) 
                 {
                     if (toy.CheckHand(LHand) && !toy.getToyConfig().Random)
                     {
@@ -55,7 +55,7 @@ namespace LovenseBSControl.Classes
         {
             foreach (Toy toy in this.Toys)
             {
-                if (toy.IsConnected())
+                if (toy.IsConnected() && toy.IsActive())
                 {
                     toy.vibratePreset();
                 }

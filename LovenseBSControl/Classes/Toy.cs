@@ -46,6 +46,10 @@ namespace LovenseBSControl.Classes
             return this.Connected;
         }
 
+        public bool IsActive() {
+            return !this.Config.Inactive;
+        }
+
         public bool IsOn() {
             return this.on;
         }
