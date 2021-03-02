@@ -9,58 +9,37 @@ namespace LovenseBSControl
     class HandleNoteWasCut
     {
         
-        static bool Prefix(NoteController noteController, NoteCutInfo noteCutInfo)
+        static void Prefix(NoteController noteController, NoteCutInfo noteCutInfo)
         {
-            if (PluginConfig.Instance.Enabled && PluginConfig.Instance.VibrateHit)
+            if (PluginConfig.Instance.Enabled)
             {
-                if (noteCutInfo.allIsOK)
-                {
-                    Plugin.Control.HitCounter++;
-                    Plugin.Control.vibrateActive(noteController.noteData.colorType.ToString().Equals("ColorA"));
-                }
-                else {
-                    return false;
-                }
+                Plugin.Control.handleCut(noteController.noteData.colorType.ToString().Equals("ColorA"), noteCutInfo.allIsOK);
             }
-
-            if (PluginConfig.Instance.Enabled && PluginConfig.Instance.VibrateMiss)
-            {
-                if (!noteCutInfo.allIsOK)
-                {
-                    Plugin.Control.HitCounter++;
-                    Plugin.Control.vibrateActive(noteController.noteData.colorType.ToString().Equals("ColorA"));
-                    return false;
-                }
-            }
-            return true;
         }
     }
 
     [HarmonyPatch(typeof(ScoreController), "HandleNoteWasMissed")]
     class HandleNoteWasMissed
     {
-        static bool Prefix(NoteController noteController)
+        static void  Prefix(NoteController noteController)
         {
-            if (PluginConfig.Instance.Enabled && PluginConfig.Instance.VibrateMiss)
+            if (PluginConfig.Instance.Enabled)
             {
-                Plugin.Control.MissCounter++;
-                Plugin.Control.vibrateActive(noteController.noteData.colorType.ToString().Equals("ColorA"));
-                return false;
+                Plugin.Control.handleCut(noteController.noteData.colorType.ToString().Equals("ColorA"), false);
             }
-            return true;
         }
     }
 
     [HarmonyPatch(typeof(BombNoteController), "HandleWasCutBySaber")]
     class HandleWasCutBySaber
     {
-        static bool Prefix(BombNoteController __instance)
+        static void Prefix(BombNoteController __instance)
         {
-            if (PluginConfig.Instance.Enabled && PluginConfig.Instance.VibeBombs)
+            if (PluginConfig.Instance.Enabled)
             {
-                Plugin.Control.vibrateActivePreset();
+                Plugin.Control.handleBomb();
             }
-            return true;
+            //return true;
         }
     }
 

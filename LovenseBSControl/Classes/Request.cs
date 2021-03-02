@@ -83,9 +83,12 @@ namespace LovenseBSControl.Classes
         {
             toy.setOn();
             await StartToy(toy, level);
-            if (delay > 0) await Task.Delay(delay);
-            toy.setOff();
-            await StopToy(toy);
+            if (delay > 0)
+            {
+                await Task.Delay(delay);
+                toy.setOff();
+                await StopToy(toy);
+            }
         }
 
         public async Task PresetToy(Toy toy, int time, int preset = 2)

@@ -8,7 +8,8 @@ using UnityEngine;
 using System.Threading.Tasks;
 using System.Linq;
 using BeatSaberMarkupLanguage.Components.Settings;
-using TMPro;
+using System.Reflection;
+using System.IO;
 
 namespace LovenseBSControl.UI
 {
@@ -245,17 +246,28 @@ namespace LovenseBSControl.UI
             }
         }
 
+        [UIValue("modusChoice")]
+        public string ModusChoice
+        {
+            get
+            {
+                return PluginConfig.Instance.modus;
+            }
+            set
+            {
+                PluginConfig.Instance.modus = value;
+                
+            }
+        }
+
         [UIComponent("toyConfigSetting")]
         public GenericSetting choice;
 
         [UIComponent("toyConfigSetting")]
         public DropDownListSetting text;
 
-        //= "Both Hands";
-
         [UIAction("onChangeHands")]
         public void onChangeHands(string data) {
-            Plugin.Log.Notice("CHANGE EVENT");
             if (this.selectedToy != null)
             {
                 ToysConfig config = this.selectedToy.getToyConfig();
@@ -266,6 +278,10 @@ namespace LovenseBSControl.UI
 
         [UIValue("list-options")]
         private List<object> options = new object[] { HTypes.bHands, HTypes.lHand, HTypes.rHand, HTypes.random, HTypes.inactive}.ToList();
+
+        [UIValue("modus-options")]
+        private List<object> modi = new object[] { "Default", "Challenge 1" }.ToList();
+
 
         [UIAction("#post-parse")]
         public void SetupList()
@@ -280,10 +296,15 @@ namespace LovenseBSControl.UI
             }
             List<Toy> Toys = Plugin.Control.getToyList();
             customListTableData.data.Clear();
+
+            //object[] spriteAssets = Resources.LoadAll("Sprites") ;
+
+
+            //Plugin.Log.Notice(spriteAssets.Length.ToString());
+
             foreach (Toy toy in Toys)
             {
-                string path = "img/ambi";
-
+                string path = "Sprites/ambi.sprite";
                 Sprite sprite = Resources.Load<Sprite>(path);
 
                 ToysConfig toyConfig = toy.getToyConfig();
@@ -309,5 +330,12 @@ namespace LovenseBSControl.UI
             choice.associatedValue.SetValue(this.selectedToy.getToyConfig().HType);
             text.Value = this.selectedToy.getToyConfig().HType;
         }
+
+        [UIAction("#apply")]
+        public void OnApply()
+        {
+            Plugin.Control.setModus();
+        }
+
     }
 }

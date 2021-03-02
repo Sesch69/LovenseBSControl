@@ -35,6 +35,8 @@ namespace LovenseBSControl.Configuration
 
         public string port { get; set; } = "30010";
 
+        public string modus { get; set; } = "Default";
+
         public int Rotate { get; set; } = 1;
 
         public int Air { get; set; } = 1;

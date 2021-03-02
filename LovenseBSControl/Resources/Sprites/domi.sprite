@@ -1,0 +1,16 @@
+{
+  "images": {
+    "logo_domi": "logo_domi.png"
+  },
+  "orientation": "vertical",
+  "optimize": "lossless",
+  "padding": 10,
+  "output": "png",
+  "dpi": 144,
+  "stylesheet": "css",
+  "pathprefix": "",
+  "customstyles": {
+    "display": "inline-block"
+  },
+  "appendcachebustspritesuffix": false
+}

@@ -17,6 +17,7 @@ namespace LovenseBSControl.Classes
         private ToysConfig Config;
 
         private bool on;
+        private int lastLevel;
 
         public Toy(String ID, String Type, bool Connected = false, String Version = "", String NickName = "", String Motor = "") {
             this.ID = ID;
@@ -104,6 +105,7 @@ namespace LovenseBSControl.Classes
         public void vibrate(int time, int level) {
             this.on = true;
             Request request = new Classes.Request();
+            this.lastLevel = level;
             request.UseToy(this, time, level).ConfigureAwait(true);
         }
 
@@ -111,7 +113,13 @@ namespace LovenseBSControl.Classes
         {
             this.on = true;
             Request request = new Classes.Request();
-            request.UseToy(this, time, this.getIntense()).ConfigureAwait(true);
+            this.lastLevel = this.getIntense();
+            request.UseToy(this, time, this.lastLevel).ConfigureAwait(true);
+        }
+
+        public void resume() {
+            Request request = new Classes.Request();
+            request.UseToy(this, 0, this.lastLevel).ConfigureAwait(true);
         }
 
         private int getIntense() {
@@ -135,10 +143,14 @@ namespace LovenseBSControl.Classes
             return this.battery.ToString();
         }
 
-        public void stop() {
-                this.on = false;
-                Request request = new Classes.Request();
-                request.StopToy(this).ConfigureAwait(true);
+        public void stop(bool resetLastLevel = false) {
+            if (resetLastLevel)
+            {
+                this.lastLevel = 0;
+            }
+            this.on = false;
+            Request request = new Classes.Request();
+            request.StopToy(this).ConfigureAwait(true);
         }
 
         public ToysConfig getToyConfig()

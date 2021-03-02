@@ -28,7 +28,7 @@ namespace LovenseBSControl.Configuration
         public bool Random { get; set; } = false;
 
         [UIValue(nameof(HType))]
-        public string HType = "Both Hands";
+        public string HType = HTypes.bHands;
 
         
         public static ToysConfig createToyConfig(string Id) {
