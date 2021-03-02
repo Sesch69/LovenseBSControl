@@ -131,7 +131,7 @@ namespace LovenseBSControl.Classes
             return intense;
         }
 
-        public void vibratePreset(int preset = 2)
+        public void vibratePreset(int preset = 2, bool resume = false)
         {
             this.on = true;
             Request request = new Classes.Request();

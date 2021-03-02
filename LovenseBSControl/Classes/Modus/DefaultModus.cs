@@ -45,7 +45,7 @@ namespace LovenseBSControl.Classes.Modus
             {
                 if (toy.IsConnected() && toy.IsActive())
                 {
-                    toy.vibratePreset();
+                    toy.vibratePreset(2, true);
                 }
             }
         }

@@ -91,9 +91,14 @@ namespace LovenseBSControl.Classes
             }
         }
 
-        public async Task PresetToy(Toy toy, int time, int preset = 2)
+        public async Task PresetToy(Toy toy, int time, int preset = 2, bool resume = false)
         {
             await this.VibratePresetToy(toy, preset);
+            if (resume)
+            {
+                await Task.Delay(4000);
+                toy.resume();
+            }
         }
 
         public async Task VibratePresetToy(Toy toy, int preset = 2)
