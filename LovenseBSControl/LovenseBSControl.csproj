@@ -144,6 +144,7 @@
     <Compile Include="Classes\Modus\Challenge1Modus.cs" />
     <Compile Include="Classes\Modus\DefaultModus.cs" />
     <Compile Include="Classes\Modus\Modus.cs" />
+    <Compile Include="Classes\Modus\PresetModus.cs" />
     <Compile Include="Classes\Request.cs" />
     <Compile Include="Classes\Toy.cs" />
     <Compile Include="Configuration\PluginConfig.cs" />

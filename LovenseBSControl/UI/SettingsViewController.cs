@@ -280,8 +280,7 @@ namespace LovenseBSControl.UI
         private List<object> options = new object[] { HTypes.bHands, HTypes.lHand, HTypes.rHand, HTypes.random, HTypes.inactive}.ToList();
 
         [UIValue("modus-options")]
-        private List<object> modi = new object[] { "Default", "Challenge 1" }.ToList();
-
+        private List<object> modi = Plugin.Control.AvailableModi;
 
         [UIAction("#post-parse")]
         public void SetupList()

@@ -7,7 +7,6 @@ namespace LovenseBSControl.Classes.Modus
 {
     class DefaultModus
     {
-        public  string name = "Default";
 
         public virtual void HandleHit(List<Toy> toys, bool LHand, bool success)
         {
@@ -45,9 +44,15 @@ namespace LovenseBSControl.Classes.Modus
             {
                 if (toy.IsConnected() && toy.IsActive())
                 {
-                    toy.vibratePreset(2, true);
+                    toy.vibratePreset(2);
                 }
             }
         }
+
+        public virtual string GetModusName()
+        {
+            return "Default";
+        }
+
     }
 }

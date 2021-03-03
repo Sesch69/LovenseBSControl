@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using LovenseBSControl.Configuration;
 using LovenseBSControl.Classes.Modus;
-
+using System.Reflection;
+using System.Linq;
+using System.Collections;
 
 namespace LovenseBSControl.Classes
 {
@@ -14,31 +16,46 @@ namespace LovenseBSControl.Classes
 
         private DefaultModus ActiveModus = new DefaultModus();
 
+        public List<object> AvailableModi = new object[] { "Default" }.ToList();
+
+        private Dictionary<string, DefaultModus> ModiList = new Dictionary<string, DefaultModus> {
+            { "Default", new DefaultModus() }
+        };
+
         public int HitCounter = 0;
         public int MissCounter = 0;
 
         private Classes.Request Request;
-        public Control() {
+        public Control()
+        {
             this.Request = new Classes.Request();
+            this.loadModi();
             this.setModus();
         }
 
-        public void setModus() {
-            if (PluginConfig.Instance.modus.Equals("Default")){
+        public void setModus()
+        {
+            if (ModiList.ContainsKey(PluginConfig.Instance.modus))
+            {
+                this.ActiveModus = ModiList[PluginConfig.Instance.modus];
+            }
+            else
+            {
                 this.ActiveModus = new DefaultModus();
-            }else if (PluginConfig.Instance.modus.Equals("Challenge 1")){
-                this.ActiveModus = new Challenge1Modus();
             }
         }
 
-        public void Init() { 
+        public void Init()
+        {
         }
 
-        public async Task LoadToysAsync() {
+        public async Task LoadToysAsync()
+        {
             Toys = await this.Request.requestToysListAsync();
         }
 
-        public List<Toy> getToyList() {
+        public List<Toy> getToyList()
+        {
             return Toys;
         }
 
@@ -71,11 +88,13 @@ namespace LovenseBSControl.Classes
             }
         }
 
-        public bool isToyAvailable() {
+        public bool isToyAvailable()
+        {
             return this.Toys.Count > 0;
         }
 
-        public void pauseGame() {
+        public void pauseGame()
+        {
             foreach (Toy toy in this.Toys)
             {
                 if (toy.IsConnected())
@@ -100,5 +119,29 @@ namespace LovenseBSControl.Classes
         {
             this.stopActive();
         }
+
+        public void loadModi()
+        {
+            foreach (string obj in GetAllClasses("LovenseBSControl.Classes.Modus"))
+            {
+                if (obj.Equals("Modus") || obj.Equals("DefaultModus")) continue;
+                Type modi = Type.GetType("LovenseBSControl.Classes.Modus." + obj);
+                if (modi != null)
+                {
+                    DefaultModus activeObj = Activator.CreateInstance(modi) as DefaultModus;
+                    AvailableModi.Add(activeObj.GetModusName());
+                    ModiList.Add(activeObj.GetModusName(), activeObj);
+                }
+            }
+        }
+
+        private IEnumerable GetAllClasses(string nameSpace)
+        {
+            Assembly asm = Assembly.GetExecutingAssembly();
+            if (!String.IsNullOrWhiteSpace(nameSpace))
+                return asm.GetTypes().Where(x => x.Namespace == nameSpace).Select(x => x.Name);
+            else return asm.GetTypes().Select(x => x.Name);
+        }
+
     }
 }

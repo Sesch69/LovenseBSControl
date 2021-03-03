@@ -12,5 +12,7 @@ namespace LovenseBSControl.Classes.Modus
         public abstract override void HandleHit(List<Toy> toys, bool LHand, bool success);
         public abstract override void HandleMiss(List<Toy> toys, bool LHand);
         public abstract override void HandleBomb(List<Toy> toys);
+
+        public abstract override string GetModusName();
     }
 }
