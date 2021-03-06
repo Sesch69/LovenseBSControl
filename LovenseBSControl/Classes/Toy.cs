@@ -43,6 +43,11 @@ namespace LovenseBSControl.Classes
             this.on = false;
         }
 
+        public string GetPictureName()
+        {
+            return ("logo_" + this.Type + this.Version + ".png").ToLower();
+        }
+
         public bool IsConnected() {
             return this.Connected;
         }

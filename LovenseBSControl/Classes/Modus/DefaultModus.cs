@@ -12,7 +12,8 @@ namespace LovenseBSControl.Classes.Modus
         {
             foreach (Toy toy in toys)
             {
-                if (toy.IsConnected() && toy.IsActive() && (( PluginConfig.Instance.VibrateHit == success) || PluginConfig.Instance.VibrateMiss == success ))
+
+                if (toy.IsConnected() && toy.IsActive() && (PluginConfig.Instance.VibrateHit && success) || (PluginConfig.Instance.VibrateMiss && !success))
                 {
                     if (toy.CheckHand(LHand) && !toy.getToyConfig().Random)
                     {
@@ -29,6 +30,7 @@ namespace LovenseBSControl.Classes.Modus
                         }
                     }
                 }
+
             }
         }
 
@@ -37,7 +39,8 @@ namespace LovenseBSControl.Classes.Modus
             this.HandleHit(toys, LHand, false);
         }
 
-        public virtual void HandleBomb(List<Toy> toys) {
+        public virtual void HandleBomb(List<Toy> toys)
+        {
             if (!PluginConfig.Instance.VibeBombs) return;
 
             foreach (Toy toy in toys)

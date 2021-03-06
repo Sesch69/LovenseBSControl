@@ -147,6 +147,7 @@
     <Compile Include="Classes\Modus\PresetModus.cs" />
     <Compile Include="Classes\Request.cs" />
     <Compile Include="Classes\Toy.cs" />
+    <Compile Include="Classes\Utilities.cs" />
     <Compile Include="Configuration\PluginConfig.cs" />
     <Compile Include="Configuration\ToysConfig.cs" />
     <Compile Include="HarmonyPatches\ComboUIControllerHandlerComboBreakingEventHappened.cs" />
@@ -163,8 +164,6 @@
     <EmbeddedResource Include="manifest.json" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Sprites\ambi.sprite" />
-    <None Include="Resources\Sprites\domi.sprite" />
     <None Include="Directory.Build.props" Condition="Exists('Directory.Build.props')" />
     <None Include="Directory.Build.targets" Condition="Exists('Directory.Build.targets')" />
     <None Include="LovenseBSControl.csproj.user" Condition="Exists('LovenseBSControl.csproj.user')" />
@@ -178,26 +177,26 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\Sprites\ambi.sprite.css" />
-    <Content Include="Resources\Sprites\domi.sprite.css" />
-    <Content Include="Resources\Sprites\logo_ambi.png" />
-    <Content Include="Resources\Sprites\logo_domi.png" />
-    <Content Include="Resources\Sprites\logo_domi2.png" />
-    <Content Include="Resources\Sprites\logo_edge.png" />
-    <Content Include="Resources\Sprites\logo_ferri.png" />
-    <Content Include="Resources\Sprites\logo_hush.png" />
-    <Content Include="Resources\Sprites\logo_lush.png" />
-    <Content Include="Resources\Sprites\logo_lush2.png" />
-    <Content Include="Resources\Sprites\logo_lush3.png" />
-    <Content Include="Resources\Sprites\logo_machine.png" />
-    <Content Include="Resources\Sprites\logo_max.png" />
-    <Content Include="Resources\Sprites\logo_max2.png" />
-    <Content Include="Resources\Sprites\logo_mission.png" />
-    <Content Include="Resources\Sprites\logo_nora.png" />
-    <Content Include="Resources\Sprites\logo_noType.png" />
-    <Content Include="Resources\Sprites\logo_osci.png" />
-    <Content Include="Resources\Sprites\logo_osci2.png" />
-    <Content Include="Resources\Sprites\logo_osic.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_ambi.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_diamo.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_domi.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_domi2.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_edge.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_edge2.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_ferri.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_hush.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_lush.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_lush2.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_lush3.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_machine.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_max.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_max2.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_mission.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_nora.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_noType.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_osci.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_osci2.png" />
+    <EmbeddedResource Include="Resources\Sprites\logo_osic.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Installers\" />

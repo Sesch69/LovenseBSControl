@@ -1,17 +1,17 @@
 ﻿<bg xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
 	<settings-container>
-		<horizontal spacing='4' child-expand-width='false' child-control-width='false' child-align='MiddleCenter' pref-height='70'>
+		<horizontal spacing='4' child-expand-width='false' child-control-width='true' child-align='MiddleCenter' >
 			<vertical spacing='0.5'>
 			<bool-setting text='Enabled' apply-on-change='true' value='enabled' hover-hint='Activates the vibration of the toys in general.'></bool-setting>
 			<dropdown-list-setting text='Modus' value='modusChoice' choices='modus-options'  apply-on-change='true'/>
-			<bool-setting text='Vibrate on miss' apply-on-change='true' value='vibrateMiss' hover-hint='Toys vibrating on missig box.'></bool-setting>
-			<bool-setting text='Vibrate on hit' apply-on-change='true' value='vibrateHit' hover-hint='Toys vibrating on hitting box.'></bool-setting>
-			<bool-setting text='Preset on bomb hit' apply-on-change='true' value='vibrateBombHit' hover-hint='Toys vibrating on hitting box.'></bool-setting>
-			<bool-setting text='Random Intense' apply-on-change='true' value='randeomIntense' hover-hint='Randeom intense between 1 and 20.'></bool-setting>
-			<slider-setting text='Intense' value='intense' apply-on-change='true' min='1' max='20' integer-only='true' id='intenseSetting'/>
-			<slider-setting text='Duration' value='duration' apply-on-change='true' min='200' max='1000' integer-only='true'/>
-			<slider-setting text='Rotate Intense (Nora)' value='rotate' apply-on-change='true' min='0' max='20' integer-only='true'/>
-			<slider-setting text='Air Intense (Max)' value='air' apply-on-change='true' min='0' max='3' integer-only='true'/>
+			<bool-setting text='Vibrate on miss' apply-on-change='true' value='vibrateMiss' hover-hint='Toys vibrating on missig box.' height='7'></bool-setting>
+			<bool-setting text='Vibrate on hit' apply-on-change='true' value='vibrateHit' hover-hint='Toys vibrating on hitting box.' height='7'></bool-setting>
+			<bool-setting text='Preset on bomb hit' apply-on-change='true' value='vibrateBombHit' hover-hint='Toys vibrating on hitting box.' height='7'></bool-setting>
+			<bool-setting text='Random Intense' apply-on-change='true' value='randeomIntense' hover-hint='Randeom intense between 1 and 20.' height='7'></bool-setting>
+			<slider-setting text='Intense' value='intense' apply-on-change='true' min='1' max='20' integer-only='true' id='intenseSetting' height='7'/>
+			<slider-setting text='Duration' value='duration' apply-on-change='true' min='200' max='1000' integer-only='true' height='7'/>
+			<slider-setting text='Rotate Intense (Nora)' value='rotate' apply-on-change='true' min='0' max='20' integer-only='true' active='false' height='7'/>
+			<slider-setting text='Air Intense (Max)' value='air' apply-on-change='true' min='0' max='3' integer-only='true' active='false' height='7'/>
 			</vertical>
 		</horizontal>
 		

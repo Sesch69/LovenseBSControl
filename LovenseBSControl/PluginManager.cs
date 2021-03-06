@@ -22,11 +22,10 @@ namespace LovenseBSControl
         }
 
         public Version LocalVersion =>
-            _localVersion; //??= IPA.Loader.PluginManager.GetPluginFromId("SaberFactory").Version;
+            _localVersion; 
 
         public async Task<Release> GetNewestReleaseAsync(CancellationToken cancellationToken)
         {
-            //_loadingTask ??= GetNewestReleaseAsyncInternal(cancellationToken);
             return await GetNewestReleaseAsyncInternal(cancellationToken);
         }
 
@@ -63,7 +62,7 @@ namespace LovenseBSControl
 
             private Version _releaseVersion;
 
-            public Version RemoteVersion => _releaseVersion; // ??= new Version(TagName);
+            public Version RemoteVersion => _releaseVersion;
 
             private bool? _isLocalNewest;
 

@@ -8,6 +8,9 @@ using System.Reflection;
 using System.Linq;
 using System.Collections;
 
+using System.IO;
+using UnityEngine;
+
 namespace LovenseBSControl.Classes
 {
     class Control
@@ -122,7 +125,7 @@ namespace LovenseBSControl.Classes
 
         public void loadModi()
         {
-            foreach (string obj in GetAllClasses("LovenseBSControl.Classes.Modus"))
+            foreach (string obj in Utilities.GetAllClasses("LovenseBSControl.Classes.Modus"))
             {
                 if (obj.Equals("Modus") || obj.Equals("DefaultModus")) continue;
                 Type modi = Type.GetType("LovenseBSControl.Classes.Modus." + obj);
@@ -134,14 +137,5 @@ namespace LovenseBSControl.Classes
                 }
             }
         }
-
-        private IEnumerable GetAllClasses(string nameSpace)
-        {
-            Assembly asm = Assembly.GetExecutingAssembly();
-            if (!String.IsNullOrWhiteSpace(nameSpace))
-                return asm.GetTypes().Where(x => x.Namespace == nameSpace).Select(x => x.Name);
-            else return asm.GetTypes().Select(x => x.Name);
-        }
-
     }
 }
