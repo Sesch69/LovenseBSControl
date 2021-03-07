@@ -21,23 +21,22 @@ You can configure the intense and duration of the toys. Also it is possible to s
 
 ## Setting Options
 
-Settings:
 * Enable Mod
-* Modus: Select a modus to play
-* Vibrate on miss: Vibrate toys on miss
-* Vibrate on hit: Vibrate toys on hitting boxes
-* Preset on bomb hit: Vibrate toys with a preset on hitting a bomb
-* Random Intense: Random intense between 1 and 20
-* Intense: Fix intense on miss/hit block
-* Duration: Duration of vibration in milliseconds (more or less exact)
+* Mode: Select a mode to play
+* Vibrate on miss: Vibrate toys on miss (For Default mode)
+* Vibrate on hit: Vibrate toys on hitting boxes (For Default mode) 
+* Preset on bomb hit: Vibrate toys with a preset on hitting a bomb (For Default mode)
+* Random Intense: Random intense between 1 and 20 (For Default mode)
+* Intense: Fix intense on miss/hit block (For Default mode)
+* Duration: Duration of vibration in milliseconds (more or less exact, for Default mode)
 
 * (Rotate Intense (Nora): Work in progress)
 * (Air Intense (Max): Work in progress)
-* Toys: Shows connected toy in a list, allows to refresh list and test the connected toys. Also possible to select which hand controls the toy
-* Extended Connection: Allows to config the connection in details for Lovense Connect on smartphone or with local host 127.0.0.1 for Lovense Connect PC App
+* Toys... -> Shows connected toy in a list, allows to refresh list and test the connected toys. Also possible to select which hand controls the toy
+* Extended Connection... -> Allows to config the connection in details for Lovense Connect on smartphone or with local host 127.0.0.1 for Lovense Connect PC App, or other server should be possible to set up
 
-## Modus
+## Mode
 
-- Default Modus: Use the configuration for hit/miss/intense/duration
+- Default: Use the configuration for hit/miss/intense/duration
 - Challenge 1: With each miss, the vibration inreases, after 15 correct hits, it is reducing by 1 intense level
-- Preset: Vibrate on Miss with a defined preset
+- Preset: Vibrate on Miss with a fixed defined preset
