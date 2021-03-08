@@ -1,37 +1,49 @@
-## Welcome to GitHub Pages
+# LovenseBSControl
 
-You can use the [editor on GitHub](https://github.com/Sesch69/LovenseBSControl/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+Small private project to add the posibility to control Toys from the Lovense company with Miss or Hits or both, direct on playing Beat Saber with the API from Lovense.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+## What is this?
+This Mod adds the posibility to control the vibrations of Lovense Toys with direct playing the VR game Beat Saber. 
+You can configure the intense and duration of the toys. Also it is possible to set up the vibration on miss or/and hit.
 
-### Markdown
+## Prerequisites
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+- Lovense Connect from www.lovense.com must be installed on PC (Default Connection setting in the mod settings)
+- OR Lovense Connect for Android/IPhone and using the IP adress + port in the extended connection configuration (Click on the green shield in the app)
+- Toys has to be connected with Lovense Connect App
+- Mod BSIPA is required
+- Mod is based on Lib Harmony
 
-```markdown
-Syntax highlighted code block
+## Installation
 
-# Header 1
-## Header 2
-### Header 3
+- Unpack Zip file into the Plugin folder of the main directory of Beat Saber
+- Goto to Settings -> Mod Settings -> Check Lovense BS Control settings
 
-- Bulleted
-- List
+## Setting Options
 
-1. Numbered
-2. List
+* Enable Mod
+* Mode: Select a mode to play
+* Vibrate on miss: Vibrate toys on miss (For Default mode)
+* Vibrate on hit: Vibrate toys on hitting boxes (For Default mode) 
+* Preset on bomb hit: Vibrate toys with a preset on hitting a bomb (For Default mode)
+* Random Intense: Random intense between 1 and 20 (For Default mode)
+* Intense: Fix intense on miss/hit block (For Default mode)
+* Duration: Duration of vibration in milliseconds (more or less exact, for Default mode)
 
-**Bold** and _Italic_ and `Code` text
+* (Rotate Intense (Nora): Work in progress)
+* (Air Intense (Max): Work in progress)
+* Toys... -> Shows connected toy in a list, allows to refresh list and test the connected toys. Also possible to select which hand controls the toy
+* Extended Connection... -> Allows to config the connection in details for Lovense Connect on smartphone or with local host 127.0.0.1 for Lovense Connect PC App, or other server should be possible to set up
 
-[Link](url) and ![Image](src)
-```
+## Mode
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+- Default: Use the configuration for hit/miss/intense/duration
+- Challenge 1: With each miss, the vibration inreases, after 15 correct hits, it is reducing by 1 intense level
+- Preset: Vibrate on Miss with a fixed defined preset
 
-### Jekyll Themes
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/Sesch69/LovenseBSControl/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+## Supporting
 
-### Support or Contact
+For a thanks, support, a cup of coffee or other reasons
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RE3R3XH2DHDVQ)
