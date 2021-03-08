@@ -40,3 +40,10 @@ You can configure the intense and duration of the toys. Also it is possible to s
 - Default: Use the configuration for hit/miss/intense/duration
 - Challenge 1: With each miss, the vibration inreases, after 15 correct hits, it is reducing by 1 intense level
 - Preset: Vibrate on Miss with a fixed defined preset
+
+
+## Supporting
+
+For a thanks, support, a cup of coffee or other reasons
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RE3R3XH2DHDVQ)
