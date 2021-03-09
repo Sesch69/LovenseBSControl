@@ -17,20 +17,20 @@
 		
 		<settings-submenu text='&#62;Toys...'>
 			<horizontal spacing='4' child-expand-width='false' child-control-width='false' child-align='MiddleCenter' pref-height='40' horizontal-fit='PreferredSize'>
-				<vertical bg='round-rect-panel' preferred-width='55' child-control-height='false'>
+				<vertical bg='round-rect-panel' preferred-width='50' child-control-height='false'>
 					<list id='toy-list' expand-cell='true' select-cell='toySelect' width='15' title='Lovense Toys'/>
 				</vertical>
 				<horizontal spacing='0.1' child-expand-width='false' child-control-width='false'  height='30'>
-				<vertical pref-width='37' child-control-height='false' spacing='0.1'>
-						<button text='Refresh Toys' pref-width='37' on-click='clicked-refresh' hover-hint='Reload toys from Lovense Connect'/>
-						<button text='Test' pref-width='37' on-click='clicked-test' />
-						<dropdown-list-setting id='toyConfigSetting' pref-width='37' text='Hand control' value='listChoice' choices='list-options'  apply-on-change='true' on-change='onChangeHands' bind-value='true'/>
-				</vertical>	
+					<vertical pref-width='34' child-control-height='false'>
+							<button text='Refresh Toys' pref-width='34' on-click='clicked-refresh' hover-hint='Reload toys from Lovense Connect'/>
+							<button text='Test' pref-width='34' on-click='clicked-test' />
+							<dropdown-list-setting id='toyConfigSetting' pref-width='34' text='Hand control' value='listChoice' choices='list-options'  apply-on-change='true' on-change='onChangeHands' bind-value='true'/>
+					</vertical>	
 				</horizontal>	
 			</horizontal>
-			<horizontal spacing='0.1' child-expand-width='false' child-control-width='false'  height='10'>
-				<vertical pref-width='20' child-control-height='false'>
-					<clickable-text text='&#60; Back' align='Left' click-event='back' pref-width='20'/>
+			<horizontal  child-expand-width='false' child-control-width='false'  height='10'>
+				<vertical pref-width='10' child-control-height='false'>
+					<clickable-text text='&#60; Back' align='Left' click-event='back' pref-width='10'/>
 				</vertical>
 			</horizontal>
 		</settings-submenu>
