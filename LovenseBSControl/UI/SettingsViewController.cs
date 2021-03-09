@@ -8,8 +8,6 @@ using UnityEngine;
 using System.Threading.Tasks;
 using System.Linq;
 using BeatSaberMarkupLanguage.Components.Settings;
-using System.Reflection;
-using System.IO;
 
 namespace LovenseBSControl.UI
 {
