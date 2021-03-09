@@ -220,7 +220,7 @@ namespace LovenseBSControl.UI
         [UIAction("clicked-test")]
         private void ClickedTest()
         {
-            if (this.selectedToy.IsConnected())
+            if (this.selectedToy != null && this.selectedToy.IsConnected())
             {
                 this.selectedToy.test();
             }
