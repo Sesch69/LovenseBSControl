@@ -296,10 +296,7 @@ namespace LovenseBSControl.UI
            
             foreach (Toy toy in Toys)
             {
-                Plugin.Log.Notice("LovenseBSControl.Resources.Sprites." + toy.GetPictureName());
                 Sprite sprite = Utilities.LoadSpriteFromResources("LovenseBSControl.Resources.Sprites." + toy.GetPictureName());
-               
-
                 ToysConfig toyConfig = toy.getToyConfig();
                 CustomListTableData.CustomCellInfo customCellInfo = new CustomListTableData.CustomCellInfo(toy.getNickName(), toy.getText() + " - " + ((toy.IsConnected() ? "Connected" : "Disconnected") + (toy.IsConnected()? " - " + toy.getBattery() + "%" : "") + " - " + toyConfig.HType), sprite);
                 customListTableData.data.Add(customCellInfo);

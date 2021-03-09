@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace LovenseBSControl.Classes
 {
@@ -23,8 +24,7 @@ namespace LovenseBSControl.Classes
             if (file.Count() > 0)
             {
                 Texture2D Tex2D = new Texture2D(2,2);
-                Tex2D.LoadRawTextureData(file);
-                Tex2D.Apply();
+                Tex2D.LoadImage(file);
                 return Tex2D;
             }
             return null;
@@ -32,7 +32,6 @@ namespace LovenseBSControl.Classes
 
         public static Texture2D LoadTextureFromFile(string FilePath)
         {
-            Plugin.Log.Notice(FilePath);
             if (File.Exists(FilePath))
                 return LoadTextureRaw(File.ReadAllBytes(FilePath));
 
@@ -68,8 +67,18 @@ namespace LovenseBSControl.Classes
 
         public static byte[] GetResource(Assembly asm, string ResourceName)
         {
-            System.IO.Stream stream = asm.GetManifestResourceStream(ResourceName);
-            byte[] data = new byte[stream.Length];
+            System.IO.Stream stream;
+            byte[] data;
+            try
+            {
+                stream = asm.GetManifestResourceStream(ResourceName);
+                data = new byte[stream.Length];
+            }
+            catch
+            {
+                stream = asm.GetManifestResourceStream("LovenseBSControl.Resources.Sprites.logo_noType.png");
+                data = new byte[stream.Length];
+            }
             stream.Read(data, 0, (int)stream.Length);
             return data;
         }
