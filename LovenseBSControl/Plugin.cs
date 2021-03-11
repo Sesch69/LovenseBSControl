@@ -8,6 +8,7 @@ using IPALogger = IPA.Logging.Logger;
 using System.Reflection;
 using UnityEngine;
 using BeatSaberMarkupLanguage.Settings;
+using BS_Utils.Utilities;
 
 namespace LovenseBSControl
 {
@@ -20,7 +21,7 @@ namespace LovenseBSControl
         internal static Classes.Control Control { get; private set; }
 
         [Init]
-        public Plugin(IPALogger logger, Config conf)
+        public Plugin(IPALogger logger, IPA.Config.Config conf)
         {
             Log = logger;
             Log.Info("LovenseBSControl initialized.");
@@ -37,19 +38,26 @@ namespace LovenseBSControl
         {
             Log.Debug("OnApplicationStart");
             new GameObject("LovenseBSControlController").AddComponent<LovenseBSControlController>();
+            BSEvents.gameSceneActive += GameCutAction;
             harmony = new Harmony("com.Sesch69.BeatSaber.LovenseBSControl");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
             BSMLSettings.instance.AddSettingsMenu("Lovense BS Control", "LovenseBSControl.UI.SettingsView.bsml", SettingsViewController.instance);
 
         }
 
-        
+        void GameCutAction()
+        {
+            if (PluginConfig.Instance.Enabled) LovenseBSControlController.Instance.GetControllers();
+        }
+
+
         [OnExit]
         public void OnApplicationQuit()
         {
             Control.stopActive();
             harmony.UnpatchAll("com.CyanSnow.BeatSaber.LovenseBSControl");
             BSMLSettings.instance.RemoveSettingsMenu("Lovense BS Control");
+            BSEvents.gameSceneActive -= GameCutAction;
             Log.Debug("OnApplicationQuit");
 
         }

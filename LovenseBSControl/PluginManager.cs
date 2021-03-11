@@ -15,12 +15,12 @@ namespace LovenseBSControl
         private Task<Release> _loadingTask;
 
         private Version _localVersion;
-
+        
         private PluginManager(WebClient webClient)
         {
             _webClient = webClient;
         }
-
+        
         public Version LocalVersion =>
             _localVersion; 
 
@@ -33,7 +33,8 @@ namespace LovenseBSControl
         {
             try
             {
-                var response = await _webClient.GetAsync("https://api.github.com/repos/", cancellationToken);
+                
+                var response = await _webClient.GetAsync("https://api.github.com/repos/Sesch69/LovenseBSControl/releases/", cancellationToken);
                 if (response.IsSuccessStatusCode)
                 {
                     var releases = response.ContentToJson<Release[]>();
@@ -41,7 +42,7 @@ namespace LovenseBSControl
                     release.LocalVersion = LocalVersion;
                     return release;
                 }
-
+                
                 return null;
             }
             catch (Exception)

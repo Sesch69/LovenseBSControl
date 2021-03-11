@@ -3,11 +3,12 @@
   "id": "LovenseBSControl",
   "name": "LovenseBSControl",
   "author": "Sesch69",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Control the Lovense Toys with your talent with the saber",
-  "gameVersion": "1.13.2",
+  "gameVersion": "1.13.4",
   "dependsOn": {
-    "BSIPA": "^4.0.5"
+    "BSIPA": "^4.0.5",
+    "BeatSaberMarkupLanguage": "^1.5.1"
   },
   "features": [],
   "links": {

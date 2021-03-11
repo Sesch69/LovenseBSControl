@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using LovenseBSControl.Configuration;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace LovenseBSControl
@@ -17,7 +12,8 @@ namespace LovenseBSControl
     {
         public static LovenseBSControlController Instance { get; private set; }
 
-        // These methods are automatically called by Unity, you should remove any you aren't using.
+        ScoreController scoreController;
+
         #region Monobehaviour Messages
         /// <summary>
         /// Only ever called once, mainly used to initialize variables.
@@ -87,5 +83,33 @@ namespace LovenseBSControl
 
         }
         #endregion
+
+        public void GetControllers()
+        {
+            scoreController = Resources.FindObjectsOfTypeAll<ScoreController>().LastOrDefault();
+
+            if (scoreController != null)
+            {
+                scoreController.noteWasCutEvent += NoteHit;
+                scoreController.noteWasMissedEvent += NoteMiss;
+
+            }
+        }
+
+        private void NoteHit(NoteData data, in NoteCutInfo info, int multiplier)
+        {
+            if (PluginConfig.Instance.Enabled)
+            {
+                Plugin.Control.handleCut(data.colorType.ToString().Equals("ColorA"), info.allIsOK);
+            }
+        }
+
+        private void NoteMiss(NoteData data, int score)
+        {
+            if (PluginConfig.Instance.Enabled)
+            {
+                Plugin.Control.handleCut(data.colorType.ToString().Equals("ColorA"), false);
+            }
+        }
     }
 }
