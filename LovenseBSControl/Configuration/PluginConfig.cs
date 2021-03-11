@@ -14,14 +14,18 @@ namespace LovenseBSControl.Configuration
         public bool Enabled { get; set; } = true;
 
         public bool VibrateMiss { get; set; } = true;
-
         public bool VibrateHit { get; set; } = false;
 
-        public int Intense { get; set; } = 10;
+        public int IntenseHit { get; set; } = 10;
+        public int IntenseMiss { get; set; } = 10;
 
-        public bool RandomIntense { get; set; } = false;
+        public bool RandomIntenseHit { get; set; } = false;
+        public bool RandomIntenseMiss { get; set; } = false;
 
-        public int Duration { get; set; } = 500;
+        public int DurationHit { get; set; } = 500;
+        public int DurationMiss { get; set; } = 500;
+
+        public int PresetBomb { get; set; } = 2;
 
         public bool DefaultConnection { get; set; } = true;
 

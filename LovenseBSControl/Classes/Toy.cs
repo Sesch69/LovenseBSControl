@@ -68,16 +68,6 @@ namespace LovenseBSControl.Classes
             return this.Motor;
         }
 
-        public bool switchLHand() {
-            this.Config.LHand = !this.Config.LHand;
-            return this.Config.LHand;
-        }
-
-        public bool switchRHand() {
-            this.Config.RHand = !this.Config.RHand;
-            return this.Config.RHand;
-        }
-
         public String getNickName() {
             return this.NickName.Equals("") ? this.getText() : this.NickName;
         }
@@ -114,11 +104,11 @@ namespace LovenseBSControl.Classes
             request.UseToy(this, time, level).ConfigureAwait(true);
         }
 
-        public void vibrate(int time)
+        public void vibrate(int time, bool hit = true)
         {
             this.on = true;
             Request request = new Classes.Request();
-            this.lastLevel = this.getIntense();
+            this.lastLevel = this.getIntense(hit);
             request.UseToy(this, time, this.lastLevel).ConfigureAwait(true);
         }
 
@@ -127,9 +117,9 @@ namespace LovenseBSControl.Classes
             request.UseToy(this, 0, this.lastLevel).ConfigureAwait(true);
         }
 
-        private int getIntense() {
-            var intense = PluginConfig.Instance.Intense;
-            if (PluginConfig.Instance.RandomIntense) {
+        private int getIntense(bool hit = true) {
+            var intense = hit ? PluginConfig.Instance.IntenseHit : PluginConfig.Instance.IntenseMiss;
+            if (PluginConfig.Instance.RandomIntenseHit) {
                 Random rng = new Random();
                 intense = rng.Next(1, 20);
             }
@@ -158,17 +148,12 @@ namespace LovenseBSControl.Classes
             request.StopToy(this).ConfigureAwait(true);
         }
 
-        public ToysConfig getToyConfig()
+        public ToysConfig GetToyConfig()
         {
             return Config;
         }
 
-        public void setToyConfig(ToysConfig toyConfig)
-        {
-            Config = toyConfig;
-        }
-
-        public void setBattery(int battery) {
+        public void SetBattery(int battery) {
             this.battery = battery;
         }
 

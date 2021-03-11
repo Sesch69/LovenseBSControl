@@ -12,25 +12,23 @@ namespace LovenseBSControl.Classes.Modus
         {
             foreach (Toy toy in toys)
             {
-
                 if (toy.IsConnected() && toy.IsActive() && (PluginConfig.Instance.VibrateHit && success) || (PluginConfig.Instance.VibrateMiss && !success))
                 {
-                    if (toy.CheckHand(LHand) && !toy.getToyConfig().Random)
+                    if (toy.CheckHand(LHand) && !toy.GetToyConfig().Random)
                     {
-                        toy.vibrate(PluginConfig.Instance.Duration);
+                        toy.vibrate(success?PluginConfig.Instance.DurationHit: PluginConfig.Instance.DurationMiss);
                     }
 
-                    if (toy.getToyConfig().Random)
+                    if (toy.GetToyConfig().Random)
                     {
                         Random rng = new Random();
                         bool random = rng.Next(0, 2) > 0;
                         if ((random && LHand) || (!random && !LHand))
                         {
-                            toy.vibrate(PluginConfig.Instance.Duration);
+                            toy.vibrate(success ? PluginConfig.Instance.DurationHit : PluginConfig.Instance.DurationMiss);
                         }
                     }
                 }
-
             }
         }
 
@@ -47,7 +45,7 @@ namespace LovenseBSControl.Classes.Modus
             {
                 if (toy.IsConnected() && toy.IsActive())
                 {
-                    toy.vibratePreset(2);
+                    toy.vibratePreset(PluginConfig.Instance.PresetBomb);
                 }
             }
         }

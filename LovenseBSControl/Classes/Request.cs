@@ -37,7 +37,7 @@ namespace LovenseBSControl.Classes
                 {
                     JToken toyDetails = dataToy.Value;
                     Toy newToy = new Toy(toyDetails["id"].ToString(), toyDetails["name"].ToString(), toyDetails["status"].ToString().Equals("1"), toyDetails["version"].ToString(), toyDetails["nickName"].ToString());
-                    newToy.setBattery(Int32.Parse(toyDetails["battery"].ToString()));
+                    newToy.SetBattery(Int32.Parse(toyDetails["battery"].ToString()));
                     Toys.Add(newToy);
                 }
             }
@@ -62,7 +62,7 @@ namespace LovenseBSControl.Classes
                 {
                     Plugin.Log.Info("Lovense Connect not active/running.");
                 }
-                toy.setBattery(Int32.Parse(toysString["data"].ToString()));
+                toy.SetBattery(Int32.Parse(toysString["data"].ToString()));
             }
             catch (HttpRequestException e)
             {
@@ -71,7 +71,7 @@ namespace LovenseBSControl.Classes
         }
         
         public async Task TestToy(Toy toy) {
-            await this.VibrateToy(toy, PluginConfig.Instance.Duration, PluginConfig.Instance.Intense);
+            await this.VibrateToy(toy, PluginConfig.Instance.DurationHit, PluginConfig.Instance.IntenseHit);
         }
 
         public async Task UseToy(Toy toy, int time, int level)

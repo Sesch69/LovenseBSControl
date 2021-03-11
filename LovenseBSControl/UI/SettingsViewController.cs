@@ -8,6 +8,7 @@ using UnityEngine;
 using System.Threading.Tasks;
 using System.Linq;
 using BeatSaberMarkupLanguage.Components.Settings;
+using UnityEngine.UI;
 
 namespace LovenseBSControl.UI
 {
@@ -17,7 +18,7 @@ namespace LovenseBSControl.UI
         private Toy selectedToy = null;
         private int selectedToyNumber = 0;
 
-		[UIValue("enabled")]
+        [UIValue("enabled")]
 		public bool Enabled
 		{
 			get
@@ -39,9 +40,30 @@ namespace LovenseBSControl.UI
 			}
 			set
 			{
-				PluginConfig.Instance.VibrateMiss = value;
+                randomIntenseMissBtn.gameObject.SetActive(value);
+                intenseMissSlider.gameObject.SetActive(value && !PluginConfig.Instance.RandomIntenseMiss);
+                durationMissSlider.gameObject.SetActive(value);
+                resetVertical();
+                PluginConfig.Instance.VibrateMiss = value;
 			}
 		}
+
+        [UIValue("vibrateHit")]
+        public bool VibrateHit
+        {
+            get
+            {
+                return PluginConfig.Instance.VibrateHit;
+            }
+            set
+            {
+                randomIntenseHitBtn.gameObject.SetActive(value);
+                intenseHitSlider.gameObject.SetActive(value && !PluginConfig.Instance.RandomIntenseHit);
+                durationHitSlider.gameObject.SetActive(value);
+                resetVertical();
+                PluginConfig.Instance.VibrateHit = value;
+            }
+        }
 
         [UIValue("vibrateBombHit")]
         public bool VibrateBomb
@@ -52,46 +74,123 @@ namespace LovenseBSControl.UI
             }
             set
             {
+                presetBombSlider.gameObject.SetActive(value);
                 PluginConfig.Instance.VibeBombs = value;
             }
         }
 
-        [UIValue("randeomIntense")]
-        public bool RandeomIntense
+        [UIObject("randomIntenseHitBtn")]
+        private GameObject randomIntenseHitBtn;
+
+
+        [UIValue("randomIntenseHit")]
+        public bool RandomIntenseHit
         {
             get
             {
-                return PluginConfig.Instance.RandomIntense;
+                return PluginConfig.Instance.RandomIntenseHit;
             }
             set
             {
-                PluginConfig.Instance.RandomIntense = value;
+                intenseHitSlider.gameObject.SetActive(!value);
+                PluginConfig.Instance.RandomIntenseHit = value;
             }
         }
 
-        [UIValue("intense")]
-        public int Intense
+        [UIObject("randomIntenseMissBtn")]
+        private GameObject randomIntenseMissBtn;
+
+        [UIValue("randomIntenseMiss")]
+        public bool RandeomIntenseMiss
         {
             get
             {
-                return PluginConfig.Instance.Intense;
+                return PluginConfig.Instance.RandomIntenseMiss;
             }
             set
             {
-                PluginConfig.Instance.Intense = value;
+                intenseMissSlider.gameObject.SetActive(!value);
+                PluginConfig.Instance.RandomIntenseMiss = value;
             }
         }
 
-        [UIValue("duration")]
-        public int Duration
+        [UIObject("intenseHitSlider")]
+        private GameObject intenseHitSlider;
+
+        [UIValue("intenseHit")]
+        public int IntenseHit
         {
             get
             {
-                return PluginConfig.Instance.Duration;
+                return PluginConfig.Instance.IntenseHit;
             }
             set
             {
-                PluginConfig.Instance.Duration = value;
+                PluginConfig.Instance.IntenseHit = value;
+            }
+        }
+
+        [UIObject("intenseMissSlider")]
+        private GameObject intenseMissSlider;
+
+        [UIValue("intenseMiss")]
+        public int IntenseMiss
+        {
+            get
+            {
+                return PluginConfig.Instance.IntenseMiss;
+            }
+            set
+            {
+                PluginConfig.Instance.IntenseMiss = value;
+            }
+        }
+
+        [UIObject("durationHitSlider")]
+        private GameObject durationHitSlider;
+
+        [UIValue("durationHit")]
+        public int DurationHit
+        {
+            get
+            {
+                return PluginConfig.Instance.DurationHit;
+            }
+            set
+            {
+                PluginConfig.Instance.DurationHit = value;
+            }
+        }
+
+        [UIObject("durationMissSlider")]
+        private GameObject durationMissSlider;
+
+        [UIValue("durationMiss")]
+        public int DurationMiss
+        {
+            get
+            {
+                return PluginConfig.Instance.DurationMiss;
+            }
+            set
+            {
+                PluginConfig.Instance.DurationMiss = value;
+            }
+        }
+
+        [UIObject("vibrationPresetSlider")]
+        private GameObject presetBombSlider;
+
+        [UIValue("presetNumber")]
+        public int presetNumber
+        {
+            get
+            {
+                return PluginConfig.Instance.PresetBomb;
+            }
+            set
+            {
+                PluginConfig.Instance.PresetBomb = value;
             }
         }
 
@@ -185,18 +284,7 @@ namespace LovenseBSControl.UI
             }
         }
 
-        [UIValue("vibrateHit")]
-		public bool VibrateHit
-		{
-			get
-			{
-				return PluginConfig.Instance.VibrateHit;
-			}
-			set
-			{
-				PluginConfig.Instance.VibrateHit = value;
-			}
-		}
+        
         [UIComponent("toy-list")]
         public CustomListTableData customListTableData = null;
 
@@ -233,7 +321,7 @@ namespace LovenseBSControl.UI
             {
                 if (this.selectedToy != null)
                 {
-                    settedSelection = this.selectedToy.getToyConfig().HType; 
+                    settedSelection = this.selectedToy.GetToyConfig().HType; 
                     return settedSelection;
                 }
                 return HTypes.bHands;
@@ -268,7 +356,7 @@ namespace LovenseBSControl.UI
         public void onChangeHands(string data) {
             if (this.selectedToy != null)
             {
-                ToysConfig config = this.selectedToy.getToyConfig();
+                ToysConfig config = this.selectedToy.GetToyConfig();
                 config.setHType(data);
                 SetupList();
             }
@@ -288,6 +376,16 @@ namespace LovenseBSControl.UI
             statusIpAdress.gameObject.SetActive(!PluginConfig.Instance.DefaultConnection);
             statusLocalHost.gameObject.SetActive(!PluginConfig.Instance.DefaultConnection);
 
+            randomIntenseMissBtn.gameObject.SetActive(PluginConfig.Instance.VibrateMiss);
+            intenseMissSlider.gameObject.SetActive(PluginConfig.Instance.VibrateMiss && !PluginConfig.Instance.RandomIntenseMiss);
+            durationMissSlider.gameObject.SetActive(PluginConfig.Instance.VibrateMiss);
+
+            randomIntenseHitBtn.gameObject.SetActive(PluginConfig.Instance.VibrateHit);
+            intenseHitSlider.gameObject.SetActive(PluginConfig.Instance.VibrateHit && !PluginConfig.Instance.RandomIntenseHit);
+            durationHitSlider.gameObject.SetActive(PluginConfig.Instance.VibrateHit);
+
+            presetBombSlider.gameObject.SetActive(PluginConfig.Instance.VibeBombs);
+
             if (!Plugin.Control.isToyAvailable()) {
                 return;
             }
@@ -297,7 +395,7 @@ namespace LovenseBSControl.UI
             foreach (Toy toy in Toys)
             {
                 Sprite sprite = Utilities.LoadSpriteFromResources("LovenseBSControl.Resources.Sprites." + toy.GetPictureName());
-                ToysConfig toyConfig = toy.getToyConfig();
+                ToysConfig toyConfig = toy.GetToyConfig();
                 CustomListTableData.CustomCellInfo customCellInfo = new CustomListTableData.CustomCellInfo(toy.getNickName(), toy.getText() + " - " + ((toy.IsConnected() ? "Connected" : "Disconnected") + (toy.IsConnected()? " - " + toy.getBattery() + "%" : "") + " - " + toyConfig.HType), sprite);
                 customListTableData.data.Add(customCellInfo);
             }
@@ -317,8 +415,8 @@ namespace LovenseBSControl.UI
             this.selectedToyNumber = row;
             this.selectedToy = Toys[row];
             choice.updateOnChange = true;
-            choice.associatedValue.SetValue(this.selectedToy.getToyConfig().HType);
-            text.Value = this.selectedToy.getToyConfig().HType;
+            choice.associatedValue.SetValue(this.selectedToy.GetToyConfig().HType);
+            text.Value = this.selectedToy.GetToyConfig().HType;
         }
 
         [UIAction("#apply")]
@@ -327,5 +425,19 @@ namespace LovenseBSControl.UI
             Plugin.Control.setModus();
         }
 
+        [UIComponent("verticalElement")]
+        private LayoutElement verticalElement;
+
+        private void resetVertical()
+        {
+            int childCount = 0;
+            for (int i = 0; i < verticalElement.transform.childCount; i++)
+            {
+                if (verticalElement.transform.GetChild(i).gameObject.activeSelf) {
+                    childCount++;
+                }
+            }
+            verticalElement.minHeight = childCount * 7;
+        }
     }
 }

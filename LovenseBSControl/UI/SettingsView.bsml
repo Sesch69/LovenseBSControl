@@ -1,50 +1,60 @@
 ﻿<bg xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='https://monkeymanboy.github.io/BSML-Docs/ https://raw.githubusercontent.com/monkeymanboy/BSML-Docs/gh-pages/BSMLSchema.xsd'>
 	<settings-container>
-		<horizontal spacing='2' child-expand-width='false' child-control-width='true' child-align='MiddleCenter' >
-			<vertical spacing='0.5'>
-			<bool-setting text='Enabled' apply-on-change='true' value='enabled' hover-hint='Activates the vibration of the toys in general.'></bool-setting>
-			<dropdown-list-setting text='Mode' value='modusChoice' choices='modus-options'  apply-on-change='true'/>
-			<bool-setting text='Vibrate on miss' apply-on-change='true' value='vibrateMiss' hover-hint='Toys vibrating on missig box.' height='7'></bool-setting>
-			<bool-setting text='Vibrate on hit' apply-on-change='true' value='vibrateHit' hover-hint='Toys vibrating on hitting box.' height='7'></bool-setting>
-			<bool-setting text='Preset on bomb hit' apply-on-change='true' value='vibrateBombHit' hover-hint='Toys vibrating on hitting box.' height='7'></bool-setting>
-			<bool-setting text='Random Intense' apply-on-change='true' value='randeomIntense' hover-hint='Randeom intense between 1 and 20.' height='7'></bool-setting>
-			<slider-setting text='Intense' value='intense' apply-on-change='true' min='1' max='20' integer-only='true' id='intenseSetting' height='7'/>
-			<slider-setting text='Duration' value='duration' apply-on-change='true' min='200' max='1000' integer-only='true' height='7'/>
-			<slider-setting text='Rotate Intense (Nora)' value='rotate' apply-on-change='true' min='0' max='20' integer-only='true' active='false' height='7'/>
-			<slider-setting text='Air Intense (Max)' value='air' apply-on-change='true' min='0' max='3' integer-only='true' active='false' height='7'/>
+		<horizontal child-expand-width='false' child-control-width='true' child-align='UpperCenter'>
+			<vertical spacing='1' child-expand-height='true' child-control-height='true' child-align='UpperCenter' id='verticalElement'>
+				<bool-setting text='Enabled' apply-on-change='true' value='enabled' hover-hint='Activates the vibration of the toys in general.'></bool-setting>
+				<dropdown-list-setting text='Mode' value='modusChoice' choices='modus-options'  apply-on-change='true'/>
+				
+				<bool-setting text='Vibrate on miss' apply-on-change='true' value='vibrateMiss' hover-hint='Toys vibrating on missig box.' height='7'></bool-setting>
+				<bool-setting id='randomIntenseMissBtn' text='Random Intense (Miss)' apply-on-change='true' value='randomIntenseMiss' hover-hint='Randeom intense between 1 and 20.' height='7' active='false'></bool-setting>
+				<slider-setting id='intenseMissSlider' text='Intense (Miss)' value='intenseMiss' apply-on-change='true' min='1' max='20' integer-only='true' height='7' active='false'/>
+				<slider-setting id='durationMissSlider' text='Duration (Miss)' value='durationMiss' apply-on-change='true' min='200' max='1000' integer-only='true' height='7' active='false'/>
+
+				<bool-setting text='Vibrate on hit' apply-on-change='true' value='vibrateHit' hover-hint='Toys vibrating on hitting box.' height='7'></bool-setting>
+				<bool-setting id='randomIntenseHitBtn' text='Random Intense (Hit)' apply-on-change='true' value='randomIntenseHit' hover-hint='Randeom intense between 1 and 20.' height='7' active='false'></bool-setting>
+				<slider-setting id='intenseHitSlider' text='Intense (Hit)' value='intenseHit' apply-on-change='true' min='1' max='20' integer-only='true' height='7' active='false'/>
+				<slider-setting id='durationHitSlider' text='Duration (Hit)' value='durationHit' apply-on-change='true' min='200' max='1000' integer-only='true' height='7' active='false'/>
+
+				<bool-setting text='Preset on bomb hit' apply-on-change='true' value='vibrateBombHit' hover-hint='Toys vibrating on hitting box.' height='7'></bool-setting>
+				<slider-setting id='vibrationPresetSlider' text='Vibration Preset' value='presetNumber' apply-on-change='true' min='1' max='3' integer-only='true' height='7' active='false'/>
+				
+				<slider-setting text='Rotate Intense (Nora)' value='rotate' apply-on-change='true' min='0' max='20' integer-only='true' height='7'/>
+				<slider-setting text='Air Intense (Max)' value='air' apply-on-change='true' min='0' max='3' integer-only='true' active='false' height='7'/>
+			
+		
+				<settings-submenu text='&#62;Toys...'>
+					<horizontal spacing='4' child-expand-width='false' child-control-width='false' child-align='MiddleCenter' pref-height='40' horizontal-fit='PreferredSize'>
+						<vertical  pref-width='15' child-control-height='false' spacing='1' child-align='MiddleCenter'>
+							<clickable-text text='&#60; Back' align='Left' click-event='back' pref-width='10'/>
+						</vertical>
+						<vertical bg='round-rect-panel' pref-width='50' child-control-height='false'>
+							<list id='toy-list' expand-cell='true' select-cell='toySelect' width='15' title='Lovense Toys'/>
+						</vertical>
+						<vertical width='34' child-expand-width='false'>
+							<horizontal spacing='0.1'  child-control-width='false'  height='30'>
+								<vertical width='34' child-expand-width='false'>
+									<button text='Refresh Toys' pref-width='34' on-click='clicked-refresh' hover-hint='Reload toys from Lovense Connect'/>
+									<button text='Test' pref-width='34' on-click='clicked-test' />
+									<dropdown-list-setting id='toyConfigSetting' pref-width='35' text='Hand control' value='listChoice' choices='list-options'  apply-on-change='true' on-change='onChangeHands' bind-value='true'/>
+								</vertical>
+							</horizontal>	
+						</vertical>	
+					</horizontal>
+				</settings-submenu>
+		
+				<settings-submenu text='&#62;Extended Connection...'>
+					<horizontal spacing='0.1' child-expand-width='false' child-control-width='false'  pref-height='37'>
+						<vertical spacing='0.1'>
+							<bool-setting text='Default Connection' apply-on-change='true' value='defaultConnection' hover-hint='Using default connection with Lovense Connect PC.'></bool-setting>
+							<bool-setting text='Local Host Connection (127.0.0.1:30010)' id='defaultLocalHost' apply-on-change='true' active='false'  value='defaultLHConnection' hover-hint='Using local host connection with PC.'></bool-setting>
+							<string-setting text='IP' id='ipAdressInput' value='ipAdress' active='false'></string-setting>
+							<string-setting id='portInput' text='Port' value='port' active='false'></string-setting>
+							<clickable-text text='&#60; Back' align='Left' click-event='back' />
+						</vertical>
+					</horizontal>
+				</settings-submenu>
+
 			</vertical>
 		</horizontal>
-		
-		<settings-submenu text='&#62;Toys...'>
-			<horizontal spacing='4' child-expand-width='false' child-control-width='false' child-align='MiddleCenter' pref-height='40' horizontal-fit='PreferredSize'>
-				<vertical  pref-width='15' child-control-height='false' spacing='1' child-align='MiddleCenter'>
-					<clickable-text text='&#60; Back' align='Left' click-event='back' pref-width='10'/>
-				</vertical>
-				<vertical bg='round-rect-panel' pref-width='50' child-control-height='false'>
-					<list id='toy-list' expand-cell='true' select-cell='toySelect' width='15' title='Lovense Toys'/>
-				</vertical>
-				<vertical width='34' child-expand-width='false'>
-					<horizontal spacing='0.1'  child-control-width='false'  height='30'>
-						<vertical width='34' child-expand-width='false'>
-							<button text='Refresh Toys' pref-width='34' on-click='clicked-refresh' hover-hint='Reload toys from Lovense Connect'/>
-							<button text='Test' pref-width='34' on-click='clicked-test' />
-							<dropdown-list-setting id='toyConfigSetting' pref-width='35' text='Hand control' value='listChoice' choices='list-options'  apply-on-change='true' on-change='onChangeHands' bind-value='true'/>
-						</vertical>
-					</horizontal>	
-				</vertical>	
-			</horizontal>
-		</settings-submenu>
-		
-		<settings-submenu text='&#62;Extended Connection...'>
-			<horizontal spacing='0.1' child-expand-width='false' child-control-width='false'  pref-height='37'>
-				<vertical spacing='0.1'>
-					<bool-setting text='Default Connection' apply-on-change='true' value='defaultConnection' hover-hint='Using default connection with Lovense Connect PC.'></bool-setting>
-					<bool-setting text='Local Host Connection (127.0.0.1:30010)' id='defaultLocalHost' apply-on-change='true' active='false'  value='defaultLHConnection' hover-hint='Using local host connection with PC.'></bool-setting>
-					<string-setting text='IP' id='ipAdressInput' value='ipAdress' active='false'></string-setting>
-					<string-setting id='portInput' text='Port' value='port' active='false'></string-setting>
-					<clickable-text text='&#60; Back' align='Left' click-event='back' />
-				</vertical>
-			</horizontal>
-		</settings-submenu>
 	</settings-container>
 </bg>
