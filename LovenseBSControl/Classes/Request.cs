@@ -115,7 +115,11 @@ namespace LovenseBSControl.Classes
             await client.GetStringAsync(getBaseUrl() + "/Vibrate" + toy.GetMotor() + "?v=" + level + "&t=" + toy.GetId());
             if (toy.canRotate() && PluginConfig.Instance.Rotate > 0)
             {
-                await client.GetStringAsync(getBaseUrl() + "/Rotate" + toy.GetMotor() + "?v=" + level + "&t=" + toy.GetId());
+                await client.GetStringAsync(getBaseUrl() + "/Rotate" + toy.GetMotor() + "?v=" + PluginConfig.Instance.Rotate + "&t=" + toy.GetId());
+            }
+            if (toy.canPump() & PluginConfig.Instance.Air > 0) 
+            { 
+                await client.GetStringAsync(getBaseUrl() + "/AirAuto" + toy.GetMotor() + "?v=" + PluginConfig.Instance.Air + "&t=" + toy.GetId());
             }
 
         }
@@ -127,8 +131,13 @@ namespace LovenseBSControl.Classes
         public async Task StopToy(Toy toy)
         {   
             await client.GetStringAsync(getBaseUrl() + "/Vibrate" + toy.GetMotor() + "?v=0&t=" + toy.GetId());
-            if (toy.canRotate()) {
+            if (toy.canRotate()) 
+            {
                 await client.GetStringAsync(getBaseUrl() + "/Rotate?v=0&t=" + toy.GetId());
+            }
+            if (toy.canPump())
+            {
+                await client.GetStringAsync(getBaseUrl() + "/AirAuto" + toy.GetMotor() + "?v=0&t=" + toy.GetId());
             }
         }
 

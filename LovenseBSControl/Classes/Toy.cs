@@ -81,6 +81,11 @@ namespace LovenseBSControl.Classes
             return this.Type.Equals("Nora");
         }
 
+        public bool canPump()
+        {
+            return this.Type.Equals("Max");
+        }
+
         public void test() {
             this.vibrate(500, 10);
         }
