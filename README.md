@@ -24,13 +24,19 @@ You can configure the intense and duration of the toys. Also it is possible to s
 * Enable Mod
 * Mode: Select a mode to play
 * Vibrate on miss: Vibrate toys on miss (For Default mode)
-* Vibrate on hit: Vibrate toys on hitting boxes (For Default mode) 
-* Preset on bomb hit: Vibrate toys with a preset on hitting a bomb (For Default mode)
-* Random Intense: Random intense between 1 and 20 (For Default mode)
-* Intense: Fix intense on miss/hit block (For Default mode)
-* Duration: Duration of vibration in milliseconds (more or less exact, for Default mode)
 
-* (Rotate Intense (Nora): Work in progress)
+* Random Intense (miss): Random intense between 1 and 20 (For Default mode)
+* Intense (miss): Fix intense on miss/hit block (For Default mode)
+* Duration (miss): Duration of vibration in milliseconds (more or less exact, for Default mode)
+
+* Vibrate on hit: Vibrate toys on hitting boxes (For Default mode) 
+* Random Intense (hit): Random intense between 1 and 20 (For Default mode)
+* Intense (hit): Fix intense on miss/hit block (For Default mode)
+* Duration (hit): Duration of vibration in milliseconds (more or less exact, for Default mode)
+
+* Preset on bomb hit: Vibrate toys with a preset on hitting a bomb (For Default mode)
+* Rotate Intense (Nora)
+
 * (Air Intense (Max): Work in progress)
 * Toys... -> Shows connected toy in a list, allows to refresh list and test the connected toys. Also possible to select which hand controls the toy
 * Extended Connection... -> Allows to config the connection in details for Lovense Connect on smartphone or with local host 127.0.0.1 for Lovense Connect PC App, or other server should be possible to set up
