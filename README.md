@@ -26,12 +26,12 @@ You can configure the intense and duration of the toys. Also it is possible to s
 * Vibrate on miss: Vibrate toys on miss (For Default mode)
 
 * Random Intense (miss): Random intense between 1 and 20 (For Default mode)
-* Intense (miss): Fix intense on miss/hit block (For Default mode)
+* Intense (miss): Fix intense on miss block (For Default mode)
 * Duration (miss): Duration of vibration in milliseconds (more or less exact, for Default mode)
 
 * Vibrate on hit: Vibrate toys on hitting boxes (For Default mode) 
 * Random Intense (hit): Random intense between 1 and 20 (For Default mode)
-* Intense (hit): Fix intense on miss/hit block (For Default mode)
+* Intense (hit): Fix intense on hit block (For Default mode)
 * Duration (hit): Duration of vibration in milliseconds (more or less exact, for Default mode)
 
 * Preset on bomb hit: Vibrate toys with a preset on hitting a bomb (For Default mode)
