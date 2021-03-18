@@ -36,10 +36,15 @@ You can configure the intense and duration of the toys. Also it is possible to s
 
 * Preset on bomb hit: Vibrate toys with a preset on hitting a bomb (For Default mode)
 * Rotate Intense (Nora)
+* Air Intense (Max)
 
-* (Air Intense (Max): Work in progress)
-* Toys... -> Shows connected toy in a list, allows to refresh list and test the connected toys. Also possible to select which hand controls the toy
-* Extended Connection... -> Allows to config the connection in details for Lovense Connect on smartphone or with local host 127.0.0.1 for Lovense Connect PC App, or other server should be possible to set up
+* Toys... -> Shows connected toys on all connections in a list, allows to refresh list and test the connected toys. Also possible to select which hand controls the toy
+
+## Connections...
+
+- Possible to use several connections to control toys with several devices. Smartphone or PC with Lovense Connect
+- Use "Default" connection for PC Lovense Connect should work in the most cases, on slw reaction time use "Localhost" connection
+- Create own connection to use Smartphone in the same Network. Using IP adress from the device in the network + port (Check Lovense Connect App  with click on the green shield)
 
 ## Mode
 
