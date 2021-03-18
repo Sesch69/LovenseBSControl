@@ -1,6 +1,5 @@
 ﻿using HarmonyLib;
 using IPA;
-using IPA.Config;
 using IPA.Config.Stores;
 using LovenseBSControl.Configuration;
 using LovenseBSControl.UI;
@@ -72,11 +71,6 @@ namespace LovenseBSControl
             if (!PluginConfig.Instance.ConnectionExist("Localhost"))
             {
                 PluginConfig.Instance.AddConnectionConfiguration( ConnectionConfig.CreatLocalHostConnection());
-            }
-            //temporary logic
-            if (!PluginConfig.Instance.ConnectionExist("Custom"))
-            {
-                PluginConfig.Instance.AddConnectionConfiguration(ConnectionConfig.CreateCustomConnection("Custom","127.0.0.1"));
             }
         }
     }
