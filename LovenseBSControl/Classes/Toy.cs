@@ -19,6 +19,8 @@ namespace LovenseBSControl.Classes
         private bool on;
         private int lastLevel;
 
+        private String LastConnection;
+
         public Toy(String ID, String Type, bool Connected = false, String Version = "", String NickName = "", String Motor = "") {
             this.ID = ID;
             this.Type = Type;
@@ -68,26 +70,29 @@ namespace LovenseBSControl.Classes
             return this.Motor;
         }
 
-        public String getNickName() {
-            return this.NickName.Equals("") ? this.getText() : this.NickName;
+        public String GetNickName() {
+            return this.NickName.Equals("") ? this.GetText() : this.NickName;
         }
 
-        public String getText() {
+        public String GetText() {
             return this.Version.Equals("") ? this.Type : this.Type + " " + this.Version;
         }
 
-        public bool canRotate() {
+        public bool CanRotate() {
 
             return this.Type.Equals("Nora");
         }
 
-        public bool canPump()
+        public bool CanPump()
         {
             return this.Type.Equals("Max");
         }
 
-        public void test() {
-            this.vibrate(500, 10);
+        public void Test() {
+           this.vibrate(500, 10);
+            
+            //Request request = new Classes.Request();
+            //request.TestToy(this).ConfigureAwait(true);
         }
 
         public void setOff() {
@@ -160,6 +165,16 @@ namespace LovenseBSControl.Classes
 
         public void SetBattery(int battery) {
             this.battery = battery;
+        }
+
+        public void SetConnection(string connectionName)
+        {
+            this.LastConnection = connectionName;
+        }
+
+        public string GetConnection()
+        {
+            return this.LastConnection;
         }
 
     }

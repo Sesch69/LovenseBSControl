@@ -42,14 +42,25 @@
 					</horizontal>
 				</settings-submenu>
 		
-				<settings-submenu text='&#62;Extended Connection...'>
-					<horizontal spacing='0.1' child-expand-width='false' child-control-width='false'  pref-height='37'>
-						<vertical spacing='0.1'>
-							<bool-setting text='Default Connection' apply-on-change='true' value='defaultConnection' hover-hint='Using default connection with Lovense Connect PC.'></bool-setting>
-							<bool-setting text='Local Host Connection (127.0.0.1:30010)' id='defaultLocalHost' apply-on-change='true' active='false'  value='defaultLHConnection' hover-hint='Using local host connection with PC.'></bool-setting>
-							<string-setting text='IP' id='ipAdressInput' value='ipAdress' active='false'></string-setting>
-							<string-setting id='portInput' text='Port' value='port' active='false'></string-setting>
-							<clickable-text text='&#60; Back' align='Left' click-event='back' />
+				<settings-submenu text='&#62;Connections...'>
+					<horizontal spacing='4' child-expand-width='false' child-control-width='false' child-align='MiddleCenter' pref-height='40' horizontal-fit='PreferredSize'>
+						<vertical  pref-width='15' child-control-height='false' spacing='1' child-align='MiddleCenter'>
+							<clickable-text text='&#60; Back' align='Left' click-event='back' pref-width='10'/>
+						</vertical>
+						<vertical bg='round-rect-panel' pref-width='50' child-control-height='false'>
+							<list id='connection-list' expand-cell='true' select-cell='connectionSelect' width='15' title='Connections'/>
+						</vertical>
+						<vertical width='34' child-expand-width='false'>
+							<horizontal spacing='0.1'  child-control-width='false'  height='50'>
+								<vertical width='34' child-expand-width='false'>
+									<string-setting text='Name' pref-width='34' value='connectionName' apply-on-change='true'></string-setting>
+									<string-setting text='IP' pref-width='34' value='ipAdress' apply-on-change='true'></string-setting>
+									<string-setting text='Port' pref-width='34' value='port' apply-on-change='true'></string-setting>
+									<button text='Create' pref-width='34' on-click='clicked-create' hover-hint='Create new connection'/>
+									<button text='Delete' pref-width='34' on-click='clicked-delete' hover-hint='Delete selected connection'/>
+									<button text='Dis/Enable' pref-width='34' on-click='clicked-toggle' hover-hint='Activate/Deactivate the selected connection' id='toggleStatusBtn'/>
+								</vertical>
+							</horizontal>
 						</vertical>
 					</horizontal>
 				</settings-submenu>

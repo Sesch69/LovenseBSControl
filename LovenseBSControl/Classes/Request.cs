@@ -5,6 +5,8 @@ using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using LovenseBSControl.Configuration;
 using System.Net;
+using Newtonsoft.Json;
+using System.Text;
 
 namespace LovenseBSControl.Classes
 {
@@ -12,66 +14,88 @@ namespace LovenseBSControl.Classes
     {
         private static readonly HttpClient client = new HttpClient();
 
-        public Request( ) {
+        public Request()
+        {
         }
 
-        public async Task<List<Toy>> requestToysListAsync()
+        public async Task<List<Toy>> RequestToysListAsync()
         {
             List<Toy> Toys = new List<Toy>();
-            try
+            foreach (var connection in PluginConfig.Instance.GetActiveConnections())
             {
-                if (!PluginConfig.Instance.DefaultConnection)
+                try
                 {
-                    ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+                    if (!connection.Key.Equals("Default"))
+                    {
+                        ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+                    }
+                    var responseString = await client.GetStringAsync(connection.Value.CreateBaseUrl() + "/GetToys");
+                    JObject toysString = JObject.Parse(responseString);
+                    if (!toysString["type"].ToString().Equals("ok"))
+                    {
+                        Plugin.Log.Info("Lovense Connect not active/running for connection: " + connection.Key);
+                        continue;
+                    }
+                    foreach (JProperty dataToy in (JToken)toysString["data"])
+                    {
+                        JToken toyDetails = dataToy.Value;
+                        Toy newToy = new Toy(toyDetails["id"].ToString().ToUpper(), toyDetails["name"].ToString(), toyDetails["status"].ToString().Equals("1"), toyDetails["version"].ToString(), toyDetails["nickName"].ToString());
+                        newToy.SetBattery(Int32.Parse(toyDetails["battery"].ToString()));
+                        newToy.SetConnection(connection.Key);
+                        Toys.Add(newToy);
+                    }
                 }
-                var responseString = await client.GetStringAsync(getBaseUrl() + "/GetToys");
-                JObject toysString = JObject.Parse(responseString);
 
-                if (!toysString["type"].ToString().Equals("ok"))
+                catch (HttpRequestException e)
                 {
-                    Plugin.Log.Info("Lovense Connect not active/running.");
-                    return Toys;
+                    Plugin.Log.Info("Lovense Connect not reachable for connection: " + connection.Key);
                 }
-
-                foreach (JProperty dataToy in (JToken)toysString["data"])
-                {
-                    JToken toyDetails = dataToy.Value;
-                    Toy newToy = new Toy(toyDetails["id"].ToString(), toyDetails["name"].ToString(), toyDetails["status"].ToString().Equals("1"), toyDetails["version"].ToString(), toyDetails["nickName"].ToString());
-                    newToy.SetBattery(Int32.Parse(toyDetails["battery"].ToString()));
-                    Toys.Add(newToy);
-                }
-            }
-            catch (HttpRequestException e)
-            {
-                Plugin.Log.Info("Lovense Connect not reachable.");
             }
             return Toys;
         }
 
-        public async Task updateBattery(Toy toy) {
+        public async Task updateBattery(Toy toy)
+        {
             try
             {
-                if (!PluginConfig.Instance.DefaultConnection)
+                foreach (var connection in PluginConfig.Instance.GetActiveConnections())
                 {
-                    ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
-                }
-                var responseString = await client.GetStringAsync(getBaseUrl() + "/Battery?t=" + toy.GetId());
-                JObject toysString = JObject.Parse(responseString);
+                    if (!connection.Key.Equals("Default"))
+                    {
+                        ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+                    }
+                    var responseString = await client.GetStringAsync(connection.Value.CreateBaseUrl() + "/Battery?t=" + toy.GetId());
+                    JObject toysString = JObject.Parse(responseString);
 
-                if (!toysString["type"].ToString().Equals("ok"))
-                {
-                    Plugin.Log.Info("Lovense Connect not active/running.");
+                    if (!toysString["type"].ToString().Equals("ok"))
+                    {
+                        Plugin.Log.Info("Lovense Connect not active/running.");
+                    }
+                    toy.SetBattery(Int32.Parse(toysString["data"].ToString()));
                 }
-                toy.SetBattery(Int32.Parse(toysString["data"].ToString()));
             }
             catch (HttpRequestException e)
             {
                 Plugin.Log.Info("Lovense Connect not reachable.");
             }
         }
-        
-        public async Task TestToy(Toy toy) {
-            await this.VibrateToy(toy, PluginConfig.Instance.DurationHit, PluginConfig.Instance.IntenseHit);
+
+        public async Task TestToy(Toy toy)
+        {
+            if(PluginConfig.Instance.LovenseConnectAPI == 1) { 
+                await this.VibrateToy(toy, PluginConfig.Instance.DurationHit, PluginConfig.Instance.IntenseHit);
+            }
+            else { 
+                RequestData data = new RequestData(toy, PluginConfig.Instance.DurationHit, PluginConfig.Instance.IntenseHit);
+                foreach (var connection in PluginConfig.Instance.GetActiveConnections()) {
+                    if (toy.GetConnection().Equals(connection.Key)) { 
+                        Plugin.Log.Notice(JsonConvert.SerializeObject(data));
+                        var content = new StringContent(JsonConvert.SerializeObject(data), Encoding.UTF8, "application/json");
+                        var result = await client.PostAsync(connection.Value.CreateBaseUrl() + "/command", content);
+                        Plugin.Log.Notice(result.ToString());
+                    }
+                }
+            }
         }
 
         public async Task UseToy(Toy toy, int time, int level)
@@ -112,51 +136,79 @@ namespace LovenseBSControl.Classes
 
         public async Task StartToy(Toy toy, int level)
         {
-            await client.GetStringAsync(getBaseUrl() + "/Vibrate" + toy.GetMotor() + "?v=" + level + "&t=" + toy.GetId());
-            if (toy.canRotate() && PluginConfig.Instance.Rotate > 0)
+            foreach (var connection in PluginConfig.Instance.GetActiveConnections())
             {
-                await client.GetStringAsync(getBaseUrl() + "/Rotate" + toy.GetMotor() + "?v=" + PluginConfig.Instance.Rotate + "&t=" + toy.GetId());
-            }
-            if (toy.canPump() & PluginConfig.Instance.Air > 0) 
-            { 
-                await client.GetStringAsync(getBaseUrl() + "/AirAuto" + toy.GetMotor() + "?v=" + PluginConfig.Instance.Air + "&t=" + toy.GetId());
-            }
+                if (toy.GetConnection().Equals(connection.Key))
+                {
+                    if (!connection.Key.Equals("Default"))
+                    {
+                        ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+                    }
 
+                    await client.GetStringAsync(connection.Value.CreateBaseUrl() + "/Vibrate" + toy.GetMotor() + "?v=" + level + "&t=" + toy.GetId());
+                    if (toy.CanRotate() && PluginConfig.Instance.Rotate > 0)
+                    {
+                        await client.GetStringAsync(connection.Value.CreateBaseUrl() + "/Rotate" + toy.GetMotor() + "?v=" + PluginConfig.Instance.Rotate + "&t=" + toy.GetId());
+                    }
+                    if (toy.CanPump() & PluginConfig.Instance.Air > 0)
+                    {
+                        await client.GetStringAsync(connection.Value.CreateBaseUrl() + "/AirAuto" + toy.GetMotor() + "?v=" + PluginConfig.Instance.Air + "&t=" + toy.GetId());
+                    }
+                }
+            }
         }
         public async Task StartPresetToy(Toy toy, int preset = 0)
         {
-            await client.GetStringAsync(getBaseUrl() + "/Preset?v=" + preset + "&t=" + toy.GetId());
+            foreach (var connection in PluginConfig.Instance.GetActiveConnections())
+            {
+                if (toy.GetConnection().Equals(connection.Key))
+                {
+                    await client.GetStringAsync(connection.Value.CreateBaseUrl() + "/Preset?v=" + preset + "&t=" + toy.GetId());
+                }
+            }
         }
-        
+
         public async Task StopToy(Toy toy)
-        {   
-            await client.GetStringAsync(getBaseUrl() + "/Vibrate" + toy.GetMotor() + "?v=0&t=" + toy.GetId());
-            if (toy.canRotate()) 
+        {
+            foreach (var connection in PluginConfig.Instance.GetActiveConnections())
             {
-                await client.GetStringAsync(getBaseUrl() + "/Rotate?v=0&t=" + toy.GetId());
-            }
-            if (toy.canPump())
-            {
-                await client.GetStringAsync(getBaseUrl() + "/AirAuto" + toy.GetMotor() + "?v=0&t=" + toy.GetId());
+                if (toy.GetConnection().Equals(connection.Key))
+                {
+                    if (!connection.Key.Equals("Default"))
+                    {
+                        ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+                    }
+
+                    await client.GetStringAsync(connection.Value.CreateBaseUrl() + "/Vibrate" + toy.GetMotor() + "?v=0&t=" + toy.GetId());
+                    if (toy.CanRotate())
+                    {
+                        await client.GetStringAsync(connection.Value.CreateBaseUrl() + "/Rotate?v=0&t=" + toy.GetId());
+                    }
+                    if (toy.CanPump())
+                    {
+                        await client.GetStringAsync(connection.Value.CreateBaseUrl() + "/AirAuto" + toy.GetMotor() + "?v=0&t=" + toy.GetId());
+                    }
+                }
             }
         }
 
+    }
 
-        private String getBaseUrl() {
+    class RequestData
+    {
+        public string command = "Pattern";
+        public string rule = "";
+        public string strength = "";
+        public double timeSec = 0.1;
+        public string toy = "";
+        public int apiVer = 1;
 
-            if (PluginConfig.Instance.DefaultConnection)
-            {
-                return PluginConfig.baseUrl + ":30010";
-            }
-            else if (PluginConfig.Instance.LocalHostConnection)
-            {
-                return "https://" + PluginConfig.localHost + ":" + PluginConfig.basePort;
-            }
-            else
-            {
-                return "https://" + PluginConfig.Instance.ipAdress + ":" + PluginConfig.Instance.port;
-            }
+        public RequestData(Toy toy, float time, int level)
+        {
+            this.rule = "V:1;F:v;S:" + time + "#";
+            this.timeSec = 1;
+            this.toy = toy.GetId();
+            this.strength = level.ToString();
         }
-
     }
 }

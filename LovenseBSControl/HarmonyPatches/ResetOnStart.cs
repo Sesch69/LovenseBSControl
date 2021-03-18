@@ -3,8 +3,6 @@ using LovenseBSControl.Configuration;
 
 namespace LovenseBSControl.HarmonyPatches
 {
-
-
     [HarmonyPatch(typeof(ScoreController), "Start")]
     class Start
     {

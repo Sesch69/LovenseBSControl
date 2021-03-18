@@ -1,9 +1,6 @@
-﻿using System;
-using IPA.Config.Stores;
-using IPA.Config.Stores.Attributes;
-using IPA.Config.Stores.Converters;
+﻿using IPA.Config.Stores.Attributes;
 using System.Collections.Generic;
-using Newtonsoft.Json;
+using System.Linq;
 
 namespace LovenseBSControl.Configuration
 {
@@ -27,19 +24,7 @@ namespace LovenseBSControl.Configuration
 
         public int PresetBomb { get; set; } = 2;
 
-        public bool DefaultConnection { get; set; } = true;
-
-        public bool LocalHostConnection { get; set; } = false;
-
-        public const string baseUrl = "https://127-0-0-1.lovense.club";
-        public const string localHost = "127.0.0.1";
-        public const string basePort = "30010";
-
-        public string ipAdress = "";
-
-        public string port { get; set; } = "30010";
-
-        public string modus { get; set; } = "Default";
+        public string Modus { get; set; } = "Default";
 
         public int Rotate { get; set; } = 1;
 
@@ -47,8 +32,13 @@ namespace LovenseBSControl.Configuration
 
         public bool VibeBombs { get; set; } = true;
 
+        public int LovenseConnectAPI = 1;
+
         [UseConverter]
         public virtual Dictionary<string, ToysConfig> ToyConfigurations { get; set; } = new Dictionary<string, ToysConfig>();
+
+        [UseConverter]
+        public virtual Dictionary<string, ConnectionConfig> ConnectionConfigurations { get; set; } = new Dictionary<string, ConnectionConfig>();
 
         public void AddToyConfiguration(string Id,  ToysConfig ToyConfiguration)
         {
@@ -67,6 +57,63 @@ namespace LovenseBSControl.Configuration
         {
             return ToyConfigurations.ContainsKey(Id);
         }
-        
+
+       
+        public ConnectionConfig AddConnectionConfiguration(ConnectionConfig ConnectionConfiguration)
+        {
+            if (!ConnectionExist(ConnectionConfiguration.Name))
+            {
+                ConnectionConfigurations.Add(ConnectionConfiguration.Name, ConnectionConfiguration);
+            }
+            return ConnectionConfiguration;
+        }
+
+        public ConnectionConfig GetConnectionConfig(string Name)
+        {
+            return ConnectionConfigurations[Name];
+        }
+
+        public List<ConnectionConfig>  GetConnections()
+        {
+            return ConnectionConfigurations.Values.ToList();
+        }
+
+        public Dictionary<string, ConnectionConfig> GetActiveConnections()
+        {
+            Dictionary<string, ConnectionConfig> activeConnections = new Dictionary<string, ConnectionConfig>();
+
+            foreach(var entry in ConnectionConfigurations)
+            {
+                if (entry.Value.Active)
+                {
+                    activeConnections.Add(entry.Key, entry.Value);
+                }
+            }
+            if(activeConnections.Count == 0)
+            {
+                activeConnections.Add("Default", ConnectionConfig.CreateDefaultConnection());
+            }
+
+            return activeConnections;
+        }
+
+
+        public bool ConnectionExist(string Name)
+        {
+            return ConnectionConfigurations.ContainsKey(Name);
+        }
+
+        public void DeleteConnection(string Name)
+        {
+            ConnectionConfigurations.Remove(Name);
+        }
+
+        public ConnectionConfig CreateConnection(string Name, string IP, string Port)
+        {
+            ConnectionConfig newConnection = ConnectionConfig.CreateCustomConnection(Name, IP, Port);
+            return AddConnectionConfiguration(newConnection);
+        }
+
+
     }
 }

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using BeatSaberMarkupLanguage.Components.Settings;
 using UnityEngine.UI;
+using TMPro;
 
 namespace LovenseBSControl.UI
 {
@@ -17,6 +18,12 @@ namespace LovenseBSControl.UI
 
         private Toy selectedToy = null;
         private int selectedToyNumber = 0;
+        private ConnectionConfig selectedConnection = null;
+        private int selectedConnectionNumber = 0;
+
+        private string connectionName = "New Connection";
+        private string ipAdress = "127.0.0.1";
+        private string port = "30010";
 
         [UIValue("enabled")]
 		public bool Enabled
@@ -220,37 +227,9 @@ namespace LovenseBSControl.UI
             }
         }
 
-        [UIValue("defaultConnection")]
-        public bool DefaultConnection
-        {
-            get
-            {
-                return PluginConfig.Instance.DefaultConnection;
-            }
-            set
-            {
-                statusPort.gameObject.SetActive(!value);
-                statusIpAdress.gameObject.SetActive(!value);
-                statusLocalHost.gameObject.SetActive(!value);
-                PluginConfig.Instance.DefaultConnection = value;
-            }
-        }
-
-        [UIObject("defaultLocalHost")]
-        private GameObject statusLocalHost;
-
-        [UIValue("defaultLHConnection")]
-        public bool DefaultLHConnection
-        {
-            get
-            {
-                return PluginConfig.Instance.LocalHostConnection;
-            }
-            set
-            {
-                PluginConfig.Instance.LocalHostConnection = value;
-            }
-        }
+       
+        [UIComponent("toggleStatusBtn")]
+        private TextMeshProUGUI toggleStatusBtn;
 
         [UIObject("portInput")]
         private GameObject statusPort;
@@ -260,11 +239,11 @@ namespace LovenseBSControl.UI
         {
             get
             {
-                return PluginConfig.Instance.port;
+                return this.port;
             }
             set
             {
-                PluginConfig.Instance.port = value;
+                this.port = value;
             }
         }
 
@@ -276,15 +255,32 @@ namespace LovenseBSControl.UI
         {
             get
             {
-                return PluginConfig.Instance.ipAdress;
+                return this.ipAdress;
             }
             set
             {
-                PluginConfig.Instance.ipAdress = value;
+                this.ipAdress = value;
             }
         }
 
-        
+        [UIValue("connectionName")]
+        public string ConnectionName
+        {
+            get
+            {
+                
+                return this.connectionName;
+            }
+            set
+            {
+                this.connectionName = value;
+            }
+        }
+
+
+        [UIComponent("connection-list")]
+        public CustomListTableData connectionTableData = null;
+
         [UIComponent("toy-list")]
         public CustomListTableData customListTableData = null;
 
@@ -308,7 +304,36 @@ namespace LovenseBSControl.UI
         {
             if (this.selectedToy != null && this.selectedToy.IsConnected())
             {
-                this.selectedToy.test();
+                this.selectedToy.Test();
+            }
+        }
+
+        [UIAction("clicked-create")]
+        private void ClickedCreate()
+        {
+            PluginConfig.Instance.CreateConnection(this.connectionName, this.ipAdress, this.port).SetStatus(true);
+            SetupList();
+        }
+
+        [UIAction("clicked-delete")]
+        private void ClickedDelete()
+        {
+            if (this.selectedConnection != null && !this.selectedConnection.Name.Equals("Default") && !this.selectedConnection.Name.Equals("Localhost"))
+            {
+                PluginConfig.Instance.DeleteConnection(this.selectedConnection.Name);
+                this.selectedConnectionNumber = 0;
+                this.selectedConnection = PluginConfig.Instance.GetConnections()[0];
+                SetupList();
+            }
+        }
+
+        [UIAction("clicked-toggle")]
+        private void ClickedToggle()
+        {
+            if(this.selectedConnection != null)
+            {
+                this.selectedConnection.SetStatus(!this.selectedConnection.Active);
+                SetupList();
             }
         }
 
@@ -337,12 +362,11 @@ namespace LovenseBSControl.UI
         {
             get
             {
-                return PluginConfig.Instance.modus;
+                return PluginConfig.Instance.Modus;
             }
             set
             {
-                PluginConfig.Instance.modus = value;
-                
+                PluginConfig.Instance.Modus = value;
             }
         }
 
@@ -372,10 +396,6 @@ namespace LovenseBSControl.UI
         public void SetupList()
         {
 
-            statusPort.gameObject.SetActive(!PluginConfig.Instance.DefaultConnection);
-            statusIpAdress.gameObject.SetActive(!PluginConfig.Instance.DefaultConnection);
-            statusLocalHost.gameObject.SetActive(!PluginConfig.Instance.DefaultConnection);
-
             randomIntenseMissBtn.gameObject.SetActive(PluginConfig.Instance.VibrateMiss);
             intenseMissSlider.gameObject.SetActive(PluginConfig.Instance.VibrateMiss && !PluginConfig.Instance.RandomIntenseMiss);
             durationMissSlider.gameObject.SetActive(PluginConfig.Instance.VibrateMiss);
@@ -385,6 +405,29 @@ namespace LovenseBSControl.UI
             durationHitSlider.gameObject.SetActive(PluginConfig.Instance.VibrateHit);
 
             presetBombSlider.gameObject.SetActive(PluginConfig.Instance.VibeBombs);
+
+            List<ConnectionConfig> Connections = PluginConfig.Instance.GetConnections();
+            connectionTableData.data.Clear();
+
+            foreach (ConnectionConfig Connection in Connections)
+            {
+                Sprite spriteAvail = null;
+                if (Connection.Active)
+                {
+                    spriteAvail = Utilities.LoadSpriteFromResources("LovenseBSControl.Resources.Sprites.available_profile.png");
+                }
+                
+                CustomListTableData.CustomCellInfo customCellInfo = new CustomListTableData.CustomCellInfo(Connection.Name, Connection.Prefix + Connection.IpAdress + ":" + Connection.Port, spriteAvail);
+                connectionTableData.data.Add(customCellInfo);
+            }
+
+            connectionTableData.tableView.ReloadData();
+            this.selectedConnection = Connections[this.selectedConnectionNumber];
+            toggleStatusBtn.text = this.selectedConnection.Active ? "Disable" : "Enable";
+
+            connectionTableData.tableView.ScrollToCellWithIdx(this.selectedConnectionNumber, TableView.ScrollPositionType.Beginning, false);
+            connectionTableData.tableView.SelectCellWithIdx(this.selectedConnectionNumber);
+
 
             if (!Plugin.Control.isToyAvailable()) {
                 return;
@@ -396,7 +439,7 @@ namespace LovenseBSControl.UI
             {
                 Sprite sprite = Utilities.LoadSpriteFromResources("LovenseBSControl.Resources.Sprites." + toy.GetPictureName());
                 ToysConfig toyConfig = toy.GetToyConfig();
-                CustomListTableData.CustomCellInfo customCellInfo = new CustomListTableData.CustomCellInfo(toy.getNickName(), toy.getText() + " - " + ((toy.IsConnected() ? "Connected" : "Disconnected") + (toy.IsConnected()? " - " + toy.getBattery() + "%" : "") + " - " + toyConfig.HType), sprite);
+                CustomListTableData.CustomCellInfo customCellInfo = new CustomListTableData.CustomCellInfo(toy.GetNickName(), toy.GetText() + " - " + ((toy.IsConnected() ? "Connected" : "Disconnected") + (toy.IsConnected()? " - " + toy.getBattery() + "%" : "") + " - " + toyConfig.HType), sprite);
                 customListTableData.data.Add(customCellInfo);
             }
 
@@ -405,6 +448,8 @@ namespace LovenseBSControl.UI
             
             customListTableData.tableView.ScrollToCellWithIdx(this.selectedToyNumber, TableView.ScrollPositionType.Beginning, false);
             customListTableData.tableView.SelectCellWithIdx(this.selectedToyNumber);
+
+            
         }
 
 
@@ -417,6 +462,15 @@ namespace LovenseBSControl.UI
             choice.updateOnChange = true;
             choice.associatedValue.SetValue(this.selectedToy.GetToyConfig().HType);
             text.Value = this.selectedToy.GetToyConfig().HType;
+        }
+
+        [UIAction("connectionSelect")]
+        public void ConnectionSelect(TableView _, int row)
+        {
+            List<ConnectionConfig> Connections = PluginConfig.Instance.GetConnections();
+            this.selectedConnectionNumber = row;
+            this.selectedConnection = Connections[row];
+            toggleStatusBtn.text = this.selectedConnection.Active ? "Disable" : "Enable";
         }
 
         [UIAction("#apply")]

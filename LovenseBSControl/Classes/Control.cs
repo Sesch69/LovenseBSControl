@@ -33,9 +33,9 @@ namespace LovenseBSControl.Classes
 
         public void setModus()
         {
-            if (ModiList.ContainsKey(PluginConfig.Instance.modus))
+            if (ModiList.ContainsKey(PluginConfig.Instance.Modus))
             {
-                this.ActiveModus = ModiList[PluginConfig.Instance.modus];
+                this.ActiveModus = ModiList[PluginConfig.Instance.Modus];
             }
             else
             {
@@ -49,7 +49,7 @@ namespace LovenseBSControl.Classes
 
         public async Task LoadToysAsync()
         {
-            Toys = await this.Request.requestToysListAsync();
+            Toys = await this.Request.RequestToysListAsync();
         }
 
         public List<Toy> getToyList()

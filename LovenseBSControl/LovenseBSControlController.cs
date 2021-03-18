@@ -92,7 +92,6 @@ namespace LovenseBSControl
             {
                 scoreController.noteWasCutEvent += NoteHit;
                 scoreController.noteWasMissedEvent += NoteMiss;
-
             }
         }
 
@@ -100,7 +99,8 @@ namespace LovenseBSControl
         {
             if (PluginConfig.Instance.Enabled)
             {
-                Plugin.Control.handleCut(data.colorType.ToString().Equals("ColorA"), info.allIsOK);
+                //Plugin.Control.handleCut(data.colorType.ToString().Equals("ColorA"), info.allIsOK);
+                Plugin.Control.handleCut(info.saberType == SaberType.SaberA, info.allIsOK);
             }
         }
 

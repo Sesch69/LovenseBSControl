@@ -28,9 +28,10 @@ namespace LovenseBSControl
 
             PluginConfig.Instance = conf.Generated<PluginConfig>();
 
+            CheckConnections();
+
             Control = new Classes.Control();
             Control.LoadToysAsync().ConfigureAwait(true);
-
         }
 
         [OnStart]
@@ -60,6 +61,23 @@ namespace LovenseBSControl
             BSEvents.gameSceneActive -= GameCutAction;
             Log.Debug("OnApplicationQuit");
 
+        }
+
+        private void CheckConnections()
+        {
+            if (!PluginConfig.Instance.ConnectionExist("Default")) 
+            {
+                PluginConfig.Instance.AddConnectionConfiguration(ConnectionConfig.CreateDefaultConnection()).SetStatus(true);
+            }
+            if (!PluginConfig.Instance.ConnectionExist("Localhost"))
+            {
+                PluginConfig.Instance.AddConnectionConfiguration( ConnectionConfig.CreatLocalHostConnection());
+            }
+            //temporary logic
+            if (!PluginConfig.Instance.ConnectionExist("Custom"))
+            {
+                PluginConfig.Instance.AddConnectionConfiguration(ConnectionConfig.CreateCustomConnection("Custom","127.0.0.1"));
+            }
         }
     }
 }

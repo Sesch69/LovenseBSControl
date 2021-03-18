@@ -1,11 +1,5 @@
 ﻿using BeatSaberMarkupLanguage.Attributes;
-using IPA.Config.Stores.Attributes;
-using IPA.Config.Stores.Converters;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LovenseBSControl.Configuration
 {
@@ -30,21 +24,23 @@ namespace LovenseBSControl.Configuration
         [UIValue(nameof(HType))]
         public string HType = HTypes.bHands;
 
-        
-        public static ToysConfig createToyConfig(string Id) {
-            ToysConfig toysConfig = new ToysConfig();
 
-            toysConfig.Id = Id;
-            toysConfig.LHand = true;
-            toysConfig.RHand = true;
-            toysConfig.Inactive = false;
-            toysConfig.Random = false;
-            toysConfig.HType = HTypes.bHands;
-
+        public static ToysConfig createToyConfig(string Id)
+        {
+            ToysConfig toysConfig = new ToysConfig
+            {
+                Id = Id,
+                LHand = true,
+                RHand = true,
+                Inactive = false,
+                Random = false,
+                HType = HTypes.bHands
+            };
             return toysConfig;
         }
 
-        public void setHType(String value) {
+        public void setHType(String value)
+        {
             this.HType = value;
             this.Inactive = false;
             this.Random = false;
@@ -84,5 +80,5 @@ namespace LovenseBSControl.Configuration
         public const string inactive = "Inactive";
     }
 
-    
+
 }

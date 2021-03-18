@@ -141,9 +141,12 @@
     <Compile Include="Classes\Request.cs" />
     <Compile Include="Classes\Toy.cs" />
     <Compile Include="Classes\Utilities.cs" />
+    <Compile Include="Configuration\ConnectionConfig.cs" />
     <Compile Include="Configuration\PluginConfig.cs" />
     <Compile Include="Configuration\ToysConfig.cs" />
     <Compile Include="HarmonyPatches\ComboUIControllerHandlerComboBreakingEventHappened.cs" />
+    <Compile Include="HarmonyPatches\ContactTheWall.cs" />
+    <Compile Include="HarmonyPatches\FireworksFun.cs" />
     <Compile Include="HarmonyPatches\HoldOnBreak.cs" />
     <Compile Include="HarmonyPatches\ResetOnStart.cs" />
     <Compile Include="HarmonyPatches\StopOnEnd.cs" />
@@ -190,6 +193,7 @@
     <EmbeddedResource Include="Resources\Sprites\logo_osci.png" />
     <EmbeddedResource Include="Resources\Sprites\logo_osci2.png" />
     <EmbeddedResource Include="Resources\Sprites\logo_osic.png" />
+	<EmbeddedResource Include="Resources\Sprites\available_profile.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Installers\" />
