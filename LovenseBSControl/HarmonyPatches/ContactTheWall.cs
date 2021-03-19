@@ -5,13 +5,13 @@ namespace LovenseBSControl.HarmonyPatches
 {
 
 
-    [HarmonyPatch(typeof(ObstacleSaberSparkleEffectManager), "BurnMarkPosForSaberType")]
+    [HarmonyPatch(typeof(ObstacleSaberSparkleEffectManager), "Start")]
     class BurnMarkPosForSaberType
     {
-        static void Prefix(SaberType saberType)
+        static void Prefix()
         {
             Plugin.Log.Notice("CONTACT!");
-            Plugin.Log.Notice(saberType.ToString());
+            //Plugin.Log.Notice(saberType.ToString());
             if (PluginConfig.Instance.Enabled)
             {
                 Plugin.Control.handleBomb();

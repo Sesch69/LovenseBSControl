@@ -3,17 +3,17 @@ using LovenseBSControl.Configuration;
 
 namespace LovenseBSControl.HarmonyPatches
 {
-    [HarmonyPatch(typeof(FireworksController), "HandleFireworkItemControllerDidFinish")]
-    class HandleFireworkItemControllerDidFinish
+    [HarmonyPatch(typeof(FireworkItemController), "Fire")]
+    class Fire
     {
-        static void Prefix(FireworkItemController fireworkItemController)
+        static void Prefix()
         {
-            Plugin.Log.Notice("FIREWORKS");
             if (PluginConfig.Instance.Enabled)
             {
+                Plugin.Log.Notice("FIREWORKS");
+                Plugin.Control.handleBomb();
                 Plugin.Control.handleBomb();
             }
-            //return true;
         }
     }
 }

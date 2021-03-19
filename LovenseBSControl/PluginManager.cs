@@ -1,59 +1,57 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SemVer;
 using SiraUtil;
 using Version = SemVer.Version;
 
 namespace LovenseBSControl
 {
-    internal class PluginManager
+    class PluginManager
     {
-        private readonly WebClient _webClient;
+        private static readonly HttpClient client = new HttpClient();
 
-        private Task<Release> _loadingTask;
+        private Task<Release> _loadingTask = null;
 
         private Version _localVersion;
         
-        private PluginManager(WebClient webClient)
-        {
-            _webClient = webClient;
-        }
-        
-        public Version LocalVersion =>
-            _localVersion; 
+        public Version LocalVersion => _localVersion ?? IPA.Loader.PluginManager.GetPluginFromId("LovenseBSControl").Version;
+             
 
-        public async Task<Release> GetNewestReleaseAsync(CancellationToken cancellationToken)
+        public async Task<Release> GetNewestReleaseAsync()
         {
-            return await GetNewestReleaseAsyncInternal(cancellationToken);
+            _loadingTask = _loadingTask ??  GetNewestReleaseAsyncInternal();
+            return await _loadingTask;
         }
 
-        private async Task<Release> GetNewestReleaseAsyncInternal(CancellationToken cancellationToken)
+        private async Task<Release> GetNewestReleaseAsyncInternal()
         {
             try
             {
-                
-                var response = await _webClient.GetAsync("https://api.github.com/repos/Sesch69/LovenseBSControl/releases/", cancellationToken);
-                if (response.IsSuccessStatusCode)
+                client.DefaultRequestHeaders.Add("User-Agent", "request");
+                var response = await client.GetStringAsync("https://api.github.com/repos/Sesch69/LovenseBSControl/releases");
+                List<Release> resp = JsonConvert.DeserializeObject<List<Release>>(response);
+                if (resp.Count > 0)
                 {
-                    var releases = response.ContentToJson<Release[]>();
-                    var release = releases[0];
+                    var release = resp[0]; 
                     release.LocalVersion = LocalVersion;
                     return release;
                 }
-                
                 return null;
             }
             catch (Exception)
             {
-                // ignored
                 return null;
             }
         }
 
 
-        internal class Release
+        public class Release
         {
             [JsonProperty("tag_name")] public string TagName;
             [JsonProperty("body")] public string Body;
@@ -61,9 +59,9 @@ namespace LovenseBSControl
 
             public Version LocalVersion;
 
-            private Version _releaseVersion;
+            private Version _releaseVersion = null;
 
-            public Version RemoteVersion => _releaseVersion;
+            public Version RemoteVersion => _releaseVersion ?? new Version(TagName);
 
             private bool? _isLocalNewest;
 
@@ -71,7 +69,7 @@ namespace LovenseBSControl
             {
                 get
                 {
-                    _isLocalNewest = new Range($"<={LocalVersion}").IsSatisfied(RemoteVersion);
+                    _isLocalNewest = _isLocalNewest ?? new Range($"<={LocalVersion}").IsSatisfied(RemoteVersion);
                     return _isLocalNewest.Value;
                 }
             }

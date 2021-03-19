@@ -193,7 +193,7 @@
     <EmbeddedResource Include="Resources\Sprites\logo_osci.png" />
     <EmbeddedResource Include="Resources\Sprites\logo_osci2.png" />
     <EmbeddedResource Include="Resources\Sprites\logo_osic.png" />
-	<EmbeddedResource Include="Resources\Sprites\available_profile.png" />
+    <EmbeddedResource Include="Resources\Sprites\available_profile.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Installers\" />

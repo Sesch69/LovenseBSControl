@@ -25,6 +25,8 @@ namespace LovenseBSControl.UI
         private string ipAdress = "127.0.0.1";
         private string port = "30010";
 
+        private readonly PluginManager pluginManager = new PluginManager();
+
         [UIValue("enabled")]
 		public bool Enabled
 		{
@@ -396,6 +398,8 @@ namespace LovenseBSControl.UI
         public void SetupList()
         {
 
+            GetVersion();
+
             randomIntenseMissBtn.gameObject.SetActive(PluginConfig.Instance.VibrateMiss);
             intenseMissSlider.gameObject.SetActive(PluginConfig.Instance.VibrateMiss && !PluginConfig.Instance.RandomIntenseMiss);
             durationMissSlider.gameObject.SetActive(PluginConfig.Instance.VibrateMiss);
@@ -405,6 +409,8 @@ namespace LovenseBSControl.UI
             durationHitSlider.gameObject.SetActive(PluginConfig.Instance.VibrateHit);
 
             presetBombSlider.gameObject.SetActive(PluginConfig.Instance.VibeBombs);
+
+           
 
             List<ConnectionConfig> Connections = PluginConfig.Instance.GetConnections();
             connectionTableData.data.Clear();
@@ -493,5 +499,25 @@ namespace LovenseBSControl.UI
             }
             verticalElement.minHeight = childCount * 7;
         }
+
+        [UIComponent("detailText")]
+        private TextMeshProUGUI detailText;
+
+        private async void GetVersion()
+        {
+            var release = await pluginManager.GetNewestReleaseAsync();
+            if(release != null)
+            {
+                detailText.text = "LovenseBSControl " + release.TagName + "\r\n\r\n" + release.Body;
+            }
+            
+
+            if (release != null && !release.IsLocalNewest)
+            {
+                Plugin.Log.Notice(release.TagName);
+                //_githubButton.SetActive(true);
+            }
+        }
+        
     }
 }
