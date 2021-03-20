@@ -10,13 +10,11 @@ namespace LovenseBSControl.HarmonyPatches
     {
         static void Prefix()
         {
-            Plugin.Log.Notice("CONTACT!");
-            //Plugin.Log.Notice(saberType.ToString());
+            
             if (PluginConfig.Instance.Enabled)
             {
-                Plugin.Control.handleBomb();
+                //Plugin.Control.handleBomb();
             }
-            //return true;
         }
     }
 }

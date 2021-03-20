@@ -10,9 +10,9 @@ namespace LovenseBSControl.HarmonyPatches
         {
             if (PluginConfig.Instance.Enabled)
             {
-                Plugin.Log.Notice("FIREWORKS");
-                Plugin.Control.handleBomb();
-                Plugin.Control.handleBomb();
+               
+                //Plugin.Control.handleBomb();
+                //Plugin.Control.handleBomb();
             }
         }
     }
