@@ -12,7 +12,7 @@ namespace LovenseBSControl.Classes
     {
         private List<Toy> Toys = new List<Toy>();
 
-        private DefaultModus ActiveModus = new DefaultModus();
+        private DefaultModus ActiveMode = new DefaultModus();
 
         public List<object> AvailableModi = new object[] { "Default" }.ToList();
 
@@ -27,20 +27,25 @@ namespace LovenseBSControl.Classes
         public Control()
         {
             this.Request = new Classes.Request();
-            this.loadModi();
-            this.setModus();
+            this.LoadModes();
+            this.SetMode();
         }
 
-        public void setModus()
+        public void SetMode()
         {
             if (ModiList.ContainsKey(PluginConfig.Instance.Modus))
             {
-                this.ActiveModus = ModiList[PluginConfig.Instance.Modus];
+                this.ActiveMode = ModiList[PluginConfig.Instance.Modus];
             }
             else
             {
-                this.ActiveModus = new DefaultModus();
+                this.ActiveMode = new DefaultModus();
             }
+        }
+
+        public DefaultModus GetMode()
+        {
+            return this.ActiveMode;
         }
 
         public void Init()
@@ -52,30 +57,38 @@ namespace LovenseBSControl.Classes
             Toys = await this.Request.RequestToysListAsync();
         }
 
-        public List<Toy> getToyList()
+        public List<Toy> GetToyList()
         {
             return Toys;
         }
 
-        public void handleCut(bool LHand, bool success)
+        public void HandleCut(bool LHand, bool success, NoteCutInfo data = new NoteCutInfo() )
         {
+            
             if (success)
             {
                 Plugin.Control.HitCounter++;
+                this.ActiveMode.HandleHit(Toys, LHand, data);
             }
             else
             {
                 Plugin.Control.MissCounter++;
+                this.ActiveMode.HandleMiss(Toys, LHand);
             }
-            this.ActiveModus.HandleHit(Toys, LHand, success);
+            
         }
 
-        public void handleBomb()
+        public void HandleBomb()
         {
-            this.ActiveModus.HandleBomb(this.Toys);
+            this.ActiveMode.HandleBomb(this.Toys);
         }
 
-        public void stopActive()
+        public void HandleFireworks()
+        {
+            this.ActiveMode.HandleFireworks(this.Toys);
+        }
+
+        public void StopActive()
         {
             foreach (Toy toy in this.Toys)
             {
@@ -86,12 +99,29 @@ namespace LovenseBSControl.Classes
             }
         }
 
-        public bool isToyAvailable()
+        public bool IsAToyActive()
+        {
+            foreach (Toy toy in this.Toys)
+            {
+                if (toy.IsConnected() && toy.IsActive())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void updateBattery(Toy toy)
+        {
+            this.Request.updateBattery(toy);
+        }
+
+        public bool IsToyAvailable()
         {
             return this.Toys.Count > 0;
         }
 
-        public void pauseGame()
+        public void PauseGame()
         {
             foreach (Toy toy in this.Toys)
             {
@@ -102,7 +132,7 @@ namespace LovenseBSControl.Classes
             }
         }
 
-        public void resumeGame()
+        public void ResumeGame()
         {
             foreach (Toy toy in this.Toys)
             {
@@ -113,12 +143,12 @@ namespace LovenseBSControl.Classes
             }
         }
 
-        public void endGame()
+        public void EndGame()
         {
-            this.stopActive();
+            this.StopActive();
         }
 
-        public void loadModi()
+        public void LoadModes()
         {
             foreach (string obj in Utilities.GetAllClasses("LovenseBSControl.Classes.Modus"))
             {

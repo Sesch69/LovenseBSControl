@@ -11,7 +11,7 @@ namespace LovenseBSControl.HarmonyPatches
         {
             if (PluginConfig.Instance.Enabled)
             {
-                Plugin.Control.pauseGame();
+                Plugin.Control.PauseGame();
             }
 
         }
@@ -25,7 +25,7 @@ namespace LovenseBSControl.HarmonyPatches
         {
             if (PluginConfig.Instance.Enabled)
             {
-                Plugin.Control.resumeGame();
+                Plugin.Control.ResumeGame();
             }
 
         }

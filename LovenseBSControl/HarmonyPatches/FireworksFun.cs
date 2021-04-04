@@ -8,11 +8,9 @@ namespace LovenseBSControl.HarmonyPatches
     {
         static void Prefix()
         {
-            if (PluginConfig.Instance.Enabled)
+            if (PluginConfig.Instance.Enabled )
             {
-               
-                //Plugin.Control.handleBomb();
-                //Plugin.Control.handleBomb();
+                Plugin.Control.HandleFireworks();
             }
         }
     }

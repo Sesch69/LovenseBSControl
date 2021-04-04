@@ -10,6 +10,7 @@ using System.Linq;
 using BeatSaberMarkupLanguage.Components.Settings;
 using UnityEngine.UI;
 using TMPro;
+using BS_Utils.Utilities;
 
 namespace LovenseBSControl.UI
 {
@@ -26,6 +27,9 @@ namespace LovenseBSControl.UI
         private string port = "30010";
 
         private readonly PluginManager pluginManager = new PluginManager();
+
+
+        private Dictionary<string, GameObject> UiElements = new Dictionary<string, GameObject>();
 
         [UIValue("enabled")]
 		public bool Enabled
@@ -52,7 +56,7 @@ namespace LovenseBSControl.UI
                 randomIntenseMissBtn.gameObject.SetActive(value);
                 intenseMissSlider.gameObject.SetActive(value && !PluginConfig.Instance.RandomIntenseMiss);
                 durationMissSlider.gameObject.SetActive(value);
-                resetVertical();
+                ResetVertical();
                 PluginConfig.Instance.VibrateMiss = value;
 			}
 		}
@@ -69,7 +73,7 @@ namespace LovenseBSControl.UI
                 randomIntenseHitBtn.gameObject.SetActive(value);
                 intenseHitSlider.gameObject.SetActive(value && !PluginConfig.Instance.RandomIntenseHit);
                 durationHitSlider.gameObject.SetActive(value);
-                resetVertical();
+                ResetVertical();
                 PluginConfig.Instance.VibrateHit = value;
             }
         }
@@ -88,9 +92,23 @@ namespace LovenseBSControl.UI
             }
         }
 
+        [UIObject("vibrateOnMissBtn")]
+        private GameObject vibrateOnMissBtn;
+
+        [UIObject("vibrateOnHitBtn")]
+        private GameObject vibrateOnHitBtn;
+
+        [UIObject("presetOnBombHit")]
+        private GameObject presetOnBombHit;
+
+        [UIObject("fireworksBtn")]
+        private GameObject fireworksBtn;
+
         [UIObject("randomIntenseHitBtn")]
         private GameObject randomIntenseHitBtn;
 
+        [UIComponent("modeSelection")]
+        private RectTransform modeSelection;
 
         [UIValue("randomIntenseHit")]
         public bool RandomIntenseHit
@@ -229,7 +247,33 @@ namespace LovenseBSControl.UI
             }
         }
 
-       
+        [UIValue("showBattery")]
+        public bool ShowBattery
+        {
+            get
+            {
+                return PluginConfig.Instance.BattteryShow;
+            }
+            set
+            {
+                PluginConfig.Instance.BattteryShow = value;
+            }
+        }
+
+        [UIValue("vibrateFireworks")]
+        public bool VibrateFireworks
+        {
+            get
+            {
+                return PluginConfig.Instance.Fireworks;
+            }
+            set
+            {
+                PluginConfig.Instance.Fireworks = value;
+            }
+        }
+
+
         [UIComponent("toggleStatusBtn")]
         private TextMeshProUGUI toggleStatusBtn;
 
@@ -369,6 +413,13 @@ namespace LovenseBSControl.UI
             set
             {
                 PluginConfig.Instance.Modus = value;
+                Plugin.Control.SetMode();
+                SetUpUIElements();
+
+                var hoverHint = modeSelection.gameObject.AddComponent<HoverHint>();
+                hoverHint.text = Plugin.Control.GetMode().getDescription();
+                HoverHintController hoverHintController = Resources.FindObjectsOfTypeAll<HoverHintController>().First();
+                hoverHint.SetPrivateField("_hoverHintController", hoverHintController);
             }
         }
 
@@ -397,20 +448,13 @@ namespace LovenseBSControl.UI
         [UIAction("#post-parse")]
         public void SetupList()
         {
-
             GetVersion();
+            SetUpUIElements();
 
-            randomIntenseMissBtn.gameObject.SetActive(PluginConfig.Instance.VibrateMiss);
-            intenseMissSlider.gameObject.SetActive(PluginConfig.Instance.VibrateMiss && !PluginConfig.Instance.RandomIntenseMiss);
-            durationMissSlider.gameObject.SetActive(PluginConfig.Instance.VibrateMiss);
-
-            randomIntenseHitBtn.gameObject.SetActive(PluginConfig.Instance.VibrateHit);
-            intenseHitSlider.gameObject.SetActive(PluginConfig.Instance.VibrateHit && !PluginConfig.Instance.RandomIntenseHit);
-            durationHitSlider.gameObject.SetActive(PluginConfig.Instance.VibrateHit);
-
-            presetBombSlider.gameObject.SetActive(PluginConfig.Instance.VibeBombs);
-
-           
+            var hoverHint = modeSelection.gameObject.AddComponent<HoverHint>();
+            hoverHint.text = Plugin.Control.GetMode().getDescription();
+            HoverHintController hoverHintController = Resources.FindObjectsOfTypeAll<HoverHintController>().First();
+            hoverHint.SetPrivateField("_hoverHintController", hoverHintController);
 
             List<ConnectionConfig> Connections = PluginConfig.Instance.GetConnections();
             connectionTableData.data.Clear();
@@ -435,10 +479,10 @@ namespace LovenseBSControl.UI
             connectionTableData.tableView.SelectCellWithIdx(this.selectedConnectionNumber);
 
 
-            if (!Plugin.Control.isToyAvailable()) {
+            if (!Plugin.Control.IsToyAvailable()) {
                 return;
             }
-            List<Toy> Toys = Plugin.Control.getToyList();
+            List<Toy> Toys = Plugin.Control.GetToyList();
             customListTableData.data.Clear();
            
             foreach (Toy toy in Toys)
@@ -462,7 +506,7 @@ namespace LovenseBSControl.UI
         [UIAction("toySelect")]
         public void Select(TableView _, int row)
         {
-            List<Toy> Toys = Plugin.Control.getToyList();
+            List<Toy> Toys = Plugin.Control.GetToyList();
             this.selectedToyNumber = row;
             this.selectedToy = Toys[row];
             choice.updateOnChange = true;
@@ -482,13 +526,13 @@ namespace LovenseBSControl.UI
         [UIAction("#apply")]
         public void OnApply()
         {
-            Plugin.Control.setModus();
+            Plugin.Control.SetMode();
         }
 
         [UIComponent("verticalElement")]
         private LayoutElement verticalElement;
 
-        private void resetVertical()
+        private void ResetVertical()
         {
             int childCount = 0;
             for (int i = 0; i < verticalElement.transform.childCount; i++)
@@ -497,7 +541,7 @@ namespace LovenseBSControl.UI
                     childCount++;
                 }
             }
-            verticalElement.minHeight = childCount * 7;
+            verticalElement.minHeight = childCount * 8;
         }
 
         [UIComponent("detailText")]
@@ -518,6 +562,54 @@ namespace LovenseBSControl.UI
                 //_githubButton.SetActive(true);
             }
         }
-        
+
+        private void SetUpUIElements()
+        {
+            UiElements.Clear();
+            UiElements.Add("vibrateOnMissBtn", vibrateOnMissBtn);
+            UiElements.Add("vibrateOnHitBtn", vibrateOnHitBtn);
+            UiElements.Add("randomIntenseMissBtn", randomIntenseMissBtn);
+            UiElements.Add("intenseMissSlider", intenseMissSlider);
+            UiElements.Add("durationMissSlider", durationMissSlider);
+            UiElements.Add("randomIntenseHitBtn", randomIntenseHitBtn);
+            UiElements.Add("intenseHitSlider", intenseHitSlider);
+            UiElements.Add("durationHitSlider", durationHitSlider);
+            UiElements.Add("presetOnBombHit", presetOnBombHit);
+            UiElements.Add("presetBombSlider", presetBombSlider);
+            UiElements.Add("fireworksBtn", fireworksBtn);
+
+            foreach (var element in UiElements)
+            {
+                element.Value.SetActive(false);
+            }
+
+            foreach (string element in Plugin.Control.GetMode().getUiElements())
+            {
+                UiElements[element].SetActive(true);
+            }
+
+            if (vibrateOnMissBtn.activeSelf)
+            {
+                randomIntenseMissBtn.gameObject.SetActive(PluginConfig.Instance.VibrateMiss);
+                intenseMissSlider.gameObject.SetActive(PluginConfig.Instance.VibrateMiss && !PluginConfig.Instance.RandomIntenseMiss);
+                durationMissSlider.gameObject.SetActive(PluginConfig.Instance.VibrateMiss);
+            }
+
+            if (vibrateOnHitBtn.activeSelf)
+            {
+                randomIntenseHitBtn.gameObject.SetActive(PluginConfig.Instance.VibrateHit);
+                intenseHitSlider.gameObject.SetActive(PluginConfig.Instance.VibrateHit && !PluginConfig.Instance.RandomIntenseHit);
+                durationHitSlider.gameObject.SetActive(PluginConfig.Instance.VibrateHit);
+            }
+
+            if (presetOnBombHit.activeSelf)
+            {
+                presetBombSlider.gameObject.SetActive(PluginConfig.Instance.VibeBombs);
+            }
+
+            ResetVertical();
+        }
+
+
     }
 }

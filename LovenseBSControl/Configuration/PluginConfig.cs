@@ -34,6 +34,10 @@ namespace LovenseBSControl.Configuration
 
         public int LovenseConnectAPI = 1;
 
+        public bool Fireworks { get; set; } = false;
+
+        public bool BattteryShow { get; set; } = true;
+
         [UseConverter]
         public virtual Dictionary<string, ToysConfig> ToyConfigurations { get; set; } = new Dictionary<string, ToysConfig>();
 

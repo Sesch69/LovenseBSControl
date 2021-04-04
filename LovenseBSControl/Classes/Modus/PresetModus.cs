@@ -5,17 +5,15 @@ namespace LovenseBSControl.Classes.Modus
 {
     class PresetModus : Modus
     {
+        public List<string> UiElements = new List<string>{ "vibrateOnMissBtn" , "vibrateOnHitBtn" };
 
-        public override void HandleHit(List<Toy> toys, bool LHand, bool success)
+        public override void HandleHit(List<Toy> toys, bool LHand, NoteCutInfo data)
         {
-            if (!success)
+            foreach (Toy toy in toys)
             {
-                foreach (Toy toy in toys)
+                if (toy.IsConnected() && toy.IsActive() && toy.CheckHand(LHand))
                 {
-                    if (toy.IsConnected() && toy.IsActive() && toy.CheckHand(LHand))
-                    {
-                        toy.vibratePreset(2);
-                    }
+                    toy.vibratePreset(PluginConfig.Instance.PresetBomb);
                 }
             }
         }
@@ -26,10 +24,9 @@ namespace LovenseBSControl.Classes.Modus
             {
                 if (toy.IsConnected() && toy.IsActive() && toy.CheckHand(LHand))
                 {
-                    toy.vibratePreset(2);
+                    toy.vibratePreset(PluginConfig.Instance.PresetBomb);
                 }
             }
-
         }
 
         public override void HandleBomb(List<Toy> toys)
@@ -44,10 +41,25 @@ namespace LovenseBSControl.Classes.Modus
                 }
             }
         }
+        public override void HandleFireworks(List<Toy> toys)
+        {
+
+        }
 
         public override string GetModusName()
         {
             return "Preset";
         }
+
+        public override List<string> getUiElements()
+        {
+            return new List<string> { "presetOnBombHit", "presetBombSlider", "fireworksBtn" };
+        }
+
+        public override string getDescription()
+        {
+            return "Vibrate on missing boxes with a preset";
+        }
+
     }
 }

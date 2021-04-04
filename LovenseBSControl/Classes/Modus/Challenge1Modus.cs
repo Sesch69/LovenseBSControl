@@ -7,28 +7,28 @@ namespace LovenseBSControl.Classes.Modus
     class Challenge1Modus : Modus
     {
 
-        public override void HandleHit(List<Toy> toys, bool LHand, bool success)
+        public override void HandleHit(List<Toy> toys, bool LHand, NoteCutInfo data)
         {
-            if (success)
+            if (Plugin.Control.HitCounter >= 15)
             {
-                if (Plugin.Control.HitCounter >= 15)
+                Plugin.Control.MissCounter = Math.Max(--Plugin.Control.MissCounter, 0);
+                Plugin.Control.HitCounter = 0;
+                foreach (Toy toy in toys)
                 {
-                    Plugin.Control.MissCounter = Math.Max(--Plugin.Control.MissCounter, 0);
-                    Plugin.Control.HitCounter = 0;
+                    if (toy.IsConnected() && toy.IsActive())
+                    {
+                        toy.vibrate(0, Plugin.Control.MissCounter);
+                    }
                 }
             }
-            else 
-            {
-                Plugin.Control.HitCounter = 0;
-            }
-            
             this.HandleMiss(toys, LHand);
-            
         }
 
         public override void HandleMiss(List<Toy> toys, bool LHand)
         {
-            Plugin.Control.MissCounter = Math.Min(Plugin.Control.MissCounter,20);
+            Plugin.Control.HitCounter = 0;
+
+            Plugin.Control.MissCounter = Math.Min(Plugin.Control.MissCounter, 20);
 
             foreach (Toy toy in toys)
             {
@@ -37,7 +37,6 @@ namespace LovenseBSControl.Classes.Modus
                     toy.vibrate(0, Plugin.Control.MissCounter);
                 }
             }
-
         }
 
         public override void HandleBomb(List<Toy> toys)
@@ -48,14 +47,29 @@ namespace LovenseBSControl.Classes.Modus
             {
                 if (toy.IsConnected() && toy.IsActive())
                 {
-                    toy.vibratePreset(3 , true);
+                    toy.vibratePreset(3, true);
                 }
             }
+        }
+        public override void HandleFireworks(List<Toy> toys)
+        {
+
         }
 
         public override string GetModusName()
         {
             return "Challenge 1";
         }
+
+        public override List<string> getUiElements()
+        {
+            return new List<string> { "fireworksBtn", "presetOnBombHit", "presetBombSlider" };
+        }
+
+        public override string getDescription()
+        {
+            return "Vibrate missing boxes. Each time level go up, after 15 hits, level goes one step down";
+        }
+
     }
 }

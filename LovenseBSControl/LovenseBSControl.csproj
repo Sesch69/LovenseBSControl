@@ -68,7 +68,6 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL" />
     <Reference Include="SemVer, Version=1.2.2.0, Culture=neutral, PublicKeyToken=a89bb7dc6f7a145c, processorArchitecture=MSIL" />
-    <Reference Include="SiraUtil, Version=2.5.2.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -133,8 +132,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\BatteryElement.cs" />
     <Compile Include="Classes\Control.cs" />
     <Compile Include="Classes\Modus\Challenge1Modus.cs" />
+    <Compile Include="Classes\Modus\Challenge2Modus.cs" />
     <Compile Include="Classes\Modus\DefaultModus.cs" />
     <Compile Include="Classes\Modus\Modus.cs" />
     <Compile Include="Classes\Modus\PresetModus.cs" />
@@ -195,8 +196,6 @@
     <EmbeddedResource Include="Resources\Sprites\logo_osic.png" />
     <EmbeddedResource Include="Resources\Sprites\available_profile.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Installers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

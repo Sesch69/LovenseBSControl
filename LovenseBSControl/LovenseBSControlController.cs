@@ -99,8 +99,8 @@ namespace LovenseBSControl
         {
             if (PluginConfig.Instance.Enabled)
             {
-                //Plugin.Control.handleCut(data.colorType.ToString().Equals("ColorA"), info.allIsOK);
-                Plugin.Control.handleCut(info.saberType == SaberType.SaberA, info.allIsOK);
+               
+                Plugin.Control.HandleCut(info.saberType == SaberType.SaberA, info.allIsOK, info);
             }
         }
 
@@ -108,7 +108,7 @@ namespace LovenseBSControl
         {
             if (PluginConfig.Instance.Enabled)
             {
-                Plugin.Control.handleCut(data.colorType.ToString().Equals("ColorA"), false);
+                Plugin.Control.HandleCut(data.colorType.ToString().Equals("ColorA"), false);
             }
         }
     }

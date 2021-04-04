@@ -11,7 +11,7 @@ namespace LovenseBSControl.HarmonyPatches
         {
             if (PluginConfig.Instance.Enabled)
             {
-                Plugin.Control.endGame();
+                Plugin.Control.EndGame();
             }
         }
     }

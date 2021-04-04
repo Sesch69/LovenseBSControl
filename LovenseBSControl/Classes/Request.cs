@@ -40,7 +40,15 @@ namespace LovenseBSControl.Classes
                     {
                         JToken toyDetails = dataToy.Value;
                         Toy newToy = new Toy(toyDetails["id"].ToString().ToUpper(), toyDetails["name"].ToString(), toyDetails["status"].ToString().Equals("1"), toyDetails["version"].ToString(), toyDetails["nickName"].ToString());
-                        newToy.SetBattery(Int32.Parse(toyDetails["battery"].ToString()));
+                        if (toyDetails["battery"] is null || toyDetails["battery"].ToString().Equals(""))
+                        {
+                            newToy.SetBattery(0);
+                        }
+                        else
+                        {
+                            newToy.SetBattery(Int32.Parse(toyDetails["battery"].ToString()));
+                        }
+                        
                         newToy.SetConnection(connection.Key);
                         Toys.Add(newToy);
                     }
@@ -71,7 +79,14 @@ namespace LovenseBSControl.Classes
                     {
                         Plugin.Log.Info("Lovense Connect not active/running.");
                     }
-                    toy.SetBattery(Int32.Parse(toysString["data"].ToString()));
+                    if (toysString["data"] is null || toysString["data"].ToString().Equals(""))
+                    {
+                        toy.SetBattery(0);
+                    }
+                    else
+                    {
+                        toy.SetBattery(Int32.Parse(toysString["data"].ToString()));
+                    }
                 }
             }
             catch (HttpRequestException e)

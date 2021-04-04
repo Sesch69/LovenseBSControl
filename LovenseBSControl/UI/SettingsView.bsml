@@ -3,25 +3,28 @@
 		<horizontal child-expand-width='false' child-control-width='true' child-align='UpperCenter'>
 			<vertical spacing='1' child-expand-height='true' child-control-height='true' child-align='UpperCenter' id='verticalElement'>
 				<bool-setting text='Enabled' apply-on-change='true' value='enabled' hover-hint='Activates the vibration of the toys in general.'></bool-setting>
-				<dropdown-list-setting text='Mode' value='modusChoice' choices='modus-options'  apply-on-change='true'/>
+				<dropdown-list-setting id='modeSelection' text='Mode' value='modusChoice' choices='modus-options'  apply-on-change='true'/>
 				
-				<bool-setting text='Vibrate on miss' apply-on-change='true' value='vibrateMiss' hover-hint='Toys vibrating on missig box.' height='7'></bool-setting>
+				<bool-setting id='vibrateOnMissBtn' text='Vibrate on miss' apply-on-change='true' value='vibrateMiss' hover-hint='Toys vibrating on missig box.' height='7' active='false'></bool-setting>
 				<bool-setting id='randomIntenseMissBtn' text='Random Intense (Miss)' apply-on-change='true' value='randomIntenseMiss' hover-hint='Randeom intense between 1 and 20.' height='7' active='false'></bool-setting>
 				<slider-setting id='intenseMissSlider' text='Intense (Miss)' value='intenseMiss' apply-on-change='true' min='1' max='20' integer-only='true' height='7' active='false'/>
 				<slider-setting id='durationMissSlider' text='Duration (Miss)' value='durationMiss' apply-on-change='true' min='200' max='1000' integer-only='true' height='7' active='false'/>
 
-				<bool-setting text='Vibrate on hit' apply-on-change='true' value='vibrateHit' hover-hint='Toys vibrating on hitting box.' height='7'></bool-setting>
+				<bool-setting id='vibrateOnHitBtn' text='Vibrate on hit' apply-on-change='true' value='vibrateHit' hover-hint='Toys vibrating on hitting box.' height='7' active='false'></bool-setting>
 				<bool-setting id='randomIntenseHitBtn' text='Random Intense (Hit)' apply-on-change='true' value='randomIntenseHit' hover-hint='Randeom intense between 1 and 20.' height='7' active='false'></bool-setting>
 				<slider-setting id='intenseHitSlider' text='Intense (Hit)' value='intenseHit' apply-on-change='true' min='1' max='20' integer-only='true' height='7' active='false'/>
 				<slider-setting id='durationHitSlider' text='Duration (Hit)' value='durationHit' apply-on-change='true' min='200' max='1000' integer-only='true' height='7' active='false'/>
 
-				<bool-setting text='Preset on bomb hit' apply-on-change='true' value='vibrateBombHit' hover-hint='Toys vibrating on hitting box.' height='7'></bool-setting>
+				<bool-setting id='presetOnBombHit' text='Preset on bomb hit' apply-on-change='true' value='vibrateBombHit' hover-hint='Toys vibrating on hitting box.' height='7' active='false'></bool-setting>
 				<slider-setting id='vibrationPresetSlider' text='Vibration Preset' value='presetNumber' apply-on-change='true' min='1' max='3' integer-only='true' height='7' active='false'/>
+
+				<bool-setting id='fireworksBtn' text='Fireworks Vibrations' apply-on-change='true' value='vibrateFireworks' hover-hint='Toys vibrating on fireworks.' height='7' active='false'></bool-setting>
 				
 				<slider-setting text='Rotate Intense (Nora)' value='rotate' apply-on-change='true' min='0' max='20' integer-only='true' height='7'/>
-				<slider-setting text='Air Intense (Max)' value='air' apply-on-change='true' min='0' max='3' integer-only='true' active='false' height='7'/>
+				<slider-setting text='Air Intense (Max)' value='air' apply-on-change='true' min='0' max='3' integer-only='true'  height='7'/>
+
+				<bool-setting text='Show Battery' apply-on-change='true' value='showBattery' hover-hint='Shows battery status of the toys' height='7'></bool-setting>
 			
-		
 				<settings-submenu text='&#62;Toys...'>
 					<horizontal spacing='4' child-expand-width='false' child-control-width='false' child-align='MiddleCenter' pref-height='40' horizontal-fit='PreferredSize'>
 						<vertical  pref-width='15' child-control-height='false' spacing='1' child-align='MiddleCenter'>
