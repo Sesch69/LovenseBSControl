@@ -38,7 +38,7 @@
 								<vertical width='34' child-expand-width='false'>
 									<button text='Refresh Toys' pref-width='34' on-click='clicked-refresh' hover-hint='Reload toys from Lovense Connect'/>
 									<button text='Test' pref-width='34' on-click='clicked-test' />
-									<dropdown-list-setting id='toyConfigSetting' pref-width='35' text='Hand control' value='listChoice' choices='list-options'  apply-on-change='true' on-change='onChangeHands' bind-value='true'/>
+									<dropdown-list-setting id='toyConfigSetting' pref-width='35' text='' value='listChoice' choices='list-options'  apply-on-change='true' on-change='onChangeHands' bind-value='true'/>
 								</vertical>
 							</horizontal>	
 						</vertical>	
