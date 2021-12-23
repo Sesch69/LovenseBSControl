@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using SemVer;
-using Version = SemVer.Version;
+using HVersion = Hive.Versioning;
+using Version = Hive.Versioning.Version;
 
 namespace LovenseBSControl
 {
@@ -14,10 +14,10 @@ namespace LovenseBSControl
 
         private Task<Release> _loadingTask = null;
 
-        private Version _localVersion;
+        private Version _localVersion = null;
         
-        public Version LocalVersion => _localVersion ?? IPA.Loader.PluginManager.GetPluginFromId("LovenseBSControl").Version;
-             
+        public Version LocalVersion => _localVersion ?? IPA.Loader.PluginManager.GetPluginFromId("LovenseBSControl").HVersion;
+
 
         public async Task<Release> GetNewestReleaseAsync()
         {
@@ -65,7 +65,8 @@ namespace LovenseBSControl
             {
                 get
                 {
-                    _isLocalNewest = _isLocalNewest ?? new Range($"<={LocalVersion}").IsSatisfied(RemoteVersion);
+                    Plugin.Log.Info("2: " + LocalVersion.ToString() + " , " + RemoteVersion.ToString());
+                    _isLocalNewest = _isLocalNewest ?? new HVersion.VersionRange($"<={LocalVersion}").Matches(RemoteVersion);
                     return _isLocalNewest.Value;
                 }
             }

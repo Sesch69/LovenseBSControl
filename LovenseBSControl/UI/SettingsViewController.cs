@@ -554,7 +554,6 @@ namespace LovenseBSControl.UI
             {
                 detailText.text = "LovenseBSControl " + release.TagName + "\r\n\r\n" + release.Body;
             }
-            
 
             if (release != null && !release.IsLocalNewest)
             {

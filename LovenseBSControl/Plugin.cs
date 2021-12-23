@@ -79,7 +79,8 @@ namespace LovenseBSControl
         public void OnApplicationQuit()
         {
             Control.StopActive();
-            harmony.UnpatchAll("com.CyanSnow.BeatSaber.LovenseBSControl");
+            
+            harmony.UnpatchSelf();
             BSMLSettings.instance.RemoveSettingsMenu("Lovense BS Control");
             BSEvents.gameSceneActive -= GameCutAction;
             SceneManager.activeSceneChanged -= SceneManagerOnActiveSceneChanged;
