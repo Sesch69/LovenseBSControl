@@ -85,9 +85,11 @@ namespace LovenseBSControl
         }
         #endregion
 
-        public void GetControllers()
+        public void BindCutMissEvents()
         {
-            scoreController = Resources.FindObjectsOfTypeAll<ScoreController>().LastOrDefault();
+            scoreController = Resources
+                .FindObjectsOfTypeAll<ScoreController>()
+                .FirstOrDefault();
 
             if (scoreController == null)
                 return;
@@ -97,13 +99,15 @@ namespace LovenseBSControl
 
             if (beatmapObjectManager == null)
                 return;
-
+            
             beatmapObjectManager.noteWasCutEvent += OnNoteHit;
             beatmapObjectManager.noteWasMissedEvent += OnNoteMiss;
         }
 
         private void OnNoteHit(NoteController controller, in NoteCutInfo info)
         {
+            Plugin.Log.Info("OnNoteHit");
+            
             if (!PluginConfig.Instance.Enabled)
                 return;
             
@@ -112,6 +116,8 @@ namespace LovenseBSControl
         
         private void OnNoteMiss(NoteController controller)
         {
+            Plugin.Log.Info("OnNoteMiss");
+            
             if (!PluginConfig.Instance.Enabled)
                 return;
             

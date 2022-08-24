@@ -45,17 +45,10 @@ namespace LovenseBSControl
         {
             Log.Debug("OnApplicationStart");
             new GameObject("LovenseBSControlController").AddComponent<LovenseBSControlController>();
-            BSEvents.gameSceneActive += GameCutAction;
             SceneManager.activeSceneChanged += SceneManagerOnActiveSceneChanged;
             harmony = new Harmony("com.Sesch69.BeatSaber.LovenseBSControl");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
             BSMLSettings.instance.AddSettingsMenu("Lovense BS Control", "LovenseBSControl.UI.SettingsView.bsml", SettingsViewController.instance);
-
-        }
-
-        void GameCutAction()
-        {
-            if (PluginConfig.Instance.Enabled) LovenseBSControlController.Instance.GetControllers();
         }
 
         private void SceneManagerOnActiveSceneChanged(Scene oldScene, Scene newScene)
@@ -82,7 +75,6 @@ namespace LovenseBSControl
             
             harmony.UnpatchSelf();
             BSMLSettings.instance.RemoveSettingsMenu("Lovense BS Control");
-            BSEvents.gameSceneActive -= GameCutAction;
             SceneManager.activeSceneChanged -= SceneManagerOnActiveSceneChanged;
             Log.Debug("OnApplicationQuit");
 

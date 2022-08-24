@@ -134,7 +134,6 @@ namespace LovenseBSControl.Classes
 
         public async Task UseToy(Toy toy, int time, int level)
         {
-            Plugin.Log.Info($"UseToy (Toy={toy.GetText()}, time={time}, level={level})");
             await this.VibrateToy(toy, time, level);
         }
 

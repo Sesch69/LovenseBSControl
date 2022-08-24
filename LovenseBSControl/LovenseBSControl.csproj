@@ -169,7 +169,7 @@
     <Compile Include="HarmonyPatches\ContactTheWall.cs" />
     <Compile Include="HarmonyPatches\FireworksFun.cs" />
     <Compile Include="HarmonyPatches\HoldOnBreak.cs" />
-    <Compile Include="HarmonyPatches\ResetOnStart.cs" />
+    <Compile Include="HarmonyPatches\InitAndResetOnStart.cs" />
     <Compile Include="HarmonyPatches\StopOnEnd.cs" />
     <Compile Include="PluginManager.cs" />
     <Compile Include="Plugin.cs" />
