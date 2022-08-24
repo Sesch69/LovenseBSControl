@@ -106,8 +106,6 @@ namespace LovenseBSControl
 
         private void OnNoteHit(NoteController controller, in NoteCutInfo info)
         {
-            Plugin.Log.Info("OnNoteHit");
-            
             if (!PluginConfig.Instance.Enabled)
                 return;
             
@@ -116,8 +114,6 @@ namespace LovenseBSControl
         
         private void OnNoteMiss(NoteController controller)
         {
-            Plugin.Log.Info("OnNoteMiss");
-            
             if (!PluginConfig.Instance.Enabled)
                 return;
             
