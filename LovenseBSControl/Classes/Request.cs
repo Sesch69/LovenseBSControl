@@ -21,25 +21,36 @@ namespace LovenseBSControl.Classes
         public async Task<List<Toy>> RequestToysListAsync()
         {
             List<Toy> Toys = new List<Toy>();
+
             foreach (var connection in PluginConfig.Instance.GetActiveConnections())
             {
+                var baseUrl = connection.Value.CreateBaseUrl();
+                var getToysUrl = baseUrl + "/GetToys";
+
                 try
                 {
                     if (!connection.Key.Equals("Default"))
                     {
                         ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
                     }
-                    var responseString = await client.GetStringAsync(connection.Value.CreateBaseUrl() + "/GetToys");
+
+                    Plugin.Log.Debug($"[{connection.Value.Name}] Trying {getToysUrl}...");
+
+                    var responseString = await client.GetStringAsync(getToysUrl);
                     JObject toysString = JObject.Parse(responseString);
-                    if (!toysString["type"].ToString().Equals("ok"))
+                    
+                    if (!toysString["type"].ToString().ToLower().Equals("ok"))
                     {
-                        Plugin.Log.Info("Lovense Connect not active/running for connection: " + connection.Key);
+                        Plugin.Log.Warn($"[{connection.Value.Name}] Connect sent non-OK response: {responseString}");
                         continue;
                     }
-                    foreach (JProperty dataToy in (JToken)toysString["data"])
+
+                    foreach (JProperty dataToy in (JToken) toysString["data"])
                     {
                         JToken toyDetails = dataToy.Value;
-                        Toy newToy = new Toy(toyDetails["id"].ToString().ToUpper(), toyDetails["name"].ToString(), toyDetails["status"].ToString().Equals("1"), toyDetails["version"].ToString(), toyDetails["nickName"].ToString());
+                        Toy newToy = new Toy(toyDetails["id"].ToString().ToUpper(), toyDetails["name"].ToString(),
+                            toyDetails["status"].ToString().Equals("1"), toyDetails["version"].ToString(),
+                            toyDetails["nickName"].ToString());
                         if (toyDetails["battery"] is null || toyDetails["battery"].ToString().Equals(""))
                         {
                             newToy.SetBattery(0);
@@ -48,17 +59,20 @@ namespace LovenseBSControl.Classes
                         {
                             newToy.SetBattery(Int32.Parse(toyDetails["battery"].ToString()));
                         }
-                        
+
                         newToy.SetConnection(connection.Key);
                         Toys.Add(newToy);
+                        
+                        Plugin.Log.Info($"[{connection.Value.Name}] Toy added! (name={toyDetails["name"]}, status={toyDetails["status"]}, battery={toyDetails["battery"]})");
                     }
                 }
 
                 catch (HttpRequestException e)
                 {
-                    Plugin.Log.Info("Lovense Connect not reachable for connection: " + connection.Key);
+                    Plugin.Log.Error($"[{connection.Value.Name}] HTTP error trying {getToysUrl}: {e.Message}");
                 }
             }
+
             return Toys;
         }
 
@@ -75,9 +89,9 @@ namespace LovenseBSControl.Classes
                     var responseString = await client.GetStringAsync(connection.Value.CreateBaseUrl() + "/Battery?t=" + toy.GetId());
                     JObject toysString = JObject.Parse(responseString);
 
-                    if (!toysString["type"].ToString().Equals("ok"))
+                    if (!toysString["type"].ToString().ToLower().Equals("ok"))
                     {
-                        Plugin.Log.Info("Lovense Connect not active/running.");
+                        Plugin.Log.Warn($"[{connection.Value.Name}] Connect sent non-OK response: {responseString}");
                     }
                     if (toysString["data"] is null || toysString["data"].ToString().Equals(""))
                     {
@@ -115,6 +129,7 @@ namespace LovenseBSControl.Classes
 
         public async Task UseToy(Toy toy, int time, int level)
         {
+            Plugin.Log.Info("UseToy!");
             await this.VibrateToy(toy, time, level);
         }
 
