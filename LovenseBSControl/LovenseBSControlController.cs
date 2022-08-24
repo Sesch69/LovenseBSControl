@@ -1,5 +1,6 @@
 ﻿using LovenseBSControl.Configuration;
 using System.Linq;
+using IPA.Utilities;
 using UnityEngine;
 
 namespace LovenseBSControl
@@ -88,28 +89,33 @@ namespace LovenseBSControl
         {
             scoreController = Resources.FindObjectsOfTypeAll<ScoreController>().LastOrDefault();
 
-            if (scoreController != null)
-            {
-                scoreController.noteWasCutEvent += NoteHit;
-                scoreController.noteWasMissedEvent += NoteMiss;
-            }
+            if (scoreController == null)
+                return;
+            
+            var beatmapObjectManager =
+                scoreController.GetField<BeatmapObjectManager, ScoreController>("_beatmapObjectManager");
+
+            if (beatmapObjectManager == null)
+                return;
+
+            beatmapObjectManager.noteWasCutEvent += OnNoteHit;
+            beatmapObjectManager.noteWasMissedEvent += OnNoteMiss;
         }
 
-        private void NoteHit(NoteData data, in NoteCutInfo info, int multiplier)
+        private void OnNoteHit(NoteController controller, in NoteCutInfo info)
         {
-            if (PluginConfig.Instance.Enabled)
-            {
-               
-                Plugin.Control.HandleCut(info.saberType == SaberType.SaberA, info.allIsOK, info);
-            }
+            if (!PluginConfig.Instance.Enabled)
+                return;
+            
+            Plugin.Control.HandleCut(info.saberType == SaberType.SaberA, info.allIsOK, info);
         }
-
-        private void NoteMiss(NoteData data, int score)
+        
+        private void OnNoteMiss(NoteController controller)
         {
-            if (PluginConfig.Instance.Enabled)
-            {
-                Plugin.Control.HandleCut(data.colorType.ToString().Equals("ColorA"), false);
-            }
+            if (!PluginConfig.Instance.Enabled)
+                return;
+            
+            Plugin.Control.HandleCut(controller.noteData.colorType.ToString().Equals("ColorA"), false);
         }
     }
 }

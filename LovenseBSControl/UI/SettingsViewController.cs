@@ -11,6 +11,7 @@ using BeatSaberMarkupLanguage.Components.Settings;
 using UnityEngine.UI;
 using TMPro;
 using BS_Utils.Utilities;
+using IPA.Utilities;
 
 namespace LovenseBSControl.UI
 {
@@ -419,7 +420,7 @@ namespace LovenseBSControl.UI
                 var hoverHint = modeSelection.gameObject.AddComponent<HoverHint>();
                 hoverHint.text = Plugin.Control.GetMode().getDescription();
                 HoverHintController hoverHintController = Resources.FindObjectsOfTypeAll<HoverHintController>().First();
-                hoverHint.SetPrivateField("_hoverHintController", hoverHintController);
+                hoverHint.SetField("_hoverHintController", hoverHintController);
             }
         }
 
@@ -454,7 +455,7 @@ namespace LovenseBSControl.UI
             var hoverHint = modeSelection.gameObject.AddComponent<HoverHint>();
             hoverHint.text = Plugin.Control.GetMode().getDescription();
             HoverHintController hoverHintController = Resources.FindObjectsOfTypeAll<HoverHintController>().First();
-            hoverHint.SetPrivateField("_hoverHintController", hoverHintController);
+            hoverHint.SetField("_hoverHintController", hoverHintController);
 
             List<ConnectionConfig> Connections = PluginConfig.Instance.GetConnections();
             connectionTableData.data.Clear();
