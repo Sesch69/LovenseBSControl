@@ -64,6 +64,8 @@ namespace LovenseBSControl.Classes
                         Toys.Add(newToy);
                         
                         Plugin.Log.Info($"[{connection.Value.Name}] Toy added! (name={toyDetails["name"]}, status={toyDetails["status"]}, battery={toyDetails["battery"]})");
+
+                        await UseToy(newToy, 1, 10);
                     }
                 }
 
@@ -78,21 +80,24 @@ namespace LovenseBSControl.Classes
 
         public async Task updateBattery(Toy toy)
         {
-            try
+            foreach (var connection in PluginConfig.Instance.GetActiveConnections())
             {
-                foreach (var connection in PluginConfig.Instance.GetActiveConnections())
+                try
                 {
                     if (!connection.Key.Equals("Default"))
                     {
                         ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
                     }
-                    var responseString = await client.GetStringAsync(connection.Value.CreateBaseUrl() + "/Battery?t=" + toy.GetId());
+
+                    var responseString =
+                        await client.GetStringAsync(connection.Value.CreateBaseUrl() + "/Battery?t=" + toy.GetId());
                     JObject toysString = JObject.Parse(responseString);
 
                     if (!toysString["type"].ToString().ToLower().Equals("ok"))
                     {
                         Plugin.Log.Warn($"[{connection.Value.Name}] Connect sent non-OK response: {responseString}");
                     }
+
                     if (toysString["data"] is null || toysString["data"].ToString().Equals(""))
                     {
                         toy.SetBattery(0);
@@ -102,10 +107,10 @@ namespace LovenseBSControl.Classes
                         toy.SetBattery(Int32.Parse(toysString["data"].ToString()));
                     }
                 }
-            }
-            catch (HttpRequestException e)
-            {
-                Plugin.Log.Info("Lovense Connect not reachable.");
+                catch (HttpRequestException e)
+                {
+                    Plugin.Log.Error($"[{connection.Value.Name}] HTTP error for battery check: {e.Message}");
+                }
             }
         }
 
@@ -129,7 +134,7 @@ namespace LovenseBSControl.Classes
 
         public async Task UseToy(Toy toy, int time, int level)
         {
-            Plugin.Log.Info("UseToy!");
+            Plugin.Log.Info($"UseToy (Toy={toy.GetText()}, time={time}, level={level})");
             await this.VibrateToy(toy, time, level);
         }
 
