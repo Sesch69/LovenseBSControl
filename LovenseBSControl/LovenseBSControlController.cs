@@ -1,4 +1,5 @@
 ﻿using LovenseBSControl.Configuration;
+using System;
 using System.Linq;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ namespace LovenseBSControl
         public static LovenseBSControlController Instance { get; private set; }
 
         ScoreController scoreController;
-
+        private NoteController noteController;
         #region Monobehaviour Messages
         /// <summary>
         /// Only ever called once, mainly used to initialize variables.
@@ -90,12 +91,15 @@ namespace LovenseBSControl
 
             if (scoreController != null)
             {
-                scoreController.noteWasCutEvent += NoteHit;
-                scoreController.noteWasMissedEvent += NoteMiss;
+                // noteController.noteWasCutEvent += NoteHit;
+                //scoreController.noteWasMissedEvent += NoteMiss; // replaced into harmony patches
             }
         }
 
-        private void NoteHit(NoteData data, in NoteCutInfo info, int multiplier)
+        public void HandleWasCutBySaber() { 
+        }
+       
+            private void NoteHit(NoteData data, in NoteCutInfo info, int multiplier)
         {
             if (PluginConfig.Instance.Enabled)
             {

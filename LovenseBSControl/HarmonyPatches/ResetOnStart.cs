@@ -8,6 +8,7 @@ namespace LovenseBSControl.HarmonyPatches
     {
         static void Prefix()
         {
+
             if (PluginConfig.Instance.Enabled)
             {
                 Plugin.Control.HitCounter = 0;

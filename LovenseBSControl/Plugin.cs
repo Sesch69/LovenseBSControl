@@ -49,8 +49,8 @@ namespace LovenseBSControl
             SceneManager.activeSceneChanged += SceneManagerOnActiveSceneChanged;
             harmony = new Harmony("com.Sesch69.BeatSaber.LovenseBSControl");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
-            BSMLSettings.instance.AddSettingsMenu("Lovense BS Control", "LovenseBSControl.UI.SettingsView.bsml", SettingsViewController.instance);
 
+            BSMLSettings.instance.AddSettingsMenu("Lovense BS Control", "LovenseBSControl.UI.Views.SettingsView.bsml", new SettingsViewController());
         }
 
         void GameCutAction()

@@ -11,11 +11,15 @@ using BeatSaberMarkupLanguage.Components.Settings;
 using UnityEngine.UI;
 using TMPro;
 using BS_Utils.Utilities;
+using System.ComponentModel;
+using BeatSaberMarkupLanguage.ViewControllers;
 
 namespace LovenseBSControl.UI
 {
-    internal class SettingsViewController : PersistentSingleton<SettingsViewController>
-	{
+    [HotReload(RelativePathToLayout = @"Views\SettingsView.bsml")]
+    [ViewDefinition("LovenseBSControl.UI.Views.SettingsView.bsml")]
+    internal class SettingsViewController : BSMLAutomaticViewController
+    {
 
         private Toy selectedToy = null;
         private int selectedToyNumber = 0;
@@ -34,23 +38,14 @@ namespace LovenseBSControl.UI
         [UIValue("enabled")]
 		public bool Enabled
 		{
-			get
-			{
-				return PluginConfig.Instance.Enabled;
-			}
-			set
-			{
-				PluginConfig.Instance.Enabled = value;
-			}
+            get => PluginConfig.Instance.Enabled;
+            set => PluginConfig.Instance.Enabled = value;
 		}
-
+        
 		[UIValue("vibrateMiss")]
 		public bool VibrateMiss
 		{
-			get
-			{
-				return PluginConfig.Instance.VibrateMiss;
-			}
+			get => PluginConfig.Instance.VibrateMiss;
 			set
 			{
                 randomIntenseMissBtn.gameObject.SetActive(value);
@@ -64,10 +59,7 @@ namespace LovenseBSControl.UI
         [UIValue("vibrateHit")]
         public bool VibrateHit
         {
-            get
-            {
-                return PluginConfig.Instance.VibrateHit;
-            }
+            get =>  PluginConfig.Instance.VibrateHit;
             set
             {
                 randomIntenseHitBtn.gameObject.SetActive(value);
@@ -81,10 +73,7 @@ namespace LovenseBSControl.UI
         [UIValue("vibrateBombHit")]
         public bool VibrateBomb
         {
-            get
-            {
-                return PluginConfig.Instance.VibeBombs;
-            }
+            get => PluginConfig.Instance.VibeBombs;
             set
             {
                 presetBombSlider.gameObject.SetActive(value);
@@ -113,10 +102,7 @@ namespace LovenseBSControl.UI
         [UIValue("randomIntenseHit")]
         public bool RandomIntenseHit
         {
-            get
-            {
-                return PluginConfig.Instance.RandomIntenseHit;
-            }
+            get => PluginConfig.Instance.RandomIntenseHit;
             set
             {
                 intenseHitSlider.gameObject.SetActive(!value);
@@ -130,10 +116,7 @@ namespace LovenseBSControl.UI
         [UIValue("randomIntenseMiss")]
         public bool RandeomIntenseMiss
         {
-            get
-            {
-                return PluginConfig.Instance.RandomIntenseMiss;
-            }
+            get => PluginConfig.Instance.RandomIntenseMiss;
             set
             {
                 intenseMissSlider.gameObject.SetActive(!value);
@@ -147,14 +130,8 @@ namespace LovenseBSControl.UI
         [UIValue("intenseHit")]
         public int IntenseHit
         {
-            get
-            {
-                return PluginConfig.Instance.IntenseHit;
-            }
-            set
-            {
-                PluginConfig.Instance.IntenseHit = value;
-            }
+            get => PluginConfig.Instance.IntenseHit;
+            set => PluginConfig.Instance.IntenseHit = value;
         }
 
         [UIObject("intenseMissSlider")]
@@ -163,14 +140,8 @@ namespace LovenseBSControl.UI
         [UIValue("intenseMiss")]
         public int IntenseMiss
         {
-            get
-            {
-                return PluginConfig.Instance.IntenseMiss;
-            }
-            set
-            {
-                PluginConfig.Instance.IntenseMiss = value;
-            }
+            get => PluginConfig.Instance.IntenseMiss;
+            set => PluginConfig.Instance.IntenseMiss = value;
         }
 
         [UIObject("durationHitSlider")]
@@ -179,14 +150,8 @@ namespace LovenseBSControl.UI
         [UIValue("durationHit")]
         public int DurationHit
         {
-            get
-            {
-                return PluginConfig.Instance.DurationHit;
-            }
-            set
-            {
-                PluginConfig.Instance.DurationHit = value;
-            }
+            get => PluginConfig.Instance.DurationHit;
+            set => PluginConfig.Instance.DurationHit = value;
         }
 
         [UIObject("durationMissSlider")]
@@ -195,14 +160,8 @@ namespace LovenseBSControl.UI
         [UIValue("durationMiss")]
         public int DurationMiss
         {
-            get
-            {
-                return PluginConfig.Instance.DurationMiss;
-            }
-            set
-            {
-                PluginConfig.Instance.DurationMiss = value;
-            }
+            get => PluginConfig.Instance.DurationMiss;
+            set => PluginConfig.Instance.DurationMiss = value;
         }
 
         [UIObject("vibrationPresetSlider")]
@@ -211,68 +170,39 @@ namespace LovenseBSControl.UI
         [UIValue("presetNumber")]
         public int presetNumber
         {
-            get
-            {
-                return PluginConfig.Instance.PresetBomb;
-            }
-            set
-            {
-                PluginConfig.Instance.PresetBomb = value;
-            }
+            get => PluginConfig.Instance.PresetBomb;
+            set => PluginConfig.Instance.PresetBomb = value;
         }
 
         [UIValue("rotate")]
         public int Rotate
         {
-            get
-            {
-                return PluginConfig.Instance.Rotate;
-            }
-            set
-            {
-                PluginConfig.Instance.Rotate = value;
-            }
+            get => PluginConfig.Instance.Rotate;
+            set => PluginConfig.Instance.Rotate = value;
         }
 
         [UIValue("air")]
         public int Air
         {
-            get
-            {
-                return PluginConfig.Instance.Air;
-            }
-            set
-            {
-                PluginConfig.Instance.Air = value;
-            }
+            get => PluginConfig.Instance.Air;
+            set => PluginConfig.Instance.Air = value;
         }
 
         [UIValue("showBattery")]
         public bool ShowBattery
         {
-            get
-            {
-                return PluginConfig.Instance.BattteryShow;
-            }
-            set
-            {
-                PluginConfig.Instance.BattteryShow = value;
-            }
+            get => PluginConfig.Instance.BattteryShow;
+            set => PluginConfig.Instance.BattteryShow = value;
+            
         }
 
         [UIValue("vibrateFireworks")]
         public bool VibrateFireworks
         {
-            get
-            {
-                return PluginConfig.Instance.Fireworks;
-            }
-            set
-            {
-                PluginConfig.Instance.Fireworks = value;
-            }
+            get => PluginConfig.Instance.Fireworks;
+            set => PluginConfig.Instance.Fireworks = value;
         }
-
+        
 
         [UIComponent("toggleStatusBtn")]
         private TextMeshProUGUI toggleStatusBtn;
@@ -283,14 +213,8 @@ namespace LovenseBSControl.UI
         [UIValue("port")]
         public string Port
         {
-            get
-            {
-                return this.port;
-            }
-            set
-            {
-                this.port = value;
-            }
+            get => this.port;
+            set => this.SetProperty(this.port, value);
         }
 
         [UIObject("ipAdressInput")]
@@ -299,28 +223,15 @@ namespace LovenseBSControl.UI
         [UIValue("ipAdress")]
         public string IpAdress
         {
-            get
-            {
-                return this.ipAdress;
-            }
-            set
-            {
-                this.ipAdress = value;
-            }
+            get => this.ipAdress;
+            set => this.SetProperty(this.ipAdress, value);
         }
 
         [UIValue("connectionName")]
         public string ConnectionName
         {
-            get
-            {
-                
-                return this.connectionName;
-            }
-            set
-            {
-                this.connectionName = value;
-            }
+            get => this.connectionName;
+            set => this.SetProperty(this.connectionName, value);
         }
 
 
@@ -334,7 +245,7 @@ namespace LovenseBSControl.UI
         private async Task ShowToys(int delay = 0)
         {
             if (delay > 0) await Task.Delay(delay);
-            SetupList();
+            //SetupListField();
         }
 
         [UIAction("clicked-refresh")]
@@ -357,8 +268,11 @@ namespace LovenseBSControl.UI
         [UIAction("clicked-create")]
         private void ClickedCreate()
         {
+            
             PluginConfig.Instance.CreateConnection(this.connectionName, this.ipAdress, this.port).SetStatus(true);
-            SetupList();
+            
+            SetupListField();
+            
         }
 
         [UIAction("clicked-delete")]
@@ -369,7 +283,7 @@ namespace LovenseBSControl.UI
                 PluginConfig.Instance.DeleteConnection(this.selectedConnection.Name);
                 this.selectedConnectionNumber = 0;
                 this.selectedConnection = PluginConfig.Instance.GetConnections()[0];
-                SetupList();
+                SetupListField();
             }
         }
 
@@ -379,7 +293,7 @@ namespace LovenseBSControl.UI
             if(this.selectedConnection != null)
             {
                 this.selectedConnection.SetStatus(!this.selectedConnection.Active);
-                SetupList();
+                SetupListField();
             }
         }
 
@@ -397,12 +311,9 @@ namespace LovenseBSControl.UI
                 }
                 return HTypes.bHands;
             }
-            set
-            {
-                settedSelection = value;
-            }
+            set => this.SetProperty(settedSelection, value);
         }
-
+        
         [UIValue("modusChoice")]
         public string ModusChoice
         {
@@ -415,14 +326,10 @@ namespace LovenseBSControl.UI
                 PluginConfig.Instance.Modus = value;
                 Plugin.Control.SetMode();
                 SetUpUIElements();
-
-                var hoverHint = modeSelection.gameObject.AddComponent<HoverHint>();
-                hoverHint.text = Plugin.Control.GetMode().getDescription();
-                HoverHintController hoverHintController = Resources.FindObjectsOfTypeAll<HoverHintController>().First();
-                hoverHint.SetPrivateField("_hoverHintController", hoverHintController);
+                
             }
         }
-
+        
         [UIComponent("toyConfigSetting")]
         public GenericSetting choice;
 
@@ -431,31 +338,28 @@ namespace LovenseBSControl.UI
 
         [UIAction("onChangeHands")]
         public void onChangeHands(string data) {
+
             if (this.selectedToy != null)
             {
                 ToysConfig config = this.selectedToy.GetToyConfig();
                 config.setHType(data);
-                SetupList();
+                SetupListField();
             }
         }
 
         [UIValue("list-options")]
         private List<object> options = new object[] { HTypes.bHands, HTypes.lHand, HTypes.rHand, HTypes.random, HTypes.inactive}.ToList();
-
+        
         [UIValue("modus-options")]
         private List<object> modi = Plugin.Control.AvailableModi;
+        
 
         [UIAction("#post-parse")]
-        public void SetupList()
+        internal void SetupListField()
         {
-            GetVersion();
+           
             SetUpUIElements();
-
-            var hoverHint = modeSelection.gameObject.AddComponent<HoverHint>();
-            hoverHint.text = Plugin.Control.GetMode().getDescription();
-            HoverHintController hoverHintController = Resources.FindObjectsOfTypeAll<HoverHintController>().First();
-            hoverHint.SetPrivateField("_hoverHintController", hoverHintController);
-
+ 
             List<ConnectionConfig> Connections = PluginConfig.Instance.GetConnections();
             connectionTableData.data.Clear();
 
@@ -470,7 +374,6 @@ namespace LovenseBSControl.UI
                 CustomListTableData.CustomCellInfo customCellInfo = new CustomListTableData.CustomCellInfo(Connection.Name, Connection.Prefix + Connection.IpAdress + ":" + Connection.Port, spriteAvail);
                 connectionTableData.data.Add(customCellInfo);
             }
-
             connectionTableData.tableView.ReloadData();
             this.selectedConnection = Connections[this.selectedConnectionNumber];
             toggleStatusBtn.text = this.selectedConnection.Active ? "Disable" : "Enable";
@@ -478,13 +381,14 @@ namespace LovenseBSControl.UI
             connectionTableData.tableView.ScrollToCellWithIdx(this.selectedConnectionNumber, TableView.ScrollPositionType.Beginning, false);
             connectionTableData.tableView.SelectCellWithIdx(this.selectedConnectionNumber);
 
-
+  
             if (!Plugin.Control.IsToyAvailable()) {
                 return;
             }
+
+            
             List<Toy> Toys = Plugin.Control.GetToyList();
             customListTableData.data.Clear();
-           
             foreach (Toy toy in Toys)
             {
                 Sprite sprite = Utilities.LoadSpriteFromResources("LovenseBSControl.Resources.Sprites." + toy.GetPictureName());
@@ -495,10 +399,8 @@ namespace LovenseBSControl.UI
 
             customListTableData.tableView.ReloadData();
             this.selectedToy = Toys[this.selectedToyNumber];
-            
             customListTableData.tableView.ScrollToCellWithIdx(this.selectedToyNumber, TableView.ScrollPositionType.Beginning, false);
             customListTableData.tableView.SelectCellWithIdx(this.selectedToyNumber);
-
             
         }
 
@@ -506,10 +408,12 @@ namespace LovenseBSControl.UI
         [UIAction("toySelect")]
         public void Select(TableView _, int row)
         {
+
             List<Toy> Toys = Plugin.Control.GetToyList();
             this.selectedToyNumber = row;
             this.selectedToy = Toys[row];
             choice.updateOnChange = true;
+
             choice.associatedValue.SetValue(this.selectedToy.GetToyConfig().HType);
             text.Value = this.selectedToy.GetToyConfig().HType;
         }
@@ -547,21 +451,9 @@ namespace LovenseBSControl.UI
         [UIComponent("detailText")]
         private TextMeshProUGUI detailText;
 
-        private async void GetVersion()
-        {
-            var release = await pluginManager.GetNewestReleaseAsync();
-            if(release != null)
-            {
-                detailText.text = "LovenseBSControl " + release.TagName + "\r\n\r\n" + release.Body;
-            }
+        public event PropertyChangedEventHandler PropertyChanged;
 
-            if (release != null && !release.IsLocalNewest)
-            {
-                Plugin.Log.Notice(release.TagName);
-                //_githubButton.SetActive(true);
-            }
-        }
-
+        
         private void SetUpUIElements()
         {
             UiElements.Clear();
@@ -608,7 +500,7 @@ namespace LovenseBSControl.UI
 
             ResetVertical();
         }
-
+        
 
     }
 }
