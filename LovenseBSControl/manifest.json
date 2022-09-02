@@ -7,10 +7,10 @@
   "description": "Control the Lovense Toys with your talent with the saber",
   "gameVersion": "1.24.1",
   "dependsOn": {
-    "BSIPA": "^4.2.0",
-    "BeatSaberMarkupLanguage": "^1.6.6",
-    "BS Utils": "^1.11.0",
-    "SiraUtil": "^3.0.2"
+    "BSIPA": "^4.2.2",
+    "BeatSaberMarkupLanguage": "^1.6.8",
+    "BS Utils": "^1.12.0",
+    "SiraUtil": "^3.1.2"
   },
   "features": [],
   "links": {
