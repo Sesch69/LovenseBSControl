@@ -359,7 +359,7 @@ namespace LovenseBSControl.UI
         {
            
             SetUpUIElements();
- 
+            GetVersion();
             List<ConnectionConfig> Connections = PluginConfig.Instance.GetConnections();
             connectionTableData.data.Clear();
 
@@ -450,6 +450,23 @@ namespace LovenseBSControl.UI
 
         [UIComponent("detailText")]
         private TextMeshProUGUI detailText;
+
+
+        private async void GetVersion()
+        {
+            var release = await pluginManager.GetNewestReleaseAsync();
+            if (release != null)
+            {
+                detailText.text = "LovenseBSControl " + release.TagName + "\r\n\r\n" + release.Body;
+            }
+
+            if (release != null && !release.IsLocalNewest)
+            {
+                Plugin.Log.Notice(release.TagName);
+                //_githubButton.SetActive(true);
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 

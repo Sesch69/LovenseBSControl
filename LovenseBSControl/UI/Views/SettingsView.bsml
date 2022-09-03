@@ -68,6 +68,22 @@
 					</horizontal>
 				</settings-submenu>
 
+				<settings-submenu text='&#62;Plugin Info...'>
+					<horizontal spacing='4' child-expand-width='false' child-control-width='false' child-align='MiddleCenter' pref-height='40' horizontal-fit='PreferredSize'>
+						<vertical  pref-width='15' child-control-height='false' spacing='1' child-align='MiddleCenter'>
+							<clickable-text text='&#60; Back' align='Left' click-event='back' pref-width='10'/>
+						</vertical>
+						<vertical width='60' child-expand-width='false'>
+							<vertical bg='round-rect-panel' pref-height='45' pref-width='60'>
+								<text-page id='detailText' font-size='4' rich-text='true'/>
+							</vertical>
+							<horizontal>
+								<button text='Open on Github' on-click='clicked-open' active='false' />
+							</horizontal>
+						</vertical>
+					</horizontal>
+				</settings-submenu>
+
 			</vertical>
 		</horizontal>
 	</settings-container>

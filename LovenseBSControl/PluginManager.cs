@@ -57,7 +57,7 @@ namespace LovenseBSControl
 
             private Version _releaseVersion = null;
 
-            public Version RemoteVersion => _releaseVersion ?? new Version(TagName);
+            public Version RemoteVersion => _releaseVersion ?? new Version(TagName.Replace("v","")); // remnove v from the TAG version string
 
             private bool? _isLocalNewest;
 
@@ -65,7 +65,6 @@ namespace LovenseBSControl
             {
                 get
                 {
-                    Plugin.Log.Info("2: " + LocalVersion.ToString() + " , " + RemoteVersion.ToString());
                     _isLocalNewest = _isLocalNewest ?? new HVersion.VersionRange($"<={LocalVersion}").Matches(RemoteVersion);
                     return _isLocalNewest.Value;
                 }
