@@ -90,9 +90,6 @@ namespace LovenseBSControl.Classes
 
         public void Test() {
            this.vibrate(500, 10);
-            
-            //Request request = new Classes.Request();
-            //request.TestToy(this).ConfigureAwait(true);
         }
 
         public void setOff() {
@@ -107,12 +104,17 @@ namespace LovenseBSControl.Classes
             return (LHand == this.Config.LHand) || (!LHand == this.Config.RHand);
         }
 
-        public void vibrate(int time, int level) {
+        public void vibrate(int time, int level, bool ignoreLastLevel = false) {
             this.on = true;
             Request request = new Classes.Request();
-            this.lastLevel = level;
+            if (!ignoreLastLevel)
+            {
+                this.lastLevel = level;
+            }
             request.UseToy(this, time, level).ConfigureAwait(true);
         }
+
+       
 
         public void vibrate(int time, bool hit = true)
         {

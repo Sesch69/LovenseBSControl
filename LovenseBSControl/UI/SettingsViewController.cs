@@ -41,8 +41,15 @@ namespace LovenseBSControl.UI
             get => PluginConfig.Instance.Enabled;
             set => PluginConfig.Instance.Enabled = value;
 		}
-        
-		[UIValue("vibrateMiss")]
+
+        [UIValue("breakPunishment")]
+        public bool BreakPunishment
+        {
+            get => PluginConfig.Instance.BreakPunishment;
+            set => PluginConfig.Instance.BreakPunishment = value;
+        }
+
+        [UIValue("vibrateMiss")]
 		public bool VibrateMiss
 		{
 			get => PluginConfig.Instance.VibrateMiss;

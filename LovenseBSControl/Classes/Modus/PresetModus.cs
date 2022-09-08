@@ -60,6 +60,9 @@ namespace LovenseBSControl.Classes.Modus
         {
             return "Vibrate on missing boxes with a preset";
         }
-
+        public override bool useLastLevel()
+        {
+            return false;
+        }
     }
 }

@@ -38,6 +38,8 @@ namespace LovenseBSControl.Configuration
 
         public bool BattteryShow { get; set; } = true;
 
+        public bool BreakPunishment { get; set; } = false;
+
         [UseConverter]
         public virtual Dictionary<string, ToysConfig> ToyConfigurations { get; set; } = new Dictionary<string, ToysConfig>();
 

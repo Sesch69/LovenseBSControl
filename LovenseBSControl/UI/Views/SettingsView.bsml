@@ -23,6 +23,8 @@
 				<slider-setting text='Rotate Intense (Nora)' value='rotate' apply-on-change='true' min='0' max='20' integer-only='true' height='7'/>
 				<slider-setting text='Air Intense (Max)' value='air' apply-on-change='true' min='0' max='3' integer-only='true'  height='7'/>
 
+				<bool-setting id='breakPunishment' text='Punishment on break' apply-on-change='true' value='breakPunishment' hover-hint='Toys vibrating high on break.' height='7' ></bool-setting>
+
 				<bool-setting text='Show Battery' apply-on-change='true' value='showBattery' hover-hint='Shows battery status of the toys' height='7'></bool-setting>
 			
 				<settings-submenu text='&#62;Toys...'>

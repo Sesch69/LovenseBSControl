@@ -132,6 +132,23 @@ namespace LovenseBSControl.Classes
             }
         }
 
+        public void PunishmentBreak()
+        {
+            foreach (Toy toy in this.Toys)
+            {
+                if (toy.IsConnected())
+                {
+                    Random rng = new Random();
+                    int intense = rng.Next(15, 20);
+
+                    toy.vibrate(0, intense, !this.ActiveMode.useLastLevel());
+                }
+                   
+            }
+        }
+
+
+
         public void ResumeGame()
         {
             foreach (Toy toy in this.Toys)
@@ -146,6 +163,12 @@ namespace LovenseBSControl.Classes
         public void EndGame()
         {
             this.StopActive();
+        }
+
+        public void ResetCounter() 
+        {
+            this.HitCounter = 0;
+            this.MissCounter = 0;
         }
 
         public void LoadModes()

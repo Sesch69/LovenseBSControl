@@ -20,5 +20,7 @@ namespace LovenseBSControl.Classes.Modus
 
         public abstract override string getDescription();
 
+        public abstract override bool useLastLevel();
+
     }
 }

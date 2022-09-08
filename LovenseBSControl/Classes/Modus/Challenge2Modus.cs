@@ -68,5 +68,12 @@ namespace LovenseBSControl.Classes.Modus
             return "Vibrate on cutting boxes with level of speed of the cuts";
         }
 
+        public override bool useLastLevel()
+        {
+            return true;
+        }
+
+
     }
+
 }

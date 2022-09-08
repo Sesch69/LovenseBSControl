@@ -8,11 +8,9 @@ namespace LovenseBSControl.HarmonyPatches
     {
         static void Prefix()
         {
-
             if (PluginConfig.Instance.Enabled)
             {
-                Plugin.Control.HitCounter = 0;
-                Plugin.Control.MissCounter = 0;
+                Plugin.Control.ResetCounter();
             }
         }
     }

@@ -97,5 +97,11 @@ namespace LovenseBSControl.Classes.Modus
             return "Default modus, free configuration for hit and miss boxes, also bombs behavior and fireworks.";
         }
 
+        public virtual bool useLastLevel()
+        {
+            return false;
+        }
+
+
     }
 }

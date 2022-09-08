@@ -71,5 +71,10 @@ namespace LovenseBSControl.Classes.Modus
             return "Vibrate missing boxes. Each time level go up, after 15 hits, level goes one step down";
         }
 
+        public override bool useLastLevel()
+        {
+            return true;
+        }
+
     }
 }
